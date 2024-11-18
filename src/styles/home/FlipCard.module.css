@@ -1,0 +1,284 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+  
+.flipContainer {
+    width: 328px;
+    height: 458px;
+    cursor: pointer;
+    perspective: 1000px;
+}
+  
+.cardWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.9, 1.8);
+}
+  
+.flipped {
+    transform: rotateY(180deg);
+}
+  
+.card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: #FFF;
+    box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
+    backface-visibility: hidden;
+    overflow: hidden;
+}
+  
+.cardBack {
+    transform: rotateY(180deg);
+}
+  
+.cardFrontContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    position: relative;
+    height: 100%;
+}
+
+.foxStamp{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.cardBackground {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+}
+
+.foxCharacter {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 1;
+}
+
+.cardFrontText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    margin: 20px 0 0 0;
+}
+
+.cardFrontText p {
+    height: 21px; 
+    margin: 0 0 0 0;
+    flex-shrink: 0;
+    color: #747474;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 19.5px */
+}
+
+.cardFrontText p:last-child {
+    height: 28px;
+    margin: 0 0 0 0;
+    flex-shrink: 0;
+    color: #747474;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+}
+.character{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 258px;
+    flex-shrink: 0;
+}
+
+.cardBackground{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+}
+.foxCharacter{
+    position: absolute;
+    top: 0;  /* top 값을 0으로 수정 */
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 1;
+}
+
+  
+.text {
+    position: absolute;
+    bottom: 23px;
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 19.5px */
+    animation: blink 2s infinite;
+}
+  
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.cardBackContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100%;
+}
+
+.cardBackText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.cardBackText p {
+    height: 28px;
+    margin: 0 0 0 0;
+    flex-shrink: 0;
+    color: #747474;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+}
+
+.cardBottom{
+    display: block;
+    position: absolute;
+    bottom: -1px;
+}
+
+.graphSection{
+    display: flex;
+    justify-content: space-between;
+    gap: 28px;
+    margin: 29px 0 0 0;
+    z-index: 2;
+}
+
+.graph{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    width: 42px;
+    height: 179px;
+    flex-shrink: 0;
+    border-radius: 26.5px 26.5px 0px 0px;
+    background: #FFF;
+    box-shadow: 0px 2px 5.5px 0px rgba(0, 0, 0, 0.40);
+    overflow: hidden;
+}
+
+.graphLine{
+    position: absolute;
+    top: 80px;
+    width: 45px;
+    height: 3px;
+    background-color: #FF6C6A;
+}
+
+.reviewGraphDegree{
+    width: 45px;
+    border-radius: 26.5px 26.5px 0px 0px;
+    background: linear-gradient(163deg, #FFF -52.92%, #B17EFF 100.45%);
+    transition: height 0.3s ease;
+}
+
+.programGraphDegree{
+    width: 45px;
+    border-radius: 26.5px 26.5px 0px 0px;
+    background: linear-gradient(165deg, #FFF -25.93%, #7AE2FF 100%);
+    transition: height 0.3s ease;
+}
+
+.reviewLabel{
+    position: absolute;
+    bottom: 149px;
+    left: 40px;
+}
+
+.reviewLabel p{
+    margin: 0 0 5px 0;
+    color: #747474;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 15.6px */
+}
+
+.reviewLabel p:last-child{
+    margin: 0 0 0 0;
+    color: #747474;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 31.2px */
+}
+
+.programLabel{
+    position: absolute;
+    bottom: 149px;
+    right: 31px;
+}
+
+.programLabel p{
+    margin: 0 0 5px 0;
+    color: #747474;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 15.6px */
+}
+
+.programLabel p:last-child{
+    margin: 0 0 0 0;
+    color: #747474;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 31.2px */
+}
+

@@ -1,0 +1,190 @@
+/*listModal*/
+/* 슬라이드 애니메이션 */
+@keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+@keyframes slideDown {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+
+.listModalContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+.listModalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    z-index: 2; 
+}
+
+.listModalContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 83%;
+    background-color: #FFFFFF;
+    box-shadow: 0 -5px 10px -9px rgba(0, 0, 0, 0.5);
+    border-top-left-radius: 37px;
+    border-top-right-radius: 37px;
+    overflow-y: auto; 
+    scroll-behavior: smooth; 
+    overflow-x: hidden; 
+    animation: slideUp 0.5s ease-in-out;
+    z-index: 3;
+}
+
+.listModalHeader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    height: 35px;
+    margin: 8% 0 0 0;
+}
+
+.alignmentBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 33px;
+    padding: 0 2px 0 2px;
+    margin: 0 0 0 0;
+    border-radius: 15px;
+    background-color: transparent;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.companySorting{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    height: 26px;
+    margin: 8px 0 0 30px;
+}
+
+.sortingReviewBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 26px;
+    border-radius: 14px;
+    border: 1px solid #BEBEBE;
+    background-color: #FFFFFF;
+    font-size: 12px;
+}
+
+.sortingRecommendationBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 26px;
+    border-radius: 14px;
+    border: 1px solid #BEBEBE;
+    background-color: #FFFFFF;
+    font-size: 12px;
+}
+
+.companyList{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    height: 75%;
+    margin: 5% 0 0 0;
+    overflow-y: auto; 
+    scroll-behavior: smooth; 
+    overflow-x: hidden; 
+}
+
+.socialEnterprise{
+    width: 100%;
+    height: 124px;
+    border-bottom: 1px solid #D3D3D3;
+}
+
+.listRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    margin: 0 20px 0 20px;
+}
+
+.listCompanyName{
+    margin: 0 0 0 0;
+    background-color: transparent;
+    color:#009C7A;
+    font-size: 15px;
+}
+
+.listSocialPurposeType{
+    margin: 0 0 0 0;
+    color: #BEBEBE;
+    font-size: 12px;
+}
+
+.listAddress{
+    width: 200px;
+    color: #000000;
+    font-size: 12px;
+}
+
+.listInfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 71px;
+    height: 26px;
+    padding: 0 0 0 0;
+    margin: 0 0 10px 0;
+    border-radius: 14px;
+    background-color: #7B7878;
+    color: #FFFFFF;
+    font-size: 12px;
+}

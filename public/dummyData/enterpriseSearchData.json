@@ -1,0 +1,26 @@
+[
+    {
+        "searchId": 1,
+        "query": "아름다운 가게",
+        "searchTime": "2023-11-01",
+        "resultCount": 150
+    },
+    {
+        "searchId": 2,
+        "query": "어쩌구",
+        "searchTime": "2023-11-02",
+        "resultCount": 85
+    },
+    {
+        "searchId": 3,
+        "query": "저쩌구",
+        "searchTime": "2023-11-03",
+        "resultCount": 40
+    },
+    {
+        "searchId": 4,
+        "query": "가나다라",
+        "searchTime": "2023-11-04",
+        "resultCount": 20
+    }
+]

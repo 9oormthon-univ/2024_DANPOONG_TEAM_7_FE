@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    originalEnterprises: [], // 원본 데이터 추가
+    originalEnterprises: [],
     filteredEnterprises: [],
     activeFilters: {
         categories: [],
@@ -11,7 +11,8 @@ const initialState = {
     sortBy: 'default',
     totalFiltered: 0,
     isLoading: false,
-    error: null
+    error: null,
+    lastUpdated: null  // 타임스탬프 추가
 };
 
 const filteredEnterpriseListSlice = createSlice({
@@ -19,7 +20,7 @@ const filteredEnterpriseListSlice = createSlice({
     initialState,
     reducers: {
         setFilteredEnterprises: (state, action) => {
-            state.originalEnterprises = action.payload; // 원본 데이터 저장
+            state.originalEnterprises = action.payload;
             state.filteredEnterprises = action.payload;
             state.totalFiltered = action.payload.length;
         },
@@ -59,11 +60,12 @@ const filteredEnterpriseListSlice = createSlice({
 
             state.filteredEnterprises = filteredList;
             state.totalFiltered = filteredList.length;
+            state.lastUpdated = Date.now();  // 필터링 될 때마다 타임스탬프 업데이트
 
             console.log('FilteredEnterpriseListSlice - After filtering:', {
                 activeFilters: state.activeFilters,
                 totalFiltered: state.totalFiltered,
-                filteredList: filteredList
+                lastUpdated: state.lastUpdated
             });
         },
         
@@ -83,7 +85,8 @@ const filteredEnterpriseListSlice = createSlice({
             return {
                 ...initialState,
                 originalEnterprises: state.originalEnterprises,
-                filteredEnterprises: state.originalEnterprises
+                filteredEnterprises: state.originalEnterprises,
+                lastUpdated: Date.now()  // 필터 초기화시에도 타임스탬프 업데이트
             };
         }
     }

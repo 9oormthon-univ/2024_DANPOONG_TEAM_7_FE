@@ -1,10 +1,11 @@
-// src/redux/features/SearchSlice.js
+// src/redux/features/SearchSlice.jsx
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  searchQuery: '', // 현재 검색어
-  searchHistory: [], // 검색 기록
-  isSearchModalOpen: false // 검색 모달 상태
+  searchQuery: '',
+  searchHistory: [],
+  isSearchModalOpen: false,
+  lastUpdated: null  // 타임스탬프 추가
 };
 
 const searchSlice = createSlice({
@@ -13,6 +14,7 @@ const searchSlice = createSlice({
   reducers: {
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
+      state.lastUpdated = Date.now();  // 검색할 때마다 타임스탬프 업데이트
     },
     addToSearchHistory: (state, action) => {
       state.searchHistory.unshift({
@@ -31,6 +33,7 @@ const searchSlice = createSlice({
     },
     clearSearchQuery: (state) => {
       state.searchQuery = '';
+      state.lastUpdated = null;  // 검색어 초기화시 타임스탬프도 초기화
     }
   }
 });

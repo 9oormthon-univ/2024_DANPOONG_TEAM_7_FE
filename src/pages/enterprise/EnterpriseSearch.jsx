@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // useSelector 추가
-import { setSocialEnterprises } from '../../redux/slice/EnterpriseSlice';
 import { setSearchModalOpen } from '../../redux/slice/SearchSlice';
 import KakaoMap from '../../components/enterprise/KakaoMap';
 import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
@@ -17,20 +16,20 @@ function EnterpriseSearch() {
     // SearchModal의 상태를 가져옴
     const { isSearchModalOpen } = useSelector(state => state.search);
 
-    // socialEnterprise 데이터를 Redux store에 저장
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('/dummyData/SocialEnterprises.json');
-                const data = await response.json();
-                dispatch(setSocialEnterprises(data));
-            } catch (error) {
-                console.error('Failed to load data:', error);
-            }
-        };
+    //CategoryModal
+    const openCategoryModal = () => {
+        dispatch(setCategoryModalOpen(true));
+    };
 
-        fetchData();
-    }, [dispatch]);
+    //TypeModal
+    const openTypeModal = () => {
+        dispatch(setTypeModalOpen(true));
+    };
+
+    //OnoffStoreModal
+    const openOnoffStoreModal = () => {
+        dispatch(setOnoffModalOpen(true));
+    };
 
     //검색 아이콘을 누를 시에 뜨는 Modal
     const openSearchModal = () => {
@@ -95,10 +94,11 @@ function EnterpriseSearch() {
             
             {shouldShowListModal && (
                 <ListModal
-                    isActive={isListModalFullView}
-                    handleClose={closeListModal}
-                    openCategoryModal={handleCategoryModal}
-                    openTypeModal={handleTypeModal}
+                isActive={isListModalFullView}
+                handleClose={() => setIsListModalFullView(false)}
+                openCategoryModal={openCategoryModal}
+                openTypeModal={openTypeModal}
+                openOnoffModal={openOnoffStoreModal}
                 />
             )}
         </div>

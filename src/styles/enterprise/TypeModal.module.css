@@ -11,6 +11,7 @@
     width: 100%;
     height: 100%;
     z-index: 4;
+    pointer-events: auto;
 }
 
 .typeModalBackground{
@@ -25,6 +26,7 @@
     background-color: #BEBEBE;
     opacity: 0.5;
     z-index: 4;
+    pointer-events: auto;
 }
 
 .typeModalContent{

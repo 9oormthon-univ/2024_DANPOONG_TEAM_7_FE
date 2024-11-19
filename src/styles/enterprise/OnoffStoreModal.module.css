@@ -1,23 +1,5 @@
-/* 슬라이드 애니메이션 수정 */
-@keyframes slideUp {
-    from {
-        transform: translateY(calc(100% - 150px));
-    }
-    to {
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideDown {
-    from {
-        transform: translateY(0);
-    }
-    to {
-        transform: translateY(calc(100% - 150px));
-    }
-}
-
-.listModalContainer {
+/*onoffStoreModal*/
+.onoffStoreModalContainer{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,185 +9,101 @@
     right: 0;
     width: 100%;
     height: 100%;
-    z-index: 3;
-    pointer-events: none; /* 초기에는 배경 클릭 비활성화 */
+    z-index: 4;
+    pointer-events: auto;
 }
 
-.listModalBackground {
+.onoffStoreModalBackground{
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: transparent;
     display: flex;
-    align-items: center;
+    align-items: center; 
     justify-content: center;
-    z-index: 2;
-    transition: background-color 0.3s ease;
+    background-color: #BEBEBE;
+    opacity: 0.5;
+    z-index: 4;
+    pointer-events: auto;
 }
 
-.listModalContent {
+.onoffStoreModalContent{
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 83%;
+    position: relative;
+    width: 243px;
+    height: 210px;
+    padding: 0 20px 0 20px;
     background-color: #FFFFFF;
     box-shadow: 0 -5px 10px -9px rgba(0, 0, 0, 0.5);
-    border-top-left-radius: 37px;
-    border-top-right-radius: 37px;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-    transform: translateY(calc(100% - 115px)); /* 초기에 100px만큼만 보이도록 */
-    transition: transform 0.3s ease;
-    z-index: 3;
-    pointer-events: auto; /* 모달 내용은 항상 클릭 가능 */
+    border-radius: 30px;
+    z-index: 5;
 }
 
-/* 활성화됐을 때 스타일 */
-.listModalContainer.active {
-    pointer-events: auto; /* 활성화 시 배경 클릭 가능 */
-}
-
-.listModalContainer.active .listModalBackground {
-    background-color: rgba(0, 0, 0, 0.15);
-}
-
-.listModalContainer.active .listModalContent {
-    transform: translateY(0); /* 완전히 올라옴 */
-}
-
-.listModalHeader{
-    display: flex;
-    justify-content:space-around;
-    align-items: center;
-    width: 100%;
-    height: 35px;
-    margin: 6% 0 0 0;
-}
-
-.alignmentBtn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
-    width: 105px;
-    height: 33px;
-    padding: 0 2px 0 2px;
-    margin: 0 0 0 0;
-    border-radius: 15px;
-    background-color: transparent;
-    font-size: 15px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.alignmentIcon{
-    width: 16px;
-    height: 13px;
-}
-
-.companySorting{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    height: 26px;
-    margin: 8px 0 0 30px;
-}
-
-.sortingReviewBtn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 75px;
-    height: 26px;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    font-size: 12px;
-}
-
-.sortingRecommendationBtn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 26px;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    font-size: 12px;
-}
-
-.companyList{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    height: 75%;
-    margin: 5% 0 0 0;
-    overflow-y: auto; 
-    scroll-behavior: smooth; 
-    overflow-x: hidden; 
-}
-
-.socialEnterprise{
-    width: 100%;
-    height: 124px;
-    border-bottom: 1px solid #D3D3D3;
-}
-
-.listRow{
+.onoffStoreModalHeader{
     display: flex;
     flex-direction: row;
+    align-items: flex-end;
+    gap: 20px;
+    width: 100%;
+    height: 30px;
+    margin: 20px 0 0 20px;
+}
+
+.modalName{
+    margin: 0 0 0 0;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.modalMemo{
+    margin: 0 0 0 0;
+    font-size: 9px;
+    color: #BEBEBE;
+}
+
+.onoffStoreBtn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0px;
+    width: 80%;
+    height: 120px;
+    margin: 0 0 0 0;
+}
+
+.onoffStore{
+    display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 20px;
-    margin: 0 20px 0 20px;
-}
-
-.listCompanyName{
-    margin: 0 0 0 0;
+    position: relative;
+    width: 100%;
+    height: 40px;
+    border-radius: 0;
     background-color: transparent;
-    color:#009C7A;
-    font-size: 15px;
-}
-
-.listSocialPurposeType{
-    margin: 0 0 0 0;
-    color: #BEBEBE;
+    border-bottom: 1px solid #D3D3D3;
     font-size: 12px;
 }
 
-.listAddress{
-    width: 200px;
-    color: #000000;
-    font-size: 12px;
+.selectedOnoffStore{
+    color: #FF6C6A;
 }
 
-.listInfo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 71px;
-    height: 26px;
-    padding: 0 0 0 0;
-    margin: 0 0 10px 0;
-    border-radius: 14px;
-    background-color: #7B7878;
-    color: #FFFFFF;
+.icon {
+    position: absolute;
+    right: 10px;
+    width: 18px; /* 아이콘 크기 */
+    height: 12px;
+}
+
+.okay{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
     font-size: 12px;
+    font-weight: 500;
+    background-color: transparent;
 }

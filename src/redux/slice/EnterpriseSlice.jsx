@@ -1,42 +1,26 @@
-// src/redux/slice/EnterpriseSlice.jsx
 import { createSlice } from '@reduxjs/toolkit';
 
 const enterpriseSlice = createSlice({
    name: 'enterprise',
    initialState: {
        socialEnterprises: [],
-       selectedCategories: [],
        filteredEnterprises: [],
        mapMarkers: []
    },
    reducers: {
        setSocialEnterprises: (state, action) => {
            state.socialEnterprises = action.payload;
-           state.filteredEnterprises = action.payload;
+           state.filteredEnterprises = action.payload; // 초기 설정에서 모든 기업을 필터링된 목록에 추가
            
            console.log('EnterpriseSlice - Social Enterprises Loaded:', {
                total: action.payload.length
            });
        },
-       setSelectedCategories: (state, action) => {
-           console.log('EnterpriseSlice - Filtering by Categories:', {
-               categories: action.payload
-           });
-
-           state.selectedCategories = action.payload;
+       setFilteredEnterprises: (state, action) => {
+           state.filteredEnterprises = action.payload; // 필터링된 목록 설정
            
-           if (action.payload.includes('전체')) {
-               state.filteredEnterprises = state.socialEnterprises;
-           } else {
-               state.filteredEnterprises = state.socialEnterprises.filter(enterprise => 
-                   action.payload.includes(enterprise.socialPurposeType)
-               );
-           }
-
-           console.log('EnterpriseSlice - After Filtering:', {
-               selectedCategories: state.selectedCategories,
-               totalEnterprises: state.socialEnterprises.length,
-               filteredCount: state.filteredEnterprises.length
+           console.log('EnterpriseSlice - Filtered Enterprises Updated:', {
+               filteredCount: action.payload.length
            });
        },
        updateEnterpriseCoords: (state, action) => {
@@ -64,5 +48,5 @@ const enterpriseSlice = createSlice({
    }
 });
 
-export const { setSocialEnterprises, setSelectedCategories, updateEnterpriseCoords } = enterpriseSlice.actions;
+export const { setSocialEnterprises, setFilteredEnterprises, updateEnterpriseCoords } = enterpriseSlice.actions;
 export default enterpriseSlice.reducer;

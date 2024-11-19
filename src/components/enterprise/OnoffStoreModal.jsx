@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOnoffStore, setOnoffModalOpen } from '../../redux/slice/OnoffStoreSlice';
+import { updateActiveFilters } from '../../redux/slice/FilteredEnterpriseListSlice';
 import styles from '../../styles/enterprise/OnoffStoreModal.module.css';
 import checkIcon from '../../assets/images/enterprise/type-check.svg'
 
@@ -13,7 +14,7 @@ function OnoffStoreModal({ handleClose }) {
    // 단일 선택을 위해 배열 대신 단일 문자열 상태 사용
    const [localOnoffStore, setLocalOnoffStore] = useState(
     selectedOnoffStore.length > 0 ? selectedOnoffStore[0] : ''
-);
+    );
 
 
    const toggleOnoffStore = (onoffStore) => {
@@ -24,17 +25,23 @@ function OnoffStoreModal({ handleClose }) {
         // 다른 항목 선택
         setLocalOnoffStore(onoffStore);
     }
-};
+    };
 
-   const handleConfirm = () => {
-       console.log('OnoffStoreModal - Confirming OnoffStore:', {
-           selectedOnoffStore: localOnoffStore
-       });
-       
-       dispatch(setSelectedOnoffStore(localOnoffStore));
-       dispatch(setOnoffModalOpen(false));
-       handleClose();
-   };
+    const handleConfirm = () => {
+        console.log('OnoffStoreModal - Confirming OnoffStore:', {
+            selectedOnoffStore: localOnoffStore
+        });
+        
+        // 단일 문자열을 배열로 변환하여 저장
+        const onoffStoreArray = localOnoffStore ? [localOnoffStore] : [];
+        
+        dispatch(setSelectedOnoffStore(onoffStoreArray)); // OnoffStoreSlice 업데이트
+        dispatch(updateActiveFilters({   // FilteredEnterpriseListSlice 업데이트
+            onoffStore: onoffStoreArray
+        }));
+        dispatch(setOnoffModalOpen(false));
+        handleClose();
+    };
 
    if (!isOnoffModalOpen) return null;
 

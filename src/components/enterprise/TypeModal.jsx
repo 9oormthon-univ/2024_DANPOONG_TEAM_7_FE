@@ -1,6 +1,7 @@
 import React , { useState }from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedTypes, setTypeModalOpen } from '../../redux/slice/TypeSlice';
+import { updateActiveFilters } from '../../redux/slice/FilteredEnterpriseListSlice'; 
 import styles from '../../styles/enterprise/TypeModal.module.css';
 
 // 상수로 카테고리 정의
@@ -50,7 +51,10 @@ function TypeModal({ handleClose }) {
 
     // 확인 버튼 클릭 시 - 변경 사항을 저장
     const handleConfirm = () => {
-        dispatch(setSelectedTypes(tempSelectedTypes)); // Redux store 업데이트
+        dispatch(setSelectedTypes(tempSelectedTypes)); // TypeSlice 업데이트
+        dispatch(updateActiveFilters({   // FilteredEnterpriseListSlice 업데이트
+            types: tempSelectedTypes
+        }));
         handleClose();
         dispatch(setTypeModalOpen(false));
     };

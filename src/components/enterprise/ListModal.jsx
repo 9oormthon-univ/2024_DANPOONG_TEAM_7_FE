@@ -21,6 +21,7 @@ function ListModal({ isActive, handleClose }) {
     const activeFilters = useSelector(state => state.filteredEnterprise.activeFilters);
     const filteredEnterprises = useSelector(state => state.filteredEnterprise.filteredEnterprises);
 
+
     const openCategoryModal = () => {
         setIsCategoryModalOpen(true);
     };

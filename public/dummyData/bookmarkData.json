@@ -1,0 +1,47 @@
+[
+    {
+        "number": 12,
+        "region": "서울",
+        "certificationNumber": "제2011-086호",
+        "companyName": "주식회사 나눔하우징",
+        "businessRegistrationNumber": "209-81-50595",
+        "socialPurposeType": "사회서비스제공형",
+        "field": "기타",
+        "representative": "이해선",
+        "representativePhoneNumber": "02-922-5962",
+        "address": "서울특별시 금천구 벚꽃로56길 190 (가산동) 2001호(에스키스 가산)",
+        "homepage": null,
+        "certificationYear": 2011,
+        "storeType": "온라인"
+    },
+    {
+        "number": 14,
+        "region": "서울",
+        "certificationNumber": "제2011-089호",
+        "companyName": "사랑의일터",
+        "businessRegistrationNumber": "214-82-07632",
+        "socialPurposeType": "일자리제공형",
+        "field": "사회서비스제공형",
+        "representative": "박지웅",
+        "representativePhoneNumber": "02-3477-5111",
+        "address": "서울특별시 서초구 효령로55길 28(서초동) 브이 샤르망 7층",
+        "homepage": "sarangwork.org",
+        "certificationYear": 2011,
+        "storeType": "온라인"
+    },
+    {
+        "number": 24,
+        "region": "서울",
+        "certificationNumber": "제2011-111호",
+        "companyName": "(주)에코시티서울",
+        "businessRegistrationNumber": "206-86-58424",
+        "socialPurposeType": "일자리제공형",
+        "field": "환경",
+        "representative": "이동현",
+        "representativePhoneNumber": "02-2244-5133",
+        "address": "서울특별시 성동구 가람길 117 -",
+        "homepage": "www.srcenter.kr",
+        "certificationYear": 2011,
+        "storeType": "온라인"
+    }
+]

@@ -1,6 +1,10 @@
-import React, { useEffect, useRef } from 'react';  // useRef 추가
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchModalOpen } from '../../redux/slice/SearchSlice.jsx';
+import { 
+    setSearchModalOpen,
+    setMyLocationData,  // SearchSlice에서 export한 액션
+    setBookmarkData,    // SearchSlice에서 export한 액션
+ } from '../../redux/slice/SearchSlice.jsx';
 import { setSocialEnterprises } from '../../redux/slice/EnterpriseSlice.jsx';
 import { setFilteredEnterprises } from '../../redux/slice/FilteredEnterpriseListSlice.jsx';
 import KakaoMap from '../../components/enterprise/KakaoMap';
@@ -8,7 +12,6 @@ import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
 import searchIcon from '../../assets/images/enterprise/search-icon.svg';
 import SearchModal from '../../components/enterprise/SearchModal';
 import ListModal from '../../components/enterprise/ListModal';
-import { useState } from 'react';
 
 function EnterpriseSearch() {
     const dispatch = useDispatch();
@@ -23,6 +26,17 @@ function EnterpriseSearch() {
                 const response = await fetch('/dummyData/SocialEnterprises.json');
                 const data = await response.json();
                 dispatch(setSocialEnterprises(data));
+
+                // 내장소 데이터 로드
+                const mylocationResponse = await fetch('/dummyData/mylocationData.json');
+                const mylocationData = await mylocationResponse.json();
+                dispatch(setMyLocationData(mylocationData));
+
+                // 즐겨찾기 데이터 로드
+                const bookmarkResponse = await fetch('/dummyData/bookmarkData.json');
+                const bookmarkData = await bookmarkResponse.json();
+                dispatch(setBookmarkData(bookmarkData));
+
             } catch (error) {
                 console.error('Failed to load data:', error);
             }

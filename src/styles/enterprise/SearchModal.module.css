@@ -88,18 +88,43 @@
     height: 33px;
     padding: 0 2px 0 2px;
     margin: 0 0 0 0;
-    border-radius: 15px;
+    border-radius: 17px;
     background-color: transparent;
     font-size: 15px;
+    font-weight: 500;
     border: none;
     cursor: pointer;
 }
 
-.searchSectionBtn:active
-, .searchSectionBtn:focus{
+.active{
     background-color: #2DDDC3;
     color: #FFFFFF;
     border: none;
+}
+
+.contentSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    overflow-y: auto; 
+    scroll-behavior: smooth; 
+    overflow-x: hidden; 
+}
+
+.locationList{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
 }
 
 .searchHistory{
@@ -112,9 +137,26 @@
     height: 64px;
 }
 
+.myLocationList, .BookmarkList{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid #D3D3D3;
+    width: 100%;
+    height: 64px;
+}
+
+.searchHistoryIcon, .myLocationIcon, .bookmarkIcon{
+    position: absolute;
+    left: 35px;
+    width: 24px;
+    height: 24px;
+}
+
 .query{
     position: absolute;
-    left: 80px;
+    left: 70px;
     font-size: 15px;
     font-weight: 500;
     background-color: transparent;

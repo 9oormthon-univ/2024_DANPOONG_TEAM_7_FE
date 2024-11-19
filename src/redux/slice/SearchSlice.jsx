@@ -5,6 +5,10 @@ const initialState = {
   searchQuery: '',
   searchHistory: [],
   isSearchModalOpen: false,
+  mylocationData: [], 
+  bookmarkData: [],
+  selectedLocation: null, 
+  displayMode: 'initial',
   lastUpdated: null  // 타임스탬프 추가
 };
 
@@ -12,10 +16,12 @@ const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
+    //검색
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
       state.lastUpdated = Date.now();  // 검색할 때마다 타임스탬프 업데이트
     },
+    //검색기록
     addToSearchHistory: (state, action) => {
       state.searchHistory.unshift({
         searchId: Date.now(),
@@ -23,6 +29,7 @@ const searchSlice = createSlice({
         searchTime: new Date().toLocaleString()
       });
     },
+    //검색기록 제거
     removeFromHistory: (state, action) => {
       state.searchHistory = state.searchHistory.filter(
         item => item.searchId !== action.payload
@@ -34,6 +41,22 @@ const searchSlice = createSlice({
     clearSearchQuery: (state) => {
       state.searchQuery = '';
       state.lastUpdated = null;  // 검색어 초기화시 타임스탬프도 초기화
+    },
+    //내장소
+    setMyLocationData: (state, action) => {
+      state.mylocationData = action.payload;
+    },
+    //즐겨찾기
+    setBookmarkData: (state, action) => {
+      state.bookmarkData = action.payload;
+    },
+    //선택한 장소
+    setSelectedLocation: (state, action) => {
+      state.selectedLocation = action.payload;
+    },
+    setDisplayMode: (state, action) => {
+      state.displayMode = action.payload;
+      state.lastUpdated = Date.now();
     }
   }
 });
@@ -43,7 +66,11 @@ export const {
   addToSearchHistory,
   removeFromHistory,
   setSearchModalOpen,
-  clearSearchQuery
+  clearSearchQuery,
+  setMyLocationData,
+  setBookmarkData,
+  setSelectedLocation,
+  setDisplayMode
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

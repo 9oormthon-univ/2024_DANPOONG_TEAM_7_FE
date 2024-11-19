@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'; // useSelector 추가
-import { setSearchModalOpen } from '../../redux/slice/SearchSlice';
+import React, { useEffect, useRef } from 'react';  // useRef 추가
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchModalOpen } from '../../redux/slice/SearchSlice.jsx';
+import { setSocialEnterprises } from '../../redux/slice/EnterpriseSlice.jsx';
+import { setFilteredEnterprises } from '../../redux/slice/FilteredEnterpriseListSlice.jsx';
 import KakaoMap from '../../components/enterprise/KakaoMap';
 import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
 import searchIcon from '../../assets/images/enterprise/search-icon.svg';
@@ -12,58 +14,50 @@ function EnterpriseSearch() {
     const dispatch = useDispatch();
     const [isListModal, setIsListModal] = useState(true);
     const [isListModalFullView, setIsListModalFullView] = useState(false);
+    const isFirstClick = useRef(true);  // 첫 클릭 여부를 추적하는 ref
     
-    // SearchModal의 상태를 가져옴
+    // 데이터 로딩을 페이지 레벨로 이동
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/dummyData/SocialEnterprises.json');
+                const data = await response.json();
+                dispatch(setSocialEnterprises(data));
+            } catch (error) {
+                console.error('Failed to load data:', error);
+            }
+        };
+        fetchData();
+    }, [dispatch]);
+
     const { isSearchModalOpen } = useSelector(state => state.search);
+    const { socialEnterprises } = useSelector(state => state.enterprise);
+    const { filteredEnterprises } = useSelector(state => state.filteredEnterprise);
 
-    //CategoryModal
-    const openCategoryModal = () => {
-        dispatch(setCategoryModalOpen(true));
+    const openListModal = () => {
+        if (isFirstClick.current) {
+            // 첫 클릭일 때는 원본 데이터로 설정
+            if(socialEnterprises.length > 0) {
+                dispatch(setFilteredEnterprises(socialEnterprises));
+            }
+            isFirstClick.current = false;  // 첫 클릭 후 상태 변경
+        }
+        // 첫 클릭이 아닐 때는 기존 필터링된 데이터 유지
+        setIsListModalFullView(true);
     };
 
-    //TypeModal
-    const openTypeModal = () => {
-        dispatch(setTypeModalOpen(true));
-    };
-
-    //OnoffStoreModal
-    const openOnoffStoreModal = () => {
-        dispatch(setOnoffModalOpen(true));
-    };
-
-    //검색 아이콘을 누를 시에 뜨는 Modal
     const openSearchModal = () => {
         dispatch(setSearchModalOpen(true));
-        setIsListModal(false); // 검색 모달이 열릴 때 목록 모달 숨김
+        setIsListModal(false);
     };
     
     const closeSearchModal = () => {
         dispatch(setSearchModalOpen(false));
-        setIsListModal(true); // 검색 모달이 닫힐 때 목록 모달 다시 표시
-    };
-    
-    //검색 Modal 내부 버튼
-    const handleSectionClick = (section) => {
-        console.log('Section clicked:', section);
-    };
-
-    //목록보기를 누를 시에 뜨는 Modal
-    const openListModal = () => {
-        console.log('Modal open');
-        setIsListModalFullView(true);
+        setIsListModal(true);
     };
 
     const closeListModal = () => {
-        console.log('Modal close');
         setIsListModalFullView(false);
-    };
-
-    const handleCategoryModal = (category) => {
-        console.log('Handling category modal for:', category);
-    };
-
-    const handleTypeModal = (type) => {
-        console.log('Handling type modal for:', type);
     };
 
     // 검색 모달 상태에 따라 ListModal 표시 여부 결정
@@ -87,16 +81,13 @@ function EnterpriseSearch() {
 
             <SearchModal 
                 handleClose={closeSearchModal}
-                handleSectionClick={handleSectionClick}
+                handleSectionClick={(section) => console.log('Section clicked:', section)}
             />
             
             {shouldShowListModal && (
                 <ListModal
-                isActive={isListModalFullView}
-                handleClose={() => setIsListModalFullView(false)}
-                openCategoryModal={openCategoryModal}
-                openTypeModal={openTypeModal}
-                openOnoffModal={openOnoffStoreModal}
+                    isActive={isListModalFullView}
+                    handleClose={closeListModal}
                 />
             )}
         </div>

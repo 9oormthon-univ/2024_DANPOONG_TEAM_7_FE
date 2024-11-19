@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTypeModalOpen } from '../../redux/slice/TypeSlice';
 import { setOnoffModalOpen } from '../../redux/slice/OnoffStoreSlice';
 import { 
     setFilteredEnterprises
 } from '../../redux/slice/FilteredEnterpriseListSlice';
-import { setSocialEnterprises } from '../../redux/slice/EnterpriseSlice';
 import CategoryModal from './CategoryModal';
 import TypeModal from './TypeModal';
 import OnoffStoreModal from './OnoffStoreModal';
@@ -16,24 +15,6 @@ function ListModal({ isActive, handleClose }) {
     const dispatch = useDispatch();
     const [selectedSorting, setSelectedSorting] = useState('');
     const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-
-    // 기업 목록 데이터 불러오기
-    useEffect(() => {
-        // isActive가 true일 때만 데이터 로드
-        if (isActive) {
-            const fetchData = async () => {
-                try {
-                    const response = await fetch('/dummyData/SocialEnterprises.json');
-                    const data = await response.json();
-                    dispatch(setSocialEnterprises(data));
-                    dispatch(setFilteredEnterprises(data));
-                } catch (error) {
-                    console.error('Failed to load data:', error);
-                }
-            };
-            fetchData();
-        }
-    }, [dispatch, isActive]); // isActive를 의존성 배열에 추가
 
     // Redux store에서 데이터 가져오기
     const { socialEnterprises } = useSelector(state => state.enterprise);
@@ -67,10 +48,8 @@ function ListModal({ isActive, handleClose }) {
     // 버튼 선택 상태만 관리하는 함수
     const handleSortingSelect = (sortType) => {
         if (selectedSorting === sortType) {
-            // 이미 선택된 버튼을 다시 클릭하면 선택 해제
             setSelectedSorting('');
         } else {
-            // 새로운 버튼 선택
             setSelectedSorting(sortType);
         }
     };
@@ -79,7 +58,6 @@ function ListModal({ isActive, handleClose }) {
     const isSortingSelected = (sorting) => {
         return selectedSorting === sorting;
     };
-
 
     return (
         <div className={`${styles.listModalContainer} ${isActive ? styles.active : ''}`}>

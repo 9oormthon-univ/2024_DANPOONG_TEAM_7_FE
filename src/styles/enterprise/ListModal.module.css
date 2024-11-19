@@ -25,8 +25,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: 3;
     pointer-events: none; /* 초기에는 배경 클릭 비활성화 */
 }
@@ -54,7 +54,7 @@
     left: 0;
     right: 0;
     width: 100%;
-    height: 83%;
+    height: 84%;
     background-color: #FFFFFF;
     box-shadow: 0 -5px 10px -9px rgba(0, 0, 0, 0.5);
     border-top-left-radius: 37px;
@@ -62,7 +62,7 @@
     overflow-y: auto;
     scroll-behavior: smooth;
     overflow-x: hidden;
-    transform: translateY(calc(100% - 115px)); /* 초기에 100px만큼만 보이도록 */
+    transform: translateY(calc(100% - 135px)); /* 초기에 100px만큼만 보이도록 */
     transition: transform 0.3s ease;
     z-index: 3;
     pointer-events: auto; /* 모달 내용은 항상 클릭 가능 */
@@ -87,7 +87,7 @@
     align-items: center;
     width: 100%;
     height: 35px;
-    margin: 6% 0 0 0;
+    margin: 5% 0 0 0;
 }
 
 .alignmentBtn{
@@ -122,7 +122,7 @@
     gap: 20px;
     width: 100%;
     height: 26px;
-    margin: 8px 0 0 30px;
+    margin: 13px 0 0 30px;
 }
 
 .sortingReviewBtn{
@@ -161,7 +161,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 20px;
     width: 100%;
     height: 75%;
     margin: 5% 0 0 0;
@@ -171,37 +170,211 @@
 }
 
 .socialEnterprise{
-    width: 100%;
-    height: 124px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    width: 90%;
+    min-height: 120px;
+    gap: 10px;
+    padding: 0 0 8px 0;
+    margin: 0 0 5px 0;
     border-bottom: 1px solid #D3D3D3;
 }
 
-.listRow{
+.socialEnterprise.addressOpen {
+    height: 180px;  /* 원하는 높이로 조정 가능 */
+}
+
+.averageRecommendation{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    bottom: 5px;
+}
+
+.graph{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 18px;
+    height: 67px;
+    border-radius: 8px 8px 0 0;
+    background-color: #2DDDC320;
+    overflow: hidden;
+}
+
+.graphDegree{
+    width: 18px;
+    border-radius: 8px 8px 0 0;
+    background-color: #2DDDC3;
+    transition: height 0.3s ease;
+}
+
+.averageRecommendationP{
+    font-size: 9px;
+    font-weight: 500;
+}
+
+
+.listRow1{
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    margin: 0 20px 0 20px;
+    position: relative;
+    width: 70%;
+    margin: 0 0 0 0;
+}
+
+.listRow2, .listRow3{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    gap: 13px;
+    width: 70%;
+    margin: 0 0 0 0;
 }
 
 .listCompanyName{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     margin: 0 0 0 0;
     background-color: transparent;
+}
+
+.companyNameFront{
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 0 0 0;
     color:#009C7A;
     font-size: 15px;
     font-weight: 500;
 }
 
+.companyNameBack{
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 0 0 0;
+    color:#009C7A;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.typeInfo{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    top: 2px;
+    right: 0;
+}
+
 .listSocialPurposeType{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100px;
     margin: 0 0 0 0;
     color: #BEBEBE;
     font-size: 12px;
     font-weight: 500;
 }
 
+.listAddressBtn{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 93px;
+    height: 20px;
+    padding: 0 0 0 0;
+    background-color: transparent;
+}
+
 .listAddress{
-    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 77px;
+    height: 20px;
+    padding: 0 0 0 0;
+    background-color: transparent;
+}
+
+.mainAddress{
+    position: absolute;
+    left: 0;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.listAddressIcon{
+    width: 10px;
+    height: 10px;
+    transition: transform 0.2s ease;
+}
+
+.detailedAddressBox {
+    position: absolute;  /* 절대 위치로 설정 */
+    top: 100%;          /* 버튼 바로 아래에 위치 */
+    left: 0;
+    width: 100%;
+    height: 48px;
+    background-color: #ffffff;  /* 배경색 */
+    border-radius: 10px;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);  /* 그림자 효과 */
+    z-index: 10;        /* 다른 콘텐츠 위에 표시되도록 */
+    border: 1px solid #eee;
+    margin-top: 4px;    /* 버튼과의 간격 */
+}
+
+.detailedAddressContent{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.detailAddressP{
+    padding: 0 0 0 20px;
+    color: #BEBEBE;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.detailAddress{
+    color: #000000;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.close{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+    padding: 0 0 0 0;
+    background-color: transparent;
+}
+
+.listReviewCount{
+    width: 50px;
     color: #000000;
     font-size: 12px;
     font-weight: 500;
@@ -214,10 +387,27 @@
     width: 71px;
     height: 26px;
     padding: 0 0 0 0;
-    margin: 0 0 10px 0;
+    margin: 0 0 0 0;
     border-radius: 14px;
     background-color: #7B7878;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: 500;
+}
+
+.storeInfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 26px;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-radius: 14px;
+    background-color: #FFFFFF;
+    border: 1px solid #5C5C5C;
+    color: #5C5C5C;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
 }

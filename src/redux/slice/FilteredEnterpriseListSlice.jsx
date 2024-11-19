@@ -13,7 +13,8 @@ const initialState = {
    isLoading: false,
    error: null,
    lastUpdated: null,
-   displayMode: 'initial' // displayMode 추가
+   displayMode: 'initial',
+   shouldShowMarkers: false // 새로운 상태 추가
 };
 
 const filteredEnterpriseListSlice = createSlice({
@@ -25,36 +26,31 @@ const filteredEnterpriseListSlice = createSlice({
            state.filteredEnterprises = action.payload;
            state.totalFiltered = action.payload.length;
            state.lastUpdated = Date.now();
-           state.displayMode = 'enterprises'; // 데이터 설정 시 displayMode 변경
+           // 마커 표시 여부는 변경하지 않음
        },
        
        updateActiveFilters: (state, action) => {
-           // 액티브 필터 업데이트
            state.activeFilters = {
                ...state.activeFilters,
                ...action.payload
            };
            
-           // 원본 데이터로부터 시작
            let filteredList = [...state.originalEnterprises];
 
-           // 카테고리 필터링
            if (state.activeFilters.categories.length > 0 && 
                !state.activeFilters.categories.includes('전체')) {
                filteredList = filteredList.filter(enterprise => 
-                   state.activeFilters.categories.includes(enterprise.socialPurposeType)
+                   state.activeFilters.categories.includes(enterprise.field)
                );
            }
 
-           // 유형 필터링
            if (state.activeFilters.types.length > 0 && 
                !state.activeFilters.types.includes('전체')) {
                filteredList = filteredList.filter(enterprise => 
-                   state.activeFilters.types.includes(enterprise.field)
+                   state.activeFilters.types.includes(enterprise.socialPurposeType)
                );
            }
 
-           // 온오프 필터링
            if (state.activeFilters.onoffStore.length > 0) {
                filteredList = filteredList.filter(enterprise => 
                    state.activeFilters.onoffStore.includes(enterprise.storeType)
@@ -64,14 +60,7 @@ const filteredEnterpriseListSlice = createSlice({
            state.filteredEnterprises = filteredList;
            state.totalFiltered = filteredList.length;
            state.lastUpdated = Date.now();
-           state.displayMode = 'enterprises'; // 필터링 시 displayMode 변경
-
-           console.log('FilteredEnterpriseListSlice - After filtering:', {
-               activeFilters: state.activeFilters,
-               totalFiltered: state.totalFiltered,
-               lastUpdated: state.lastUpdated,
-               displayMode: state.displayMode
-           });
+           state.shouldShowMarkers = true; // 필터 적용 시에만 마커 표시
        },
        
        setSortBy: (state, action) => {
@@ -93,14 +82,18 @@ const filteredEnterpriseListSlice = createSlice({
                filteredEnterprises: state.originalEnterprises,
                totalFiltered: state.originalEnterprises.length,
                lastUpdated: Date.now(),
-               displayMode: 'enterprises' // 필터 초기화 시에도 displayMode 설정
+               shouldShowMarkers: false // 필터 초기화 시 마커 숨김
            };
        },
 
-       // displayMode를 직접 설정할 수 있는 리듀서 추가
        setDisplayMode: (state, action) => {
            state.displayMode = action.payload;
            state.lastUpdated = Date.now();
+       },
+
+       // 새로운 리듀서 추가
+       setShouldShowMarkers: (state, action) => {
+           state.shouldShowMarkers = action.payload;
        }
    }
 });
@@ -112,17 +105,16 @@ export const {
    setLoading,
    setError,
    resetFilters,
-   setDisplayMode // 새로운 액션 export
+   setDisplayMode,
+   setShouldShowMarkers
 } = filteredEnterpriseListSlice.actions;
 
-// 기존 selector들
 export const selectFilteredEnterprises = (state) => state.filteredEnterprise.filteredEnterprises;
 export const selectActiveFilters = (state) => state.filteredEnterprise.activeFilters;
 export const selectTotalFiltered = (state) => state.filteredEnterprise.totalFiltered;
 export const selectSortBy = (state) => state.filteredEnterprise.sortBy;
-
-// displayMode를 위한 새로운 selector
 export const selectDisplayMode = (state) => state.filteredEnterprise.displayMode;
 export const selectLastUpdated = (state) => state.filteredEnterprise.lastUpdated;
+export const selectShouldShowMarkers = (state) => state.filteredEnterprise.shouldShowMarkers;
 
 export default filteredEnterpriseListSlice.reducer;

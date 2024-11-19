@@ -6,7 +6,10 @@ import {
     setBookmarkData,    // SearchSlice에서 export한 액션
  } from '../../redux/slice/SearchSlice.jsx';
 import { setSocialEnterprises } from '../../redux/slice/EnterpriseSlice.jsx';
-import { setFilteredEnterprises } from '../../redux/slice/FilteredEnterpriseListSlice.jsx';
+import { 
+    setFilteredEnterprises,
+    setShouldShowMarkers 
+} from '../../redux/slice/FilteredEnterpriseListSlice.jsx';
 import KakaoMap from '../../components/enterprise/KakaoMap';
 import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
 import searchIcon from '../../assets/images/enterprise/search-icon.svg';
@@ -26,6 +29,8 @@ function EnterpriseSearch() {
                 const response = await fetch('/dummyData/SocialEnterprises.json');
                 const data = await response.json();
                 dispatch(setSocialEnterprises(data));
+                dispatch(setFilteredEnterprises(data));  // 여기에 추가
+                dispatch(setShouldShowMarkers(false));
 
                 // 내장소 데이터 로드
                 const mylocationResponse = await fetch('/dummyData/mylocationData.json');
@@ -49,14 +54,6 @@ function EnterpriseSearch() {
     const { filteredEnterprises } = useSelector(state => state.filteredEnterprise);
 
     const openListModal = () => {
-        if (isFirstClick.current) {
-            // 첫 클릭일 때는 원본 데이터로 설정
-            if(socialEnterprises.length > 0) {
-                dispatch(setFilteredEnterprises(socialEnterprises));
-            }
-            isFirstClick.current = false;  // 첫 클릭 후 상태 변경
-        }
-        // 첫 클릭이 아닐 때는 기존 필터링된 데이터 유지
         setIsListModalFullView(true);
     };
 

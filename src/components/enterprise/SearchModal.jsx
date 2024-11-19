@@ -8,6 +8,7 @@ import {
   setSelectedLocation,
   setDisplayMode
 } from '../../redux/slice/SearchSlice';
+import { formatCompanyName } from '../../utils/companyNameUtils';
 import styles from '../../styles/enterprise/SearchModal.module.css';
 import searchBack from '../../assets/images/enterprise/enterprise-back.svg';
 import searchIcon from '../../assets/images/enterprise/search-icon.svg';
@@ -18,7 +19,7 @@ import myLocationIcon from '../../assets/images/map/map-myplace.svg'
 import bookmarkIcon from '../../assets/images/map/map-bookmark.svg'
 function SearchModal({ handleClose }) {
     const [inputValue, setInputValue] = useState('');
-    const [activeSection, setActiveSection] = useState('');
+    const [activeSection, setActiveSection] = useState('최근검색');
     const dispatch = useDispatch();
     
     // Redux state에서 필요한 데이터 가져오기
@@ -27,6 +28,14 @@ function SearchModal({ handleClose }) {
     const bookmarkData = useSelector(state => state.search.bookmarkData);
     const isActive = useSelector(state => state.search.isSearchModalOpen);
     
+
+    const handleBackClick = () => {
+        setActiveSection('최근검색'); // 모달 닫을 때 섹션 초기화
+        setInputValue(''); // 입력값도 초기화
+        handleClose();
+        dispatch(setSearchModalOpen(false));
+    };
+
     if (!isActive) return null;
 
     const handleInputChange = (event) => {
@@ -74,29 +83,30 @@ function SearchModal({ handleClose }) {
         setActiveSection(section);
     };
 
-
-    const formatSearchTime = (searchTime) => {
-        const dateObj = new Date(searchTime);
-        return dateObj.toLocaleDateString();
-      };
-
     // 내장소 렌더링 함수
     const renderMylocationList = (locations) => {
         if (!locations || locations.length === 0) {
             return <p className={styles.emptyMessage}>등록된 내 장소가 없습니다.</p>;
         }
 
-        return locations.map((location) => (
-            <div key={location.certificationNumber} className={styles.myLocationList}>
-                <img src={myLocationIcon} alt="search history icon" className={styles.myLocationIcon} />
-                <button 
-                    className={styles.query}
-                    onClick={() => handleLocationSelect(location, 'mylocation')}
-                >
-                    {location.companyName}
-                </button>
-            </div>
-        ));
+        return locations.map((location) => {
+            const formattedName = formatCompanyName(location.companyName);
+            
+            return (
+                <div key={location.certificationNumber} className={styles.myLocationList}>
+                    <img src={myLocationIcon} alt="search history icon" className={styles.myLocationIcon} />
+                    <button 
+                        className={styles.query}
+                        onClick={() => handleLocationSelect(location, 'mylocation')}
+                    >
+                        <p className={styles.companyNameFront}>{formattedName.front}</p>
+                        {formattedName.back && (
+                            <p className={styles.companyNameBack}>{formattedName.back}</p>
+                        )}
+                    </button>
+                </div>
+            );
+        });
     };
 
     // 즐겨찾기 렌더링 함수
@@ -105,31 +115,32 @@ function SearchModal({ handleClose }) {
             return <p className={styles.emptyMessage}>등록된 즐겨찾기가 없습니다.</p>;
         }
 
-        return locations.map((location) => (
-            <div key={location.certificationNumber} className={styles.BookmarkList}>
-                <img src={bookmarkIcon} alt="bookmarker icon" className={styles.bookmarkIcon} />
-                <button 
-                    className={styles.query}
-                    onClick={() => handleLocationSelect(location, 'bookmark')}
-                >
-                    {location.companyName}
-                </button>
-            </div>
-        ));
+        return locations.map((location) => {
+            const formattedName = formatCompanyName(location.companyName);
+            
+            return (
+                <div key={location.certificationNumber} className={styles.BookmarkList}>
+                    <img src={bookmarkIcon} alt="bookmarker icon" className={styles.bookmarkIcon} />
+                    <button 
+                        className={styles.query}
+                        onClick={() => handleLocationSelect(location, 'bookmark')}
+                    >
+                        <p className={styles.companyNameFront}>{formattedName.front}</p>
+                        {formattedName.back && (
+                            <p className={styles.companyNameBack}>{formattedName.back}</p>
+                        )}
+                    </button>
+                </div>
+            );
+        });
     };
-
-    // 검색 기록의 searchTime 값 출력
-    console.log('searchHistory:', searchHistory);
 
     return (
         <div className={styles.searchModalContainer}>
             <div className={styles.searchModalHeader}>
                 <button 
                     className={styles.back} 
-                    onClick={() => {
-                        handleClose();
-                        dispatch(setSearchModalOpen(false));
-                    }}
+                    onClick={handleBackClick}
                 >
                     <img src={searchBack} alt="search back" className={styles.searchBack} />
                 </button>
@@ -174,7 +185,7 @@ function SearchModal({ handleClose }) {
                             <div key={history.searchId} className={styles.searchHistory}>
                                 <img src={searchHistoryIcon} alt="search history icon" className={styles.searchHistoryIcon} />
                                 <button 
-                                    className={styles.query}
+                                    className={styles.historyQuery}
                                     onClick={() => handleHistoryClick(history.query)}
                                 >
                                     {history.query}

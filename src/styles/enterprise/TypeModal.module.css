@@ -1,5 +1,4 @@
 /*typeModal*/
-
 .typeModalContainer{
     display: flex;
     justify-content: center;
@@ -34,8 +33,8 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    width: 243px;
-    height: 380px;
+    width: 223px;
+    height: 370px;
     padding: 0 20px 0 20px;
     background-color: #FFFFFF;
     box-shadow: 0 -5px 10px -9px rgba(0, 0, 0, 0.5);
@@ -53,154 +52,54 @@
     margin: 20px 0 0 20px;
 }
 
-.typeBtn{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10px;
-    width: 100%;
-    height: 250px;
-    margin: 8% 0 0 0;
-}
-
-.row{
-    display: flex; /* 이 속성으로 컨테이너를 flex 컨테이너로 설정 */
-    flex-direction: row; /* 아이템들을 수평 방향으로 나열 */
-    align-items: center; /* 아이템들을 수직 방향(가로 방향의 교차 축)에서 가운데 정렬 */
-    justify-content: space-between; /* 아이템들 사이에 균등한 간격을 두고 정렬 */
-    gap: 5px;
-}
-
-.education, .health, .environment, .childcare, 
-.manufacturing,.distribution, .others, .all {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 42px;
-    height: 20px;
-    padding: 0 0 0 0;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    color: #747474;
-    font-size: 12px;
-}
-.socialWelfare, .cultureArt, .tourismSports, .housekeepingCare,
-.regionalDevelopment, .informationTechnology   {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70px;
-    height: 20px;
-    padding: 0 0 0 0;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    color: #747474;
-    font-size: 12px;
-}
-
-.forestConservationManagement {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 120px;
-    height: 20px;
-    padding: 0 0 0 0;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    color: #747474;
-    font-size: 12px;
-}
-
-.culturalHeritageConservationUtilization {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 220px;
-    height: 20px;
-    padding: 0 0 0 0;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    color: #747474;
-    font-size: 12px;
-}
-
-.employmentServices {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 90px;
-    height: 20px;
-    padding: 0 0 0 0;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    color: #747474;
-    font-size: 12px;
-}
-
-.facilityManagementCleaning {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 150px;
-    height: 20px;
-    padding: 0 0 0 0;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    color: #747474;
-    font-size: 12px;
-}
-
-.socialServiceProvision {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 130px;
-    height: 20px;
-    padding: 0 0 0 0;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    color: #747474;
-    font-size: 12px;
-}
-
-.greenEnergy {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 103px;
-    height: 20px;
-    padding: 0 0 0 0;
-    border-radius: 14px;
-    border: 1px solid #BEBEBE;
-    background-color: #FFFFFF;
-    color: #747474;
-    font-size: 12px;
-}
-
-.selectedType{
-    background-color: #747474;
-    color: #FFFFFF;
-    border: none;
-}
-
 .modalName{
     margin: 0 0 0 0;
     font-size: 15px;
-    font-weight: 900;
+    font-weight: 600;
 }
 
 .modalMemo{
     margin: 0 0 0 0;
     font-size: 9px;
+    font-weight: 500;
     color: #BEBEBE;
+}
+
+.typeBtn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0px;
+    width: 80%;
+    height: 263px;
+    margin: 1% 0 0 0;
+}
+
+.type{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 40px;
+    border-radius: 0;
+    background-color: transparent;
+    border-bottom: 1px solid #D3D3D3;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.selectedType{
+    color: #FF6C6A;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    width: 18px; /* 아이콘 크기 */
+    height: 12px;
 }
 
 .okay{

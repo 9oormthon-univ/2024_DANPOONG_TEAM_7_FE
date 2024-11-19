@@ -14,6 +14,7 @@ import alignmentIcon from '../../assets/images/enterprise/alignment-icon.svg'
 
 function ListModal({ isActive, handleClose }) {
     const dispatch = useDispatch();
+    const [selectedSorting, setSelectedSorting] = useState('');
     const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
     // 기업 목록 데이터 불러오기
@@ -63,6 +64,23 @@ function ListModal({ isActive, handleClose }) {
         dispatch(setOnoffModalOpen(false));
     };
 
+    // 버튼 선택 상태만 관리하는 함수
+    const handleSortingSelect = (sortType) => {
+        if (selectedSorting === sortType) {
+            // 이미 선택된 버튼을 다시 클릭하면 선택 해제
+            setSelectedSorting('');
+        } else {
+            // 새로운 버튼 선택
+            setSelectedSorting(sortType);
+        }
+    };
+
+    // 선택 상태 확인 함수
+    const isSortingSelected = (sorting) => {
+        return selectedSorting === sorting;
+    };
+
+
     return (
         <div className={`${styles.listModalContainer} ${isActive ? styles.active : ''}`}>
             <div className={styles.listModalBackground} onClick={handleClose}></div>
@@ -82,8 +100,18 @@ function ListModal({ isActive, handleClose }) {
                     </button>
                 </div>
                 <div className={styles.companySorting}>
-                    <button className={styles.sortingReviewBtn}>리뷰 순</button>
-                    <button className={styles.sortingRecommendationBtn}>높은 추천 순</button>
+                    <button
+                        className={`${styles.sortingReviewBtn} ${isSortingSelected('리뷰 순') ? styles.selectedSorting : ''}`}
+                        onClick={() => handleSortingSelect('리뷰 순')}
+                    >
+                        리뷰 순
+                    </button>
+                    <button
+                        className={`${styles.sortingRecommendationBtn} ${isSortingSelected('높은 추천 순') ? styles.selectedSorting : ''}`}
+                        onClick={() => handleSortingSelect('높은 추천 순')}
+                    >
+                        높은 추천 순
+                    </button>
                 </div>
                 <div className={styles.companyList}>
                     {filteredEnterprises.length > 0 ? (

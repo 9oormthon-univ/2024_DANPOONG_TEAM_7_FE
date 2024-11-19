@@ -71,12 +71,10 @@ function EnterpriseSearch() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.topBar}>
-                <p className={styles.pageName}>기업 찾기</p>
-                <button className={styles.searchBtn} onClick={openSearchModal}>
-                    <img src={searchIcon} alt="search icon" className={styles.searchIcon} />
-                </button>
-            </div>
+            <div className={styles.topBar}></div>
+            <button className={styles.searchBtn} onClick={openSearchModal}>
+                <img src={searchIcon} alt="search icon" className={styles.searchIcon} />
+            </button>
             <div className={styles.map}>
                 <div className={styles.mapView}>
                     <KakaoMap />

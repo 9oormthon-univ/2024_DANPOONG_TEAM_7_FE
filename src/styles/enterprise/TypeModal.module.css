@@ -183,17 +183,7 @@
     font-size: 12px;
 }
 
-
-:is(.education, .health, .socialWelfare, .environment, .cultureArt, 
-.tourismSports, .childcare, .forestConservationManagement, .housekeepingCare,
-.culturalHeritageConservationUtilization, .employmentServices, 
-.facilityManagementCleaning, .regionalDevelopment, .socialServiceProvision, 
-.informationTechnology, .manufacturing, .distribution, .greenEnergy, .others, .all):active,
-:is(.education, .health, .socialWelfare, .environment, .cultureArt, 
-.tourismSports, .childcare, .forestConservationManagement, .housekeepingCare,
-.culturalHeritageConservationUtilization, .employmentServices, 
-.facilityManagementCleaning, .regionalDevelopment, .socialServiceProvision, 
-.informationTechnology, .manufacturing, .distribution, .greenEnergy, .others, .all):focus {
+.selectedType{
     background-color: #747474;
     color: #FFFFFF;
     border: none;

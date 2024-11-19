@@ -32,7 +32,7 @@
     align-items: center;
     position: relative;
     width: 243px;
-    height: 450px;
+    height: 370px;
     padding: 0 20px 0 20px;
     background-color: #FFFFFF;
     box-shadow: 0 -5px 10px -9px rgba(0, 0, 0, 0.5);
@@ -67,28 +67,34 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 20px;
+    gap: 0px;
     width: 80%;
     height: 263px;
-    margin: 20% 0 0 0;
+    margin: 1% 0 0 0;
 }
 
 .category{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 15px;
+    position: relative;
     width: 100%;
-    height: 64px;
+    height: 40px;
     border-radius: 0;
     background-color: transparent;
     border-bottom: 1px solid #D3D3D3;
     font-size: 12px;
 }
 
-.selectedCategory {
-    background-color: #4CAF50; /* 선택된 카테고리의 배경색 변경 */
-    color: white; /* 텍스트 색상을 흰색으로 변경 */
+.selectedCategory{
+    color: #FF6C6A;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    width: 18px; /* 아이콘 크기 */
+    height: 12px;
 }
 
 .okay{

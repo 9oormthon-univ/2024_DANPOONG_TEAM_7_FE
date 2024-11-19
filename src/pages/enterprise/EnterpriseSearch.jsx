@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'; // useSelector 추가
 import { setSocialEnterprises } from '../../redux/slice/EnterpriseSlice';
+import { setSearchModalOpen } from '../../redux/slice/SearchSlice';
 import KakaoMap from '../../components/enterprise/KakaoMap';
 import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
 import searchIcon from '../../assets/images/enterprise/search-icon.svg';
 import SearchModal from '../../components/enterprise/SearchModal';
 import ListModal from '../../components/enterprise/ListModal';
-
+import { useState } from 'react';
 
 function EnterpriseSearch() {
     const dispatch = useDispatch();
-    const [isSearchModal, setIsSearchModal] = useState(false);
-    const [searchHistory, setSearchHistory] = useState([]); // dummyData
-    const [isListModal, setIsListModal] = useState(false); //ListModal
+    const [isListModal, setIsListModal] = useState(true);
+    const [isListModalFullView, setIsListModalFullView] = useState(false);
+    
+    // SearchModal의 상태를 가져옴
+    const { isSearchModalOpen } = useSelector(state => state.search);
 
     // socialEnterprise 데이터를 Redux store에 저장
     useEffect(() => {
@@ -20,7 +23,7 @@ function EnterpriseSearch() {
             try {
                 const response = await fetch('/dummyData/SocialEnterprises.json');
                 const data = await response.json();
-                dispatch(setSocialEnterprises(data)); // Redux action을 dispatch
+                dispatch(setSocialEnterprises(data));
             } catch (error) {
                 console.error('Failed to load data:', error);
             }
@@ -30,8 +33,15 @@ function EnterpriseSearch() {
     }, [dispatch]);
 
     //검색 아이콘을 누를 시에 뜨는 Modal
-    const openSearchModal = () => setIsSearchModal(true);
-    const closeSearchModal = () => setIsSearchModal(false);
+    const openSearchModal = () => {
+        dispatch(setSearchModalOpen(true));
+        setIsListModal(false); // 검색 모달이 열릴 때 목록 모달 숨김
+    };
+    
+    const closeSearchModal = () => {
+        dispatch(setSearchModalOpen(false));
+        setIsListModal(true); // 검색 모달이 닫힐 때 목록 모달 다시 표시
+    };
     
     //검색 Modal 내부 버튼
     const handleSectionClick = (section) => {
@@ -41,12 +51,12 @@ function EnterpriseSearch() {
     //목록보기를 누를 시에 뜨는 Modal
     const openListModal = () => {
         console.log('Modal open');
-        setIsListModal(true);
+        setIsListModalFullView(true);
     };
 
     const closeListModal = () => {
         console.log('Modal close');
-        setIsListModal(false);
+        setIsListModalFullView(false);
     };
 
     const handleCategoryModal = (category) => {
@@ -56,6 +66,9 @@ function EnterpriseSearch() {
     const handleTypeModal = (type) => {
         console.log('Handling type modal for:', type);
     };
+
+    // 검색 모달 상태에 따라 ListModal 표시 여부 결정
+    const shouldShowListModal = isListModal && !isSearchModalOpen;
 
     return (
         <div className={styles.container}>
@@ -75,18 +88,14 @@ function EnterpriseSearch() {
                 </button>
             </div>
 
-            {isSearchModal && (
-                <SearchModal 
-                    isActive={isSearchModal}
-                    handleClose={closeSearchModal}
-                    searchHistory={searchHistory}
-                    handleSectionClick={handleSectionClick}
-                />
-            )}
+            <SearchModal 
+                handleClose={closeSearchModal}
+                handleSectionClick={handleSectionClick}
+            />
             
-            {isListModal && (
+            {shouldShowListModal && (
                 <ListModal
-                    isActive={isListModal}
+                    isActive={isListModalFullView}
                     handleClose={closeListModal}
                     openCategoryModal={handleCategoryModal}
                     openTypeModal={handleTypeModal}

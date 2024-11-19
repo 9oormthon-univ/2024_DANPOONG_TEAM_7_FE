@@ -1,0 +1,6 @@
+#map {
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000;
+    transform: translateZ(0);
+  }

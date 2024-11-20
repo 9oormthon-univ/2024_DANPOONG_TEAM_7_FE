@@ -20,9 +20,7 @@ import TopBar from '../../components/layout/TopBar.jsx';
 function EnterpriseSearch() {
     const dispatch = useDispatch();
     const [isListModal, setIsListModal] = useState(true);
-    const [isListModalFullView, setIsListModalFullView] = useState(false);
-    const isFirstClick = useRef(true);  // 첫 클릭 여부를 추적하는 ref
-    
+    const [isListModalFullView, setIsListModalFullView] = useState(false);    
     // 데이터 로딩을 페이지 레벨로 이동
     useEffect(() => {
         const fetchData = async () => {
@@ -73,11 +71,10 @@ function EnterpriseSearch() {
     };
 
     // 검색 모달 상태에 따라 ListModal 표시 여부 결정
-    const shouldShowListModal = isListModal && !isSearchModalOpen;
+    const shouldShowListModal = !isSearchModalOpen;
 
-    return (
+     return (
         <div className={styles.container}>
-            <TopBar/>
             <button className={styles.searchBtn} onClick={openSearchModal}>
                 <img src={searchIcon} alt="search icon" className={styles.searchIcon} />
             </button>
@@ -85,10 +82,6 @@ function EnterpriseSearch() {
                 <div className={styles.mapView}>
                     <KakaoMap />
                 </div>
-                <button className={styles.listDetailBtn} onClick={openListModal}>
-                    <div className={styles.listSquare}></div>
-                    <p className={styles.listDetail}>목록보기</p>
-                </button>
             </div>
 
             <SearchModal 

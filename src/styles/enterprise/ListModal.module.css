@@ -315,7 +315,7 @@
     color: #000000;
     font-size: 12px;
     font-weight: 500;
-}
+} 
 
 .listAddressIcon{
     width: 10px;
@@ -380,7 +380,7 @@
     font-weight: 500;
 }
 
-.listInfo{
+.listInfoBtn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -395,7 +395,7 @@
     font-weight: 500;
 }
 
-.storeInfo{
+.storeInfoBtn{
     display: flex;
     justify-content: center;
     align-items: center;

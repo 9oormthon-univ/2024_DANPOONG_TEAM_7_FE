@@ -1,5 +1,5 @@
 [
-    {"number": 1,
+    {"id": 1,
     "region": "경기",
     "certificationNumber": "제2008-140호",
     "companyName": "사회복지법인천주교수원교구사회복지회행복한일터",
@@ -13,7 +13,7 @@
     "certificationYear": 2008,
     "storeType": "온라인"
   },
-   {"number": 8,
+   {"id": 8,
     "region": "경기",
     "certificationNumber": "제2011-077호",
     "companyName": "주식회사온케어구리",
@@ -27,7 +27,7 @@
     "certificationYear": 2011,
     "storeType": "오프라인"
   },
-   {"number": 13,
+   {"id": 13,
     "region": "경기",
     "certificationNumber": "제2011-087호",
     "companyName": "(주)극단민들레",
@@ -41,7 +41,7 @@
     "certificationYear": 2011,
     "storeType": "온라인"
   },
-   {"number": 15,
+   {"id": 15,
     "region": "경기",
     "certificationNumber": "제2011-091호",
     "companyName": "벼리마을(안양시장애인보호작업장)",
@@ -55,7 +55,7 @@
     "certificationYear": 2011,
     "storeType": "온라인"
   },
-   {"number": 16,
+   {"id": 16,
     "region": "경기",
     "certificationNumber": "제2011-092호",
     "companyName": "(주)친환경상품지원센터",
@@ -69,7 +69,7 @@
     "certificationYear": 2011,
     "storeType": "온라인"
   },
-   {"number": 17,
+   {"id": 17,
     "region": "경기",
     "certificationNumber": "제2011-093호",
     "companyName": "청평문화예술학교",
@@ -83,7 +83,7 @@
     "certificationYear": 2011,
     "storeType": "온라인"
   },
-   {"number": 35,
+   {"id": 35,
     "region": "경기",
     "certificationNumber": "제2012-045호",
     "companyName": "주식회사피플크린",
@@ -97,7 +97,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 36,
+   {"id": 36,
     "region": "경기",
     "certificationNumber": "제2012-046호",
     "companyName": "사회복지법인 구세군복지재단 구세군장애인재활작업장",
@@ -111,7 +111,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 37,
+   {"id": 37,
     "region": "경기",
     "certificationNumber": "제2012-047호",
     "companyName": "(주)중원기업",
@@ -125,7 +125,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 38,
+   {"id": 38,
     "region": "경기",
     "certificationNumber": "제2012-048호",
     "companyName": "(주)나누리",
@@ -139,7 +139,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 56,
+   {"idr": 56,
     "region": "경기",
     "certificationNumber": "제2012-074호",
     "companyName": "주식회사나눔환경",
@@ -153,7 +153,7 @@
     "certificationYear": 2012,
     "storeType": "오프라인"
   },
-   {"number": 68,
+   {"id": 68,
     "region": "경기",
     "certificationNumber": "제2012-097호",
     "companyName": "(주)떡찌니",
@@ -167,7 +167,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 70,
+   {"id": 70,
     "region": "경기",
     "certificationNumber": "제2012-100호",
     "companyName": "사단법인노름마치예술단",
@@ -181,7 +181,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 72,
+   {"id": 72,
     "region": "경기",
     "certificationNumber": "제2012-102호",
     "companyName": "주식회사 디자인나무",
@@ -195,7 +195,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 73,
+   {"id": 73,
     "region": "경기",
     "certificationNumber": "제2012-103호",
     "companyName": "주식회사 유스바람개비",
@@ -209,7 +209,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 74,
+   {"id": 74,
     "region": "경기",
     "certificationNumber": "제2012-104호",
     "companyName": "주식회사성우",
@@ -223,7 +223,7 @@
     "certificationYear": 2012,
     "storeType": "온라인"
   },
-   {"number": 75,
+   {"id": 75,
     "region": "경기",
     "certificationNumber": "제2012-106호",
     "companyName": "(주)크린서비스청",
@@ -237,7 +237,7 @@
     "certificationYear": 2012,
     "storeType": "오프라인"
   },
-   {"number": 106,
+   {"id": 106,
     "region": "경기",
     "certificationNumber": "제2013-012호",
     "companyName": "주식회사 비비컴퍼니",
@@ -251,7 +251,7 @@
     "certificationYear": 2013,
     "storeType": "온라인"
   },
-   {"number": 107,
+   {"id": 107,
     "region": "경기",
     "certificationNumber": "제2013-013호",
     "companyName": "사단법인 아리수",
@@ -265,7 +265,7 @@
     "certificationYear": 2013,
     "storeType": "온라인"
   },
-   {"number": 116,
+   {"id": 116,
     "region": "경기",
     "certificationNumber": "제2011-126호",
     "companyName": "주식회사 두성",

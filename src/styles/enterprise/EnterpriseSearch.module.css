@@ -11,16 +11,6 @@
     position: relative;
 }
 
-.topBar{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100vw;
-    height: 0px;
-    margin: 14% 0 0 0;
-}
-
 .searchBtn{
     display: flex;
     justify-content: center;
@@ -46,7 +36,7 @@
     position: relative;
     width: 100%;
     height: 90vh;
-    margin: 2% 0 0 0;
+    margin: 0 0 0 0;
 }
 
 .mapView{
@@ -64,7 +54,7 @@
     align-items: center;
     gap: 4px;
     position: absolute;
-    bottom: 14vh;
+    bottom: 15vh;
     width: 125px;
     height: 43px;
     border-radius: 53px;

@@ -15,6 +15,7 @@ import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
 import searchIcon from '../../assets/images/enterprise/search-icon.svg';
 import SearchModal from '../../components/enterprise/SearchModal';
 import ListModal from '../../components/enterprise/ListModal';
+import TopBar from '../../components/layout/TopBar.jsx';
 
 function EnterpriseSearch() {
     const dispatch = useDispatch();
@@ -76,7 +77,7 @@ function EnterpriseSearch() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.topBar}></div>
+            <TopBar/>
             <button className={styles.searchBtn} onClick={openSearchModal}>
                 <img src={searchIcon} alt="search icon" className={styles.searchIcon} />
             </button>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import styles from '../../styles/enterprise/KakaoMap.module.css';
 import { calculateDistance } from '../../utils/distanceUtils';
 import { 
   selectFilteredEnterprises, 
@@ -152,10 +153,17 @@ function KakaoMap() {
         const map = new window.kakao.maps.Map(mapContainer, mapOption);
         mapRef.current = map; // 지도 인스턴스 저장
 
+        // myLocationMarker 변수 추가
+        let myLocationMarker = null;
         let displayedMarkers = [];
+        
         const clearMarkers = () => {
-          displayedMarkers.forEach(marker => marker.setMap(null));
-          displayedMarkers = [];
+          displayedMarkers.forEach(marker => {
+            if (marker !== myLocationMarker) {
+              marker.setMap(null);
+            }
+          });
+          displayedMarkers = displayedMarkers.filter(marker => marker === myLocationMarker);
         };
 
         const moveMapToLocation = (latitude, longitude, level = 3) => {
@@ -165,32 +173,54 @@ function KakaoMap() {
         };
 
         const displayMarker = (locPosition, message, imageSrc) => {
-          let imageSize, imageOption;
-        
           if (imageSrc === currentLocationMarker) {
-            imageSize = new kakao.maps.Size(35, 35);
-            imageOption = { offset: new kakao.maps.Point(15, 45) };
+            // 기존 내 위치 마커가 있다면 제거
+            if (myLocationMarker) {
+              myLocationMarker.setMap(null);
+              displayedMarkers = displayedMarkers.filter(marker => marker !== myLocationMarker);
+            }
+
+            const content = `
+              <div class="${styles.markerWrapper}">
+                <div class="${styles.markerContainer}">
+                  <div class="${styles.marker}"></div>
+                  <div class="${styles.ping}"></div>
+                  <div class="${styles.pulse}"></div>
+                </div>
+                <div class="${styles.message}">${message}</div>
+              </div>
+            `;
+
+            const customOverlay = new kakao.maps.CustomOverlay({
+              position: locPosition,
+              content: content,
+              map: map,
+              zIndex: 99 // 다른 마커들보다 위에 표시
+            });
+
+            myLocationMarker = customOverlay; // 내 위치 마커 저장
+            displayedMarkers.push(customOverlay);
+
           } else {
-            imageSize = new kakao.maps.Size(24, 24);
-            imageOption = { offset: new kakao.maps.Point(11, 34) };
+            const imageSize = new kakao.maps.Size(24, 24);
+            const imageOption = { offset: new kakao.maps.Point(11, 34) };
+            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+            
+            const marker = new kakao.maps.Marker({ 
+              map: map, 
+              position: locPosition, 
+              image: markerImage 
+            });
+            
+            const infowindow = new kakao.maps.InfoWindow({ 
+              content: message, 
+              removable: true 
+            });
+            
+            displayedMarkers.push(marker);
+            
+            kakao.maps.event.addListener(marker, 'click', () => infowindow.open(map, marker));
           }
-        
-          const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-        
-          const marker = new kakao.maps.Marker({ 
-            map: map, 
-            position: locPosition, 
-            image: markerImage 
-          });
-        
-          const infowindow = new kakao.maps.InfoWindow({ 
-            content: message, 
-            removable: true 
-          });
-        
-          displayedMarkers.push(marker);
-        
-          kakao.maps.event.addListener(marker, 'click', () => infowindow.open(map, marker));
         };
 
         if (navigator.geolocation) {
@@ -229,51 +259,52 @@ function KakaoMap() {
                   setIsFirstRender(false);
                   break;
                 
-                  case 'search':
-                    if (searchQuery) {
-                      const ps = new kakao.maps.services.Places();
-                      ps.keywordSearch(searchQuery, (data, status) => {
-                        if (status === kakao.maps.services.Status.OK) {
-                          clearMarkers(); // 기존 마커들을 먼저 지우고
-                          
-                          data.forEach(place => {
-                            const placePosition = new kakao.maps.LatLng(place.y, place.x);
-                            const distance = calculateDistance(
-                              locPosition.getLat(), 
-                              locPosition.getLng(), 
-                              parseFloat(place.y), 
-                              parseFloat(place.x)
+                case 'search':
+                  if (searchQuery) {  
+                    const ps = new kakao.maps.services.Places();
+                    ps.keywordSearch(searchQuery, (data, status) => {
+                      if (status === kakao.maps.services.Status.OK) {
+                        clearMarkers(); // 내 위치 마커는 유지됨
+                        
+                        // 현재 위치 마커 다시 표시 (이미 clearMarkers에서 유지됨)
+                        data.forEach(place => {
+                          const placePosition = new kakao.maps.LatLng(place.y, place.x);
+                          const distance = calculateDistance(
+                            locPosition.getLat(), 
+                            locPosition.getLng(), 
+                            parseFloat(place.y), 
+                            parseFloat(place.x)
+                          );
+
+                          if (distance <= SEARCH_RADIUS) {
+                            displayMarker(
+                              placePosition,
+                              `<div style="padding:5px;font-size:12px;">
+                                ${place.place_name}<br>
+                                ${place.address_name}
+                              </div>`,
+                              searchMarker
                             );
-                
-                            if (distance <= SEARCH_RADIUS) {
-                              displayMarker(
-                                placePosition,
-                                `<div style="padding:5px;font-size:12px;">
-                                  ${place.place_name}<br>
-                                  ${place.address_name}
-                                </div>`,
-                                searchMarker
-                              );
-                            }
-                          });
-                
-                          if (data.length > 0) {
-                            moveMapToLocation(data[0].y, data[0].x);
                           }
+                        });
+
+                        if (data.length > 0) {
+                          moveMapToLocation(data[0].y, data[0].x);
                         }
-                      }, { 
-                        location: locPosition, 
-                        radius: SEARCH_RADIUS,
-                        sort: kakao.maps.services.SortBy.DISTANCE // 거리순 정렬 추가
-                      });
-                    }
-                    break;
+                      }
+                    }, { 
+                      location: locPosition, 
+                      radius: SEARCH_RADIUS,
+                      sort: kakao.maps.services.SortBy.DISTANCE
+                    });
+                  }
+                  break;
 
                 case 'enterprises':
                   if (filteredEnterprises.length > 0 && shouldShowMarkers) {
                     displayofflineMarkers(map, filteredEnterprises, displayMarker, clearMarkers, moveMapToLocation);
                   } else {
-                    // shouldShowMarkers가 false일 때는 현재 위치로
+                    clearMarkers(); // 내 위치 마커는 유지됨
                     moveMapToLocation(lat, lng);
                   }
                   break;

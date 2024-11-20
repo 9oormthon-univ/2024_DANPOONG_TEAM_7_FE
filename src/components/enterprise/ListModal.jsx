@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryModalOpen } from '../../redux/slice/CategorySlice';
 import { setOnoffModalOpen } from '../../redux/slice/OnoffStoreSlice';
@@ -12,11 +13,12 @@ import TypeModal from './TypeModal';
 import OnoffStoreModal from './OnoffStoreModal';
 import styles from '../../styles/enterprise/ListModal.module.css';
 import alignmentIcon from '../../assets/images/enterprise/alignment-icon.svg';
-import listAddressOpenIcon from '../../assets/images/list-addressopen.svg'
-import listAddressCloseIcon from '../../assets/images/list-addressclose.svg'
-import closeBtn from '../../assets/images/detailed-addressclose.svg'
+import listAddressOpenIcon from '../../assets/images/enterprise/list-addressopen.svg'
+import listAddressCloseIcon from '../../assets/images/enterprise/list-addressclose.svg'
+import closeBtn from '../../assets/images/enterprise/detailed-addressclose.svg'
 
 function ListModal({ isActive, handleClose }) {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [selectedSorting, setSelectedSorting] = useState('');
     const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
@@ -142,6 +144,11 @@ function ListModal({ isActive, handleClose }) {
         return selectedSorting === sorting;
     };
 
+     // 정보 보기 버튼 클릭 핸들러
+    const handleInfoClick = (enterpriseId) => {
+        navigate(`/enterprise/info/${enterpriseId}`);
+    };
+
     return (
         <div className={`${styles.listModalContainer} ${isActive ? styles.active : ''}`}>
             <div className={styles.listModalBackground} onClick={handleClose}></div>
@@ -261,10 +268,15 @@ function ListModal({ isActive, handleClose }) {
                                         <div className={styles.listReviewCount}>리뷰 수</div>
                                     </div>
                                     <div className={styles.listRow3}>
-                                        <button className={styles.listInfo}>정보 보기</button>
+                                        <button 
+                                            className={styles.listInfoBtn}
+                                            onClick={() => handleInfoClick(enterprise.number)}
+                                        >
+                                            정보 보기
+                                        </button>
                                         {enterprise.homepage && (  // homepage가 존재할 때만 스토어 보기 버튼 표시
                                             <button 
-                                                className={styles.storeInfo}
+                                                className={styles.storeInfoBtn}
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     handleExternalUrl(enterprise.homepage);

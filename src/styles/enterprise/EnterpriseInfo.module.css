@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+    text-align: center;
+    overflow-y: auto;
+    scroll-behavior: smooth; 
+    position: relative;
+}
+
+.topBar{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100vw;
+    height: 116px;
+    margin: 0 0 0 0;
+    background-color: #2DDDC3;
+}
+
+.topBarContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 54px;
+}
+
+.pageName{
+    font-size: 20px;
+    color: black;
+}

@@ -8,6 +8,7 @@ import Mypage from './pages/mypage/Mypage';
 import EnterpriseInfo from './pages/enterprise/EnterpriseInfo';
 import ReviewKeyword from './pages/mypage/ReviewKeyword';
 import ReviewWrite from './pages/mypage/ReviewWrite';
+import Review from './pages/mypage/Review';
 
 //Layout
 import BackLayout from './components/layout/BackLayout';
@@ -28,6 +29,7 @@ function App() {
             </Route>
             <Route element={<BackLayout/>}>
               <Route path='/mypage/review/write' element={<ReviewWrite/>}/> 
+              <Route path='/mypage/review' element={<Review/>}/> 
             </Route>
             <Route path='/mypage/review/keyword' element={<ReviewKeyword/>}/> 
         </Routes>

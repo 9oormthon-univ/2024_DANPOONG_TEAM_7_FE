@@ -7,7 +7,7 @@ import {
   setSearchModalOpen,
   setSelectedLocation,
   setDisplayMode
-} from '../../redux/slice/SearchSlice';
+} from '../../redux/slices/SearchSlice';
 import { formatCompanyName } from '../../utils/companyNameUtils';
 import styles from '../../styles/enterprise/SearchModal.module.css';
 import searchBack from '../../assets/images/enterprise/enterprise-back.svg';

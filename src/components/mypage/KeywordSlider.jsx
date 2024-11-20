@@ -1,8 +1,9 @@
 // KeywordSlider.jsx
 import React, { useState } from 'react';
 import styles from '../../styles/mypage/KeywordSlider.module.css';
+import keywordOn from '../../assets/images/mypage/review-keywordon.svg';
 
-function KeywordSlider() {
+function KeywordSlider({ onKeywordsChange }) {
     const [hoveredCategory, setHoveredCategory] = useState(null);
     const [selectedKeywords, setSelectedKeywords] = useState(new Set());
 
@@ -36,16 +37,29 @@ function KeywordSlider() {
         ]
     };
 
-    const handleKeywordClick = (keyword) => {
-        setSelectedKeywords(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(keyword)) {
-                newSet.delete(keyword);
-            } else {
-                newSet.add(keyword);
-            }
-            return newSet;
+    const handleKeywordClick = (keyword, category) => {
+        const newSet = new Set(selectedKeywords);  // 기존 Set을 복사
+        
+        if (newSet.has(keyword)) {
+            newSet.delete(keyword);
+            setHoveredCategory(null);
+        } else {
+            newSet.add(keyword);
+        }
+        
+        // 선택된 키워드와 카테고리 정보를 먼저 계산
+        const selectedInfo = Array.from(newSet).map(k => {
+            const foundCategory = Object.entries(keywords).find(([_, items]) => 
+                items.includes(k)
+            )[0];
+            return { keyword: k, category: foundCategory };
         });
+        
+        // setState를 한 번에 처리
+        setSelectedKeywords(newSet);
+        
+        // 부모 컴포넌트에 정보 전달
+        onKeywordsChange(newSet, selectedInfo);
     };
 
     const handleMouseEnter = (category) => {
@@ -62,7 +76,7 @@ function KeywordSlider() {
                 const isAnySelected = items.some(item => selectedKeywords.has(item));
                 return (
                     <div key={category} className={styles.categorySection}>
-                        <h3 className={styles.categoryTitle}>{category}</h3>
+                        <p className={styles.categoryTitle}>{category}</p>
                         <div 
                             className={`${styles.slider} 
                                 ${index % 2 === 0 ? styles.slideLeft : styles.slideRight}
@@ -74,14 +88,18 @@ function KeywordSlider() {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 {[...items, ...items].map((item, itemIndex) => (
-                                    <button 
+                                    <div 
                                         key={`${item}-${itemIndex}`}
-                                        className={`${styles.keyword} ${selectedKeywords.has(item) ? styles.selected : ''}`}
-                                        onClick={() => handleKeywordClick(item)}
-                                        onMouseEnter={(e) => e.stopPropagation()}
+                                        className={styles.keywordWrapper}
                                     >
-                                        {item}
-                                    </button>
+                                        <button 
+                                            className={`${styles.keyword} ${selectedKeywords.has(item) ? styles.selected : ''}`}
+                                            onClick={() => handleKeywordClick(item, category)}
+                                            onMouseEnter={(e) => e.stopPropagation()}
+                                        >
+                                            <span>{item}</span>
+                                        </button>
+                                    </div>
                                 ))}
                             </div>
                         </div>

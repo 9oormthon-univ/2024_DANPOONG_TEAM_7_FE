@@ -4,12 +4,12 @@ import {
     setSearchModalOpen,
     setMyLocationData,  // SearchSlice에서 export한 액션
     setBookmarkData,    // SearchSlice에서 export한 액션
- } from '../../redux/slice/SearchSlice.jsx';
-import { setSocialEnterprises } from '../../redux/slice/EnterpriseSlice.jsx';
+ } from '../../redux/slices/SearchSlice.jsx';
+import { setSocialEnterprises } from '../../redux/slices/EnterpriseSlice.jsx';
 import { 
     setFilteredEnterprises,
     setShouldShowMarkers 
-} from '../../redux/slice/FilteredEnterpriseListSlice.jsx';
+} from '../../redux/slices/FilteredEnterpriseListSlice.jsx';
 import KakaoMap from '../../components/enterprise/KakaoMap';
 import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
 import searchIcon from '../../assets/images/enterprise/search-icon.svg';

@@ -5,7 +5,7 @@ import { calculateDistance } from '../../utils/distanceUtils';
 import { 
   selectFilteredEnterprises, 
   selectShouldShowMarkers 
-} from '../../redux/slice/FilteredEnterpriseListSlice';
+} from '../../redux/slices/FilteredEnterpriseListSlice';
 import currentLocationMarker from '../../assets/images/map/map-mylocation.svg';
 import myplaceMarker from '../../assets/images/map/map-myplace.svg';
 import offlineMarker from '../../assets/images/map/map-offline.svg';

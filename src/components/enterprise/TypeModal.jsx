@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSelectedTypes, setTypeModalOpen } from '../../redux/slice/TypeSlice';
-import { updateActiveFilters } from '../../redux/slice/FilteredEnterpriseListSlice'; // 추가
+import { setSelectedTypes, setTypeModalOpen } from '../../redux/slices/TypeSlice';
+import { updateActiveFilters } from '../../redux/slices/FilteredEnterpriseListSlice'; // 추가
 import styles from '../../styles/enterprise/TypeModal.module.css';
 import checkIcon from '../../assets/images/enterprise/type-check.svg'
 

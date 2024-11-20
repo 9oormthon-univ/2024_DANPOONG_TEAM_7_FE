@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryModalOpen } from '../../redux/slice/CategorySlice';
-import { setOnoffModalOpen } from '../../redux/slice/OnoffStoreSlice';
+import { setCategoryModalOpen } from '../../redux/slices/CategorySlice';
+import { setOnoffModalOpen } from '../../redux/slices/OnoffStoreSlice';
 import { 
     setFilteredEnterprises
-} from '../../redux/slice/FilteredEnterpriseListSlice';
+} from '../../redux/slices/FilteredEnterpriseListSlice';
 import { formatCompanyName } from '../../utils/companyNameUtils';
 import { handleExternalUrl } from '../../utils/urlUtils';
 import CategoryModal from './CategoryModal';

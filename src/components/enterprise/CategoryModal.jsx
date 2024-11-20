@@ -1,7 +1,7 @@
 import React , { useState }from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedCategories, setCategoryModalOpen } from '../../redux/slice/CategorySlice';
-import { updateActiveFilters } from '../../redux/slice/FilteredEnterpriseListSlice'; 
+import { setSelectedCategories, setCategoryModalOpen  } from '../../redux/slices/CategorySlice';
+import { updateActiveFilters } from '../../redux/slices/FilteredEnterpriseListSlice'; 
 import styles from '../../styles/enterprise/CategoryModal.module.css';
 
 // 상수로 카테고리 정의

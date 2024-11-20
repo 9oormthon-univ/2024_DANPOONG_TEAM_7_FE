@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedOnoffStore, setOnoffModalOpen } from '../../redux/slice/OnoffStoreSlice';
-import { updateActiveFilters } from '../../redux/slice/FilteredEnterpriseListSlice';
+import { setSelectedOnoffStore, setOnoffModalOpen } from '../../redux/slices/OnoffStoreSlice';
+import { updateActiveFilters } from '../../redux/slices/FilteredEnterpriseListSlice';
 import styles from '../../styles/enterprise/OnoffStoreModal.module.css';
 import checkIcon from '../../assets/images/enterprise/type-check.svg'
 

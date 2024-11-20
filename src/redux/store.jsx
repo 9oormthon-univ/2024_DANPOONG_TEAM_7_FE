@@ -1,11 +1,14 @@
-// src/redux/store.js
+// src/redux/store.jsx
 import { configureStore } from '@reduxjs/toolkit';
-import enterpriseReducer from './slice/EnterpriseSlice';
-import categoryReducer from './slice/CategorySlice';
-import typeReducer from './slice/TypeSlice'
-import searchReducer from './slice/SearchSlice';
-import onoffStoreReducer from './slice/OnoffStoreSlice'
-import filteredEnterpriseListReducer from './slice/FilteredEnterpriseListSlice'
+import enterpriseReducer from './slices/EnterpriseSlice';
+import categoryReducer from './slices/CategorySlice';
+import typeReducer from './slices/TypeSlice'
+import searchReducer from './slices/SearchSlice';
+import onoffStoreReducer from './slices/OnoffStoreSlice'
+import filteredEnterpriseListReducer from './slices/FilteredEnterpriseListSlice';
+import keywordReducer from './slices/KeywordSlice';
+import reviewWriteReducer from './slices/ReviewWriteSlice';
+
 export const store = configureStore({
     reducer: {
         enterprise: enterpriseReducer,
@@ -14,5 +17,7 @@ export const store = configureStore({
         onoffStore: onoffStoreReducer,
         filteredEnterprise: filteredEnterpriseListReducer,
         search: searchReducer,
+        keyword: keywordReducer,
+        reviewWrite: reviewWriteReducer,
     },
 });

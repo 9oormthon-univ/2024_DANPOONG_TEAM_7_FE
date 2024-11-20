@@ -5,7 +5,8 @@ import { useDispatch } from 'react-redux';
 import { setSelectedKeywords } from '../../redux/slices/KeywordSlice';
 import styles from '../../styles/mypage/ReviewKeyword.module.css';
 import KeywordSlider from '../../components/mypage/KeywordSlider';
-import reviewBackground from '../../assets/images/mypage/review-background.svg';
+import backgroundLime from '../../assets/images/mypage/background/lime.svg';
+import backgroundBlue from '../../assets/images/mypage/background/blue.svg';
 import Back from '../../components/layout/Back';
 
 function ReviewKeyword() {
@@ -35,7 +36,7 @@ function ReviewKeyword() {
             <div className={styles.headerBar}></div>
             <div className={styles.headerBackground}>
                 <img 
-                    src={reviewBackground} 
+                    src={backgroundBlue} 
                     alt='review background' 
                     className={styles.reviewBackground}
                 />

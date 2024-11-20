@@ -1,0 +1,99 @@
+/* KeywordSlider.module.css */
+.sliderContainer {
+    width: 100%;
+    padding: 20px;
+}
+
+.categorySection {
+    margin-bottom: 30px;
+}
+
+.categoryTitle {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #009C7A;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+}
+
+.slideTrack {
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    white-space: nowrap;
+    will-change: transform;
+    height: 100%;
+    padding: 0 15px;
+}
+
+.keyword {
+    height: 45px;
+    padding: 8px 16px;
+    background-color: #EAFBF9;
+    border: 1px solid #2DDDC3;
+    color: #000000;
+    border-radius: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    height: fit-content;
+}
+
+.keyword:hover {
+    background-color: #EAFBF9;
+    border: 1px solid #2DDDC3;
+}
+
+.keyword.selected {
+    background-color: #4a90e2;
+    color: white;
+    border-color: #357abd;
+}
+
+.keyword.selected:hover {
+    background-color: #357abd;
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.slideLeft .slideTrack {
+    animation: slideLeft 60s linear infinite;
+}
+
+.slideRight .slideTrack {
+    animation: slideRight 60s linear infinite;
+}
+
+.paused .slideTrack {
+    animation-play-state: paused;
+}
+
+.slider:hover .slideTrack {
+    animation-play-state: paused;
+}

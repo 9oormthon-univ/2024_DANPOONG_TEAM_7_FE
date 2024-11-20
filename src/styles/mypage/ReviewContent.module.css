@@ -1,0 +1,323 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    padding: 0 0 0 0;
+    text-align: center;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.reviewSection{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0 73px 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+    background-color: #FFFFFF;
+}
+
+.reviewHistory {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap:242px;
+    width: 100%;
+    height: 80px;
+}
+
+.reviewTimeline{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 73px;
+}
+
+.reviewCount{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    width: 68px;
+    height: 31px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    background: #2DDDC3;
+}
+
+.reviewCount span:first-child{
+    color: #FFF;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 19.5px */
+}
+
+.reviewCount span{
+    color: #FFF;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 26px */
+}
+
+.reviewArray{
+    width: 44px;
+    height: 21px;
+    flex-shrink: 0;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    text-align: justify;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 146.667% */
+}
+
+.reviewHistoryContent{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+}
+
+.reviewsContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 21px;
+    margin: 0 20px 0 0;
+}
+
+.monthGroup {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.monthlyVisit {
+    width: 100px;
+    min-width: 100px;
+}
+
+.monthlyVisitText {
+    text-align: right;
+    padding: 0 0 0 18px;
+    margin: 0 0 0 0;
+    color: #113C35;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 19.5px */
+    position: absolute;
+    top: 0px;
+}
+
+.itemCard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    padding: 18px 18px 18px 18px;
+    width: 90%;
+    height: 152px;
+    border-radius: 27px;
+    box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #FFFFFF;  /* 기존 background-color 제거 */
+
+}
+
+
+.reviewInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 245px;
+}
+
+.reviewTitle {
+    margin: 0 0 0 0;
+    color: #113C35;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 19.5px */
+}
+
+.reviewDate {
+    font-size: 9px;
+    font-weight: 400;
+    color: #000000;
+}
+
+.manageBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute !important;  /* 다른 스타일에 의해 덮어써지는 것을 방지 */
+    top: 17px !important;
+    right: 2px !important;
+    width: 25px;
+    height: 25px;
+    padding: 0 0 0 0;
+    background-color: transparent;
+}
+
+.reviewAddress {
+    margin: 0 0 0 0;
+    font-size: 9px;
+    font-weight: 400;
+    color: #5C5C5C;
+}
+
+.reviewContent {
+    width: 233px;
+    margin: 0 0 0 0;
+    text-align: left;
+    font-size: 9px;
+    font-weight: 300;
+    color: #4b5563;
+}
+
+.Keyword{
+    display: flex;
+    justify-content: center;
+    gap: 17px;
+    position: absolute;
+    bottom: 18px;
+}
+
+.primaryKeyword{
+    display: flex;
+    align-items: center;
+    height: 21px;
+    padding: 0 13px 0 13px;
+    border-radius: 9px;
+    border: 1px solid #2DDDC3;
+    color: #318064;
+    background-color: #D5F8F350;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.plusKeyword{
+    display: flex;
+    align-items: center;
+    height: 21px;
+    padding: 0 6px 0 6px;
+    border-radius: 9.5px;
+    border: 1px solid #2DDDC3;
+    color: #318064;
+    background-color: #D5F8F350;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background: transparent;
+}
+
+.manageModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 45px;
+    right: 5px;
+    width: 120px;
+    height: 70px;
+    background-color: white;
+    border-radius: 9px;
+    box-shadow: 0 2px 5px 1px rgba(0,0,0,0.2);
+    z-index: 3;
+}
+
+.modalContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.deleteBtn, 
+.editBtn {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    color: #5C5C5C;
+}
+
+.deleteLabel, 
+.editLabel {
+    font-size: 12px;
+    font-weight: 500;
+    color: #5C5C5C;
+    transition: color 0.2s ease;
+}
+
+.deleteLabelActive {
+    color: #FF6C6A;
+}
+
+.modalButton {
+    padding: 10px;
+    border: none;
+    background: none;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    color: #000;
+}
+
+.modalButton:hover {
+    background-color: #f5f5f5;
+}
+
+.modalButton:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.modalCloseButton {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    background: none;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    color: #6b7280;
+    border-radius: 0 0 8px 8px;
+}
+
+.modalCloseButton:hover {
+    background-color: #f5f5f5;
+}

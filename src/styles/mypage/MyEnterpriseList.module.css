@@ -1,0 +1,138 @@
+.myEnterpriseListContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 300px;
+    height: auto;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    border-radius: 0 0 54px 54px;
+}
+  
+.myEnterpriseList {
+    width: 100%;
+    height: auto;
+    transition: height 0.3s ease;
+    will-change: height;
+    transform: translateZ(0);
+}
+  
+.myEnterpriseList.expanded {
+    height: auto;
+}
+
+.myEnterpriseItem {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 0px;
+    width: 100%;
+    height: 84px;
+    padding: 6px 0 6px 0;
+    background-color: #FFFFFF;
+}
+  
+.enterpriseIcon{
+    width: 84px;
+    height: 84px;
+    border-radius: 10px;
+    background-color: #D9D9D9;
+}
+
+.enterpriseInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+    height: 84px;
+    padding: 0 0 0 10px;
+}
+  
+.myEnterpriseName {
+    text-align: left;
+    margin: 0 0 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+  
+.myEnterpriseAddress {
+    margin: 0 0 0 0;
+    font-size: 9px;
+    color: #666;
+}
+
+.manageBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 6px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    padding: 0 0 0 0;
+    background-color: transparent;
+}
+  
+.manageModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top:30px;
+    right: 0;
+    width: 120px;
+    height: 70px;
+    background: #FFFFFF;
+    border-radius: 9px;
+    box-shadow: 0 2px 5px 1px rgba(0,0,0,0.2);
+    z-index: 3;
+}
+  
+.deleteBtn, .pinBtn {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    color: #5C5C5C;
+}
+
+.deleteLabel, .pinLabel{
+    font-size: 12px;
+    font-weight: 500;
+    color: #5C5C5C;
+    transition: color 0.2s ease;
+}
+
+.pinLabelActive{
+    font-size: 12px;
+    font-weight: 500;
+    color: #FF6C6A;
+}
+
+.deleteLabelActive {
+    color: #FF6C6A;
+}
+  
+.showAllButton {
+    display: block;
+    margin: 5px 0 10px 0;
+    background-color: transparent;
+    color: #5C5C5C;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+}
+  
+.showAllButton:hover {
+    color: #5C5C5C;
+    background-color: transparent;
+}

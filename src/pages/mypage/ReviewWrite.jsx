@@ -6,10 +6,12 @@ import styles from '../../styles/mypage/ReviewWrite.module.css';
 import { 
     setReviewText, 
     prepareReviewData,
+    clearReviewData,
     selectReviewText,
     selectSubmissionStatus
 } from '../../redux/slices/ReviewWriteSlice';
 import { selectKeywords, selectCurrentEnterprise } from '../../redux/slices/KeywordSlice';
+import TopBar from '../../components/layout/TopBar';
 
 function ReviewWrite() {
     const navigate = useNavigate();
@@ -49,8 +51,11 @@ function ReviewWrite() {
                 createdAt: new Date().toISOString()
             });
 
-            // 성공 시 다음 페이지로 이동 (예시)
-            // navigate('/success-page');
+            //데이터 초기화
+            dispatch(clearReviewData());
+
+            // 성공 시 다음 페이지로 이동
+            navigate('/mypage');
         }
     };
 
@@ -63,15 +68,14 @@ function ReviewWrite() {
 
     return (
         <div className={styles.container}>
+            <TopBar/>
+            <TopBar/>
             <div className={styles.reviewInfo}>
                 <div className={styles.enterpriseIcon}></div>
                 <div className={styles.reviewMetadata}>
-                    <div className={styles.enterpriseName}>
-                        {enterpriseInfo?.name || '기업 이름'}
-                    </div>
-                    <div className={styles.reviewDate}>
-                        작성일: {new Date().toLocaleDateString()}
-                    </div>
+                    <p>{enterpriseInfo?.name || '기업 이름'}</p>
+                    <p>사회서비스제공형</p>
+                    <p>작성일: {new Date().toLocaleDateString()}</p>
                 </div>
             </div>
             <div className={styles.keywordSection}>
@@ -82,13 +86,44 @@ function ReviewWrite() {
                         return acc;
                     }, {})
                 ).map(([category, keywords]) => (
-                    <div key={category} className={styles.keywordList}>
+                    <div key={category} className={styles.categoryLabel}>
                         <p className={styles.category}>{category}</p>
+                        <div className={styles.keywordList}>
                         {keywords.map((keyword, index) => (
-                            <span key={index} className={styles.keyword}>{keyword}</span>
+                            <div key={index} className={styles.keyword}>{keyword}</div>
                         ))}
+                        </div>
                     </div>
                 ))}
+            </div>
+            <div className={styles.keywordGraphBox}>
+                <p>000님이 선택한 키워드는</p>
+                <p>전체 키워드  15개 중 {selectedKeywords.length}개 입니다!</p>
+                    <div className={styles.graphSection}>
+                        <div 
+                            className={styles.userGraphDegree}
+                            style={{ 
+                                height: `${Math.min((selectedKeywords.length)/ 15 * 100, 100)}%`,
+                            }}
+                            //최대 값 리뷰 40개로 설정
+                        >
+                        </div>
+                        <div 
+                            className={styles.allGraphDegree}
+                            style={{ 
+                                height: `${Math.min(15/ 15 * 100, 100)}%`,
+                            }}
+                            //최대 값 프로그램 40개로 설정
+                        >
+                        </div>    
+                    </div>
+                <div className={styles.graphComment}>
+                    <span>{selectedKeywords.length}개</span>
+                    <span>/</span>
+                    <span>15개</span>
+                </div>
+                <p>선택한 키워드의 개수는 점수로 환산되어</p>
+                <p>기업에 대한 평균 추천 수에 포함될 예정입니다</p>
             </div>
             <div className={styles.reviewBox}>
                 <textarea

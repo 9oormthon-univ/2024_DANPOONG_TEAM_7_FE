@@ -1,4 +1,7 @@
 .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100vw;
     height: 100vh;
     margin: 0 0 0 0;
@@ -14,7 +17,7 @@
     align-items: center;
     gap: 23px;
     width: 100%;
-    height: 176px;
+    height: 174px;
     background-color: #FFFFFF;
 }
 
@@ -37,6 +40,7 @@
 .userInfo{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: flex-start;
 }
 
@@ -44,16 +48,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 6px;
 }
 
 .userName{
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
     color: #000000;
 }
 
 .userAge{
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 400;
     color: #5C5C5C;
 }
@@ -61,6 +66,7 @@
 .userInfoRow2{
     display: flex;
     justify-content: center;
+    gap: 6px;
 }
 
 .reviewLabel{
@@ -83,10 +89,82 @@
 
 .profileManageBtn, .accountSettingBtn{
     width: 152px;
-    height: 32px;
-    border-radius: 10px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    color: #000000;
     background-color: #FFFFFF;
-    border: 1px solid #5C5C5C;
+    border: 0.5px solid #5C5C5C;
     font-size: 12px;
     font-weight: 400;
+}
+
+.reviewContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 328px;
+    height: 215px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    background: #FFF;
+    box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.reviewHeader{
+    display: flex;
+    justify-content: space-between;
+    width: 87%;
+    align-items: center;
+    margin: 0 0 26px 0;
+}
+
+.myReview{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.myReview span{
+    color: #113C35;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 19.5px */
+}
+
+.myReview span:last-child{
+    color: #113C35;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 26px */
+}
+
+.reviewBtn{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 77px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    border: 0.5px solid #5C5C5C;
+    color: #5C5C5C;
+    background-color: #FFFFFF;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 15.6px */
+}
+
+.reviewList{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 130px;
 }

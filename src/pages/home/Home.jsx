@@ -1,14 +1,22 @@
 //Home.jsx
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/home/Home.module.css';
 import FlipCard from '../../components/home/FlipCard';
 import TopBar from '../../components/layout/TopBar';
 
 import Logo from '../../assets/images/home/soenter-logo.svg';
+import KakaoMap from '../../components/enterprise/KakaoMap';
 
 function Home() {
+    const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    
+    const handleMapClick = () => {
+        navigate('/enterprise');
+    };
+
 
     useEffect(() => {
         // 현재는 더미데이터를 불러오지만, 나중에 백엔드 API로 대체될 부분
@@ -55,8 +63,10 @@ function Home() {
             <div className={styles.mapSection}>
                 <button 
                     className={styles.mapView}
+                    onClick={handleMapClick}
                 >
                     <div className={styles.map}>
+                        <KakaoMap/>
                     </div>
                 </button>
             </div>

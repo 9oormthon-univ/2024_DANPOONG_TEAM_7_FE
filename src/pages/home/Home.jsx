@@ -7,47 +7,24 @@ import TopBar from '../../components/layout/TopBar';
 
 import Logo from '../../assets/images/home/soenter-logo.svg';
 import KakaoMap from '../../components/enterprise/KakaoMap';
+import { useUserInfo } from '../../hooks/useUserInfo';
 
 function Home() {
     const navigate = useNavigate();
-    const [userInfo, setUserInfo] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const { userInfo, loading, error } = useUserInfo();
     
     const handleMapClick = () => {
         navigate('/enterprise');
     };
 
 
-    useEffect(() => {
-        // 현재는 더미데이터를 불러오지만, 나중에 백엔드 API로 대체될 부분
-        const fetchUserInfo = async () => {
-            try {
-                const response = await fetch('/dummyData/userDummyData.json');
-                const data = await response.json();
-                setUserInfo(data[0]); // 현재는 더미데이터의 첫 번째 유저
-                
-                // 나중에는 이렇게 될 것입니다:
-                // const response = await fetch('/api/user/info', {
-                //     headers: {
-                //         'Authorization': `Bearer ${accessToken}`,
-                //     }
-                // });
-                // const data = await response.json();
-                // setUserInfo(data);
-                
-            } catch (error) {
-                console.error('사용자 정보 로드 실패:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchUserInfo();
-    }, []);
-
     // 로딩 중일 때 보여줄 화면
-    if (isLoading) {
+    if (loading) {
         return <div className={styles.loading}>로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div className={styles.error}>사용자 정보를 불러오는데 실패했습니다.</div>;
     }
 
     return (

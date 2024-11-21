@@ -2,23 +2,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  searchQuery: '',
+    searchQuery: '',
   searchHistory: [],
-  isSearchModalOpen: false,
-  mylocationData: [], 
+    isSearchModalOpen: false,
+  reviewData: [], 
   bookmarkData: [],
-  selectedLocation: null, 
+    selectedLocation: null,
   displayMode: 'initial',
   lastUpdated: null  // 타임스탬프 추가
 };
 
 const searchSlice = createSlice({
-  name: 'search',
-  initialState,
-  reducers: {
+    name: 'search',
+    initialState,
+    reducers: {
     //검색
-    setSearchQuery: (state, action) => {
-      state.searchQuery = action.payload;
+        setSearchQuery: (state, action) => {
+            state.searchQuery = action.payload;
       state.lastUpdated = Date.now();  // 검색할 때마다 타임스탬프 업데이트
     },
     //검색기록
@@ -34,41 +34,41 @@ const searchSlice = createSlice({
       state.searchHistory = state.searchHistory.filter(
         item => item.searchId !== action.payload
       );
-    },
-    setSearchModalOpen: (state, action) => {
-      state.isSearchModalOpen = action.payload;
-    },
+        },
+        setSearchModalOpen: (state, action) => {
+            state.isSearchModalOpen = action.payload;
+        },
     clearSearchQuery: (state) => {
       state.searchQuery = '';
       state.lastUpdated = null;  // 검색어 초기화시 타임스탬프도 초기화
     },
     //내장소
-    setMyLocationData: (state, action) => {
-      state.mylocationData = action.payload;
-    },
+        setReviewData: (state, action) => {
+            state.reviewData = action.payload;
+        },
     //즐겨찾기
-    setBookmarkData: (state, action) => {
-      state.bookmarkData = action.payload;
-    },
+        setBookmarkData: (state, action) => {
+            state.bookmarkData = action.payload;
+        },
     //선택한 장소
     setSelectedLocation: (state, action) => {
       state.selectedLocation = action.payload;
-    },
-    setDisplayMode: (state, action) => {
-      state.displayMode = action.payload;
+        },
+        setDisplayMode: (state, action) => {
+            state.displayMode = action.payload;
       state.lastUpdated = Date.now();
+        }
     }
-  }
 });
 
 export const {
-  setSearchQuery,
+    setSearchQuery,
   addToSearchHistory,
   removeFromHistory,
-  setSearchModalOpen,
+    setSearchModalOpen,
   clearSearchQuery,
-  setMyLocationData,
-  setBookmarkData,
+    setReviewData,
+    setBookmarkData,
   setSelectedLocation,
   setDisplayMode
 } = searchSlice.actions;

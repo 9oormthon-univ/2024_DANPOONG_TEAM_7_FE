@@ -15,6 +15,14 @@ function Mypage() {
         navigate('/mypage/review/keyword');
     };
 
+    const handleProfileManageClick = () => {
+        navigate('/mypage/profile');
+    };
+
+    const handleAccountSettingClick = () => {
+        navigate('/mypage/account');
+    };
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -47,11 +55,13 @@ function Mypage() {
                 <div className={styles.manageBtnContainer}>
                     <button 
                         className={styles.profileManageBtn}
+                        onClick={handleProfileManageClick}
                     >
                         프로필관리
                     </button>
                     <button 
                         className={styles.accountSettingBtn}
+                        onClick={handleAccountSettingClick}
                     >
                         계정설정
                     </button>

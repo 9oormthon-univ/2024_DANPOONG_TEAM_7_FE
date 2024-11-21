@@ -18,15 +18,7 @@ function EnterpriseInfo() {
                 </div>
             </div>
             <div className={styles.content}>
-                <div className={styles.section1}>
 
-                </div>
-                <div className={styles.section2}>
-                    
-                </div>
-                <div className={styles.section3}>
-                    
-                </div>
             </div>
         </div>
     );

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryModalOpen } from '../../redux/slices/CategorySlice';
+import { setSocialPurposeModalOpen } from '../../redux/slices/SocialPurposeSlice';
 import { setOnoffModalOpen } from '../../redux/slices/OnoffStoreSlice';
 import { setFilteredEnterprises } from '../../redux/slices/FilteredEnterpriseListSlice';
 import { formatCompanyName } from '../../utils/companyNameUtils';
 import { handleExternalUrl } from '../../utils/urlUtils';
 import useSwipeableModal from '../../hooks/useSwipeableModal';
-import CategoryModal from './CategoryModal';
+import SocialPurposeModal from './SocialPurposeModal';
 import TypeModal from './TypeModal';
 import OnoffStoreModal from './OnoffStoreModal';
 import styles from '../../styles/enterprise/ListModal.module.css';
@@ -78,12 +78,12 @@ function ListModal({ isActive, handleClose }) {
         setIsTypeModalOpen(false);
     };
 
-    const openCategoryModal = () => {
-        dispatch(setCategoryModalOpen(true));
+    const openSocialPurposeModal = () => {
+        dispatch(setSocialPurposeModalOpen(true));
     };
 
-    const closeCategoryModal = () => {
-        dispatch(setCategoryModalOpen(false));
+    const closeSocialPurposeModal = () => {
+        dispatch(setSocialPurposeModalOpen(false));
     };
 
     const openOnoffStoreModal = () => {
@@ -153,7 +153,7 @@ function ListModal({ isActive, handleClose }) {
                     <div className={styles.handleBar}></div>
                 </div>
                 <div className={styles.listModalHeader}>
-                    <button className={styles.alignmentBtn} onClick={openCategoryModal}>
+                    <button className={styles.alignmentBtn} onClick={openSocialPurposeModal}>
                         <p>카테고리별</p>
                         <img src={alignmentIcon} alt="alignment-icon" className={styles.alignmentIcon}/>
                     </button>
@@ -302,7 +302,7 @@ function ListModal({ isActive, handleClose }) {
                 />
             )}
 
-            <CategoryModal handleClose={closeCategoryModal} />
+            <SocialPurposeModal handleClose={closeSocialPurposeModal} />
 
             <OnoffStoreModal handleClose={closeOnoffStoreModal} />
         </div>

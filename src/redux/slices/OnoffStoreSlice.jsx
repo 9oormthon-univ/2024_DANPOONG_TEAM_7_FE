@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// enterprise.storeType -> enterprise.type
+
 const initialState = {
     selectedOnoffStore: [],
     isOnoffModalOpen: false,

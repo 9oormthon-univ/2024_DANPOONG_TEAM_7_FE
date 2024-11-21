@@ -9,6 +9,8 @@ import EnterpriseInfo from './pages/enterprise/EnterpriseInfo';
 import ReviewKeyword from './pages/mypage/ReviewKeyword';
 import ReviewWrite from './pages/mypage/ReviewWrite';
 import Review from './pages/mypage/Review';
+import EditKeyword from './pages/mypage/EditKeyword';
+import EditWrite from './pages/mypage/EditWrite';
 
 //Layout
 import BackLayout from './components/layout/BackLayout';
@@ -29,9 +31,11 @@ function App() {
             </Route>
             <Route element={<BackLayout/>}>
               <Route path='/mypage/review/write' element={<ReviewWrite/>}/> 
+              <Route path='/mypage/review/editwrite' element={<EditWrite/>}/>  
               <Route path='/mypage/review' element={<Review/>}/> 
             </Route>
-            <Route path='/mypage/review/keyword' element={<ReviewKeyword/>}/> 
+            <Route path='/mypage/review/keyword' element={<ReviewKeyword/>}/>
+            <Route path='/mypage/review/editkeyword' element={<EditKeyword/>}/>  
         </Routes>
         
             

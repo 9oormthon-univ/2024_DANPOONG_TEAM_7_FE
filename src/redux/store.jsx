@@ -8,6 +8,7 @@ import onoffStoreReducer from './slices/OnoffStoreSlice'
 import filteredEnterpriseListReducer from './slices/FilteredEnterpriseListSlice';
 import keywordReducer from './slices/KeywordSlice';
 import reviewWriteReducer from './slices/ReviewWriteSlice';
+import editReducer from './slices/EditSlice';
 
 export const store = configureStore({
     reducer: {
@@ -19,5 +20,6 @@ export const store = configureStore({
         search: searchReducer,
         keyword: keywordReducer,
         reviewWrite: reviewWriteReducer,
+        edit: editReducer,
     },
 });

@@ -9,10 +9,10 @@ import {
 
 // 마커이미지
 import currentLocationMarker from '../../assets/images/map/map-mylocation.svg';
-import reviewMarker from '../../assets/images/map/map-myplace.svg';
-import offlineMarker from '../../assets/images/map/map-offline.svg';
-import bookMarker from '../../assets/images/map/map-bookmark.svg';
-import searchMarker from '../../assets/images/map/map-search.svg';
+import reviewMarker from '../../assets/images/map/review-marker.svg';
+import offlineMarker from '../../assets/images/map/list-marker.svg';
+import bookMarker from '../../assets/images/map/bookmark-marker.svg';
+import searchMarker from '../../assets/images/map/search-marker.svg';
 
 // 지도 기본 설정값
 const DEFAULT_LAT = 37.3517089;

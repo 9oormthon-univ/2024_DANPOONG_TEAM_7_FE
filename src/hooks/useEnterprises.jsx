@@ -1,3 +1,4 @@
+// src/hooks/useEnterprises.jsx
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSocialEnterprises } from '../redux/slices/EnterpriseSlice';

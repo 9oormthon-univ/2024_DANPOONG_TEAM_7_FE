@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// -> enterprises 또는 companyList
+// name -> name
+
 const enterpriseSlice = createSlice({
    name: 'enterprise',
    initialState: {
@@ -24,24 +27,24 @@ const enterpriseSlice = createSlice({
            });
        },
        updateEnterpriseCoords: (state, action) => {
-           const { companyName, coords } = action.payload;
+           const { name, coords } = action.payload;
            
            // socialEnterprises 배열에서 좌표 업데이트
-           const enterprise = state.socialEnterprises.find(e => e.companyName === companyName);
+           const enterprise = state.socialEnterprises.find(e => e.name === name);
            if (enterprise) {
                enterprise.latitude = coords.latitude;
                enterprise.longitude = coords.longitude;
            }
 
            // filteredEnterprises 배열에서도 좌표 업데이트
-           const filteredEnterprise = state.filteredEnterprises.find(e => e.companyName === companyName);
+           const filteredEnterprise = state.filteredEnterprises.find(e => e.name === name);
            if (filteredEnterprise) {
                filteredEnterprise.latitude = coords.latitude;
                filteredEnterprise.longitude = coords.longitude;
            }
 
            console.log('EnterpriseSlice - Updated Coordinates:', {
-               companyName,
+               name,
                coordinates: coords
            });
        }

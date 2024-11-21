@@ -1,47 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
-    setSearchModalOpen,
     setSearchQuery,
     addToSearchHistory,
     setDisplayMode,
-    setSelectedLocation
 } from '../../redux/slices/SearchSlice';
 import { 
     setFilteredEnterprises,
     setShouldShowMarkers 
 } from '../../redux/slices/FilteredEnterpriseListSlice';
+import {
+    fetchReviewLocations,
+    fetchBookmarkLocations,
+    setActiveMarkerType
+} from '../../redux/slices/ReviewBookmarkSlice';
 
-//api
 import { useEnterprises } from '../../hooks/useEnterprises';
-import { useUserReviews } from '../../hooks/useUserReviews';
-import { useBookmarks } from '../../hooks/useBookmarks';
-
 import KakaoMap from '../../components/enterprise/KakaoMap';
+import ListModal from '../../components/enterprise/ListModal';
 import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
 import searchIcon from '../../assets/images/enterprise/search-icon.svg';
-import SearchModal from '../../components/enterprise/SearchModal';
-import ListModal from '../../components/enterprise/ListModal';
 import BookmarkIcon from '../../assets/images/map/icon-bookmark.svg';
 import ReviewIcon from '../../assets/images/map/icon-review.svg';
 
 function EnterpriseSearch() {
     const dispatch = useDispatch();
-    const [isListModal, setIsListModal] = useState(true);
     const [isListModalFullView, setIsListModalFullView] = useState(false);    
     const [inputValue, setInputValue] = useState('');
     const [isInputFocused, setIsInputFocused] = useState(false);
 
     // API hooks
     const { loading: enterprisesLoading, error: enterprisesError, fetchEnterprises } = useEnterprises();
-    const { loading: reviewsLoading, error: reviewsError, fetchReviews } = useUserReviews();
-    const { loading: bookmarksLoading, error: bookmarksError, fetchBookmarks } = useBookmarks();
 
     // Redux states
-    const { 
-        reviewData,
-        isSearchModalOpen 
-    } = useSelector(state => state.search);
+    const { isLoading: reviewBookmarkLoading, error: reviewBookmarkError } = useSelector(
+        state => state.reviewBookmark
+    );
     const { socialEnterprises } = useSelector(state => state.enterprise);
     const { filteredEnterprises } = useSelector(state => state.filteredEnterprise);
 
@@ -51,18 +45,18 @@ function EnterpriseSearch() {
             try {
                 await Promise.all([
                     fetchEnterprises(),
-                    fetchReviews(),
-                    fetchBookmarks()
+                    dispatch(fetchReviewLocations()),
+                    dispatch(fetchBookmarkLocations())
                 ]);
             } catch (error) {
                 console.error('Failed to load data:', error);
             }
         };
         loadData();
-    }, []);
-    // 로딩 상태 통합 체크
-    const isLoading = enterprisesLoading || reviewsLoading || bookmarksLoading;
-    const hasError = enterprisesError || reviewsError || bookmarksError;
+    }, [dispatch]);
+
+    const isLoading = enterprisesLoading || reviewBookmarkLoading;
+    const hasError = enterprisesError || reviewBookmarkError;
 
     if (isLoading) return <div>로딩 중...</div>;
     if (hasError) return <div>데이터를 불러오는데 실패했습니다.</div>;
@@ -72,6 +66,7 @@ function EnterpriseSearch() {
             dispatch(setSearchQuery(inputValue));
             dispatch(addToSearchHistory(inputValue));
             dispatch(setDisplayMode('search'));
+            dispatch(setActiveMarkerType('search'));
             setInputValue('');
             setIsInputFocused(false);
         }
@@ -87,35 +82,20 @@ function EnterpriseSearch() {
         setInputValue(event.target.value);
     };
 
-    const openListModal = () => {
-        setIsListModalFullView(true);
-    };
-
-    const openSearchModal = () => {
-        dispatch(setSearchModalOpen(true));
-        setIsListModal(false);
-    };
-    
-    const closeSearchModal = () => {
-        dispatch(setSearchModalOpen(false));
-        setIsListModal(true);
-    };
-
     const closeListModal = () => {
         setIsListModalFullView(false);
     };
 
-    const shouldShowListModal = !isSearchModalOpen;
-
     const handleReviewClick = () => {
-        if (reviewData && reviewData.length > 0) {
-            dispatch(setSelectedLocation(reviewData[0])); 
-            dispatch(setDisplayMode('review'));
-            dispatch(setFilteredEnterprises(reviewData));
-            dispatch(setShouldShowMarkers(true));
-        } else {
-            alert('등록된 리뷰가 없습니다.');
-        }
+        dispatch(fetchReviewLocations());
+        dispatch(setActiveMarkerType('review'));
+        dispatch(setDisplayMode('review'));
+    };
+
+    const handleBookmarkClick = () => {
+        dispatch(fetchBookmarkLocations());
+        dispatch(setActiveMarkerType('bookmark'));
+        dispatch(setDisplayMode('bookmark'));
     };
 
     return (
@@ -140,35 +120,33 @@ function EnterpriseSearch() {
                         alt="search icon" 
                         className={styles.searchIcon} 
                     />
-                </button>
+                </button> 
             </div>
 
             <div className={styles.map}>
                 <div className={styles.mapView}>
                     <KakaoMap />
                     <div className={styles.filterContainer}>
-                        <button className={styles.bookmarkBtn}>
+                        <button 
+                            className={styles.bookmarkBtn}
+                            onClick={handleBookmarkClick}
+                        >
                             <img src={BookmarkIcon} alt='bookmark icon' className={styles.bookmarkIcon}/>
                         </button>
                         <button 
                             className={styles.reviewBtn}
-                            onClick={handleReviewClick}>
+                            onClick={handleReviewClick}
+                        >
                             <img src={ReviewIcon} alt='review icon' className={styles.reviewIcon}/>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <SearchModal 
-                handleClose={closeSearchModal}
-                handleSectionClick={(section) => console.log('Section clicked:', section)}
+            <ListModal
+                isActive={isListModalFullView}
+                handleClose={closeListModal}
             />
-            {shouldShowListModal && (
-                <ListModal
-                    isActive={isListModalFullView}
-                    handleClose={closeListModal}
-                />
-            )}
         </div>
     );
 }

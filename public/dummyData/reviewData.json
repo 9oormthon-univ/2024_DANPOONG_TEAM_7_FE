@@ -1,104 +1,82 @@
 [
-    {"enterpriseId": 8,
-      "region": "경기",
-      "certificationNumber": "제2011-077호",
-      "name": "주식회사온케어구리",
-      "businessRegistrationNumber": "132-81-99250",
-      "socialPurpose": "일자리제공형",
-      "type": "보건",
-      "representativeName": "방선영",
-      "representativePhone": "031-569-6696",
-      "city": "경기도 구리시",
-      "district": " 건원대로 36 , 8층(인창동, 화성골드프라자)",
-      "latitude": 37.60439,
-      "longitude": 127.1405,
-      "website": null,
-      "certificationYear": 2011,
-      "storeType": "오프라인"
+    {
+        "reviewId": 1,
+        "enterpriseName": "사회복지법인천주교수원교구사회복지회행복한일터",
+        "enterpriseAddress": "경기도 화성시, 남양읍 현대기아로 506 .",
+        "socialPurpose": "일자리제공형",
+        "content": "사회적 기업에 대해 잘 알고 갑니다.",
+        "createAt": "2024-11-18",
+        "tagCount": 3,
+        "tagNumbers": [
+            1,
+            2,
+            3
+        ]
     },
     {
-      "enterpriseId": 9,
-      "name": "사회복지법인천주교수원교구사회복지회행복한일터",
-      "region": "경기",
-      "certificationNumber": "제2008-140호",
-      "businessRegistrationNumber": "124-82-16406",
-      "socialPurpose": "일자리제공형",
-      "type": "기타",
-      "representativeName": "장성욱",
-      "representativePhone": "031-366-9512",
-      "city": "경기도 화성시",
-      "district": "남양읍 현대기아로 506 .",
-      "latitude": 37.19459,
-      "longitude": 126.8487,
-      "website": "http://www.행복한일터.kr",
-      "certificationYear": 2008
+        "reviewId": 2,
+        "enterpriseName": "사회복지법인천주교수원교구사회복지회행복한일터",
+        "enterpriseAddress": "경기도 화성시, 남양읍 현대기아로 506 .",
+        "socialPurpose": "일자리제공형",
+        "content": "사회적 기업에 대해 잘 알고 갑니다.",
+        "createAt": "2024-11-18",
+        "tagCount": 3,
+        "tagNumbers": [
+            1,
+            2,
+            3
+        ]
     },
     {
-      "enterpriseId": 10,
-      "name": "(주)극단민들레",
-      "region": "경기",
-      "certificationNumber": "제2011-087호",
-      "businessRegistrationNumber": "105-87-61623",
-      "socialPurpose": "사회서비스제공형",
-      "type": "문화, 예술",
-      "representativeName": "장계숙",
-      "representativePhone": "031-358-7587",
-      "city": "경기도 화성시",
-      "district": "우정읍 이화뱅곳길 22 -",
-      "latitude": 37.03983,
-      "longitude": 126.7979,
-      "website": "www.mdl.or.kr",
-      "certificationYear": 2011
+        "reviewId": 3,
+        "enterpriseName": "사회복지법인천주교수원교구사회복지회행복한일터",
+        "enterpriseAddress": "경기도 화성시, 남양읍 현대기아로 506 .",
+        "socialPurpose": "일자리제공형",
+        "content": "정말 좋았어요!",
+        "createAt": "2024-11-18",
+        "tagCount": 2,
+        "tagNumbers": [
+            3,
+            12
+        ]
     },
     {
-      "enterpriseId": 98,
-      "name": "벼리마을(안양시장애인보호작업장)",
-      "region": "경기",
-      "certificationNumber": "제2011-091호",
-      "businessRegistrationNumber": "123-82-67431",
-      "socialPurpose": "일자리제공형",
-      "type": "기타",
-      "representativeName": "노중호",
-      "representativePhone": "031-443-2789",
-      "city": "경기도 안양시",
-      "district": "만안구 장내로 113 (안양동) 1층",
-      "latitude": 37.39687,
-      "longitude": 126.9205,
-      "website": "www.ajbj.co.kr",
-      "certificationYear": 2011
+        "reviewId": 4,
+        "enterpriseName": "사회복지법인천주교수원교구사회복지회행복한일터",
+        "enterpriseAddress": "경기도 화성시, 남양읍 현대기아로 506 .",
+        "socialPurpose": "일자리제공형",
+        "content": "정말 좋았어요!",
+        "createAt": "2024-11-19",
+        "tagCount": 2,
+        "tagNumbers": [
+            3,
+            12
+        ]
     },
     {
-      "enterpriseId": 45,
-      "name": "(주)친환경상품지원센터",
-      "region": "경기",
-      "certificationNumber": "제2011-092호",
-      "businessRegistrationNumber": "134-87-34522",
-      "socialPurpose": "기타(창의ㆍ혁신)형",
-      "type": "환경",
-      "representativeName": "유재식",
-      "representativePhone": "031-419-7749",
-      "city": "경기도 안산시",
-      "district": "상록구 광덕산안길 20 3층 안산시사회적경제지원센터8호(월피동, 광덕종합시장)",
-      "latitude": 37.33506,
-      "longitude": 126.8449,
-      "website": "www.okeco.co.kr",
-      "certificationYear": 2011
+        "reviewId": 5,
+        "enterpriseName": "사회복지법인천주교수원교구사회복지회행복한일터",
+        "enterpriseAddress": "경기도 화성시, 남양읍 현대기아로 506 .",
+        "socialPurpose": "일자리제공형",
+        "content": "정말 좋았어요!",
+        "createAt": "2024-11-19",
+        "tagCount": 2,
+        "tagNumbers": [
+            3,
+            12
+        ]
     },
     {
-      "enterpriseId": 35,
-      "name": "청평문화예술학교",
-      "region": "경기",
-      "certificationNumber": "제2011-093호",
-      "businessRegistrationNumber": "132-82-69563",
-      "socialPurpose": "기타(창의ㆍ혁신)형",
-      "type": "문화, 예술",
-      "representativeName": "진수영",
-      "representativePhone": "031-584-8980",
-      "city": "경기도 가평군",
-      "district": "경기도 가평군ㅇ",
-      "latitude": 37.82432,
-      "longitude": 127.5086,
-      "website": "www.cpart.kr",
-      "certificationYear": 2011
+        "reviewId": 6,
+        "enterpriseName": "주식회사피플크린",
+        "enterpriseAddress": "경기도 안성시, 미양면 바울길 162 피플크린 사무소",
+        "socialPurpose": "일자리제공형",
+        "content": "정말 좋았어요!",
+        "createAt": "2024-11-19",
+        "tagCount": 2,
+        "tagNumbers": [
+            3,
+            12
+        ]
     }
-  ]
+]

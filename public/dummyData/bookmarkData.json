@@ -1,44 +1,32 @@
 [
-    {"number": 1,
-    "region": "경기",
-    "certificationNumber": "제2008-140호",
-    "companyName": "사회복지법인천주교수원교구사회복지회행복한일터",
-    "businessRegistrationNumber": "124-82-16406",
-    "socialPurposeType": "일자리제공형",
-    "field": "기타",
-    "representative": "장성욱",
-    "representativePhoneNumber": "031-366-9512",
-    "address": "경기도 화성시 남양읍 현대기아로 506 .",
-    "homepage": "http://www.행복한일터.kr",
-    "certificationYear": 2008,
-    "storeType": "온라인"
-   },
-   {"number": 8,
-    "region": "경기",
-    "certificationNumber": "제2011-077호",
-    "companyName": "주식회사온케어구리",
-    "businessRegistrationNumber": "132-81-99250",
-    "socialPurposeType": "일자리제공형",
-    "field": "보건",
-    "representative": "방선영",
-    "representativePhoneNumber": "031-569-6696",
-    "address": "경기도 구리시 건원대로 36 , 8층(인창동, 화성골드프라자)",
-    "homepage": null,
-    "certificationYear": 2011,
-    "storeType": "오프라인"
-   },
-   {"number": 13,
-    "region": "경기",
-    "certificationNumber": "제2011-087호",
-    "companyName": "(주)극단민들레",
-    "businessRegistrationNumber": "105-87-61623",
-    "socialPurposeType": "사회서비스제공형",
-    "field": "문화, 예술",
-    "representative": "장계숙",
-    "representativePhoneNumber": "031-358-7587",
-    "address": "경기도 화성시 우정읍 이화뱅곳길 22 -",
-    "homepage": "www.mdl.or.kr",
-    "certificationYear": 2011,
-    "storeType": "온라인"
-   }
-  ]
+    {
+        "enterpriseId": 2,
+        "enterpriseName": "주식회사온케어구리",
+        "socialPurpose": "일자리제공형",
+        "city": "경기도 구리시",
+        "district": "건원대로 36 , 8층(인창동, 화성골드프라자)",
+        "website": null,
+        "latitude": 37.60439,
+        "longitude": 127.1405
+      },
+      {
+        "enterpriseId": 12,
+        "enterpriseName": "(주)떡찌니",
+        "socialPurpose": "일자리제공형",
+        "city": "경기도 광주시",
+        "district": "곤지암읍 가마을길 203 -",
+        "website": "www.dduckzziny.co.kr",
+        "latitude": 37.35967,
+        "longitude": 127.3923
+      },
+      {
+        "enterpriseId": 23,
+        "enterpriseName": "(사)공간다락",
+        "socialPurpose": "기타(창의ㆍ혁신)형",
+        "city": "경기도 이천시",
+        "district": "사음로 28(사음동) -",
+        "website": null,
+        "latitude": 37.29679,
+        "longitude": 127.4169
+      }
+]

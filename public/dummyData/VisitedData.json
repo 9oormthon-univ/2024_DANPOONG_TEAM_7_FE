@@ -1,0 +1,20 @@
+[
+    {
+        "enterpriseId": 1,
+        "enterpriseName": "사회복지법인천주교수원교구사회복지회행복한일터",
+        "city": "경기도 화성시",
+        "district": "남양읍 현대기아로 506 .",
+        "website": "http://www.행복한일터.kr",
+        "latitude": 37.19459,
+        "longitude": 126.8487
+    },
+    {
+        "enterpriseId": 7,
+        "enterpriseName": "주식회사피플크린",
+        "city": "경기도 안성시",
+        "district": "미양면 바울길 162 피플크린 사무소",
+        "website": "www.peopleclean.co.kr",
+        "latitude": 36.97534,
+        "longitude": 127.2244
+    }
+]

@@ -20,27 +20,27 @@ import Layout from './components/layout/Layout';
 function App() {
   return (
     <BrowserRouter>
-        <Routes>
-            <Route element={<Layout/>}>
-                <Route path="/" element={<Home />} />
-                <Route path="/magazine" element={<Magazine />}/>
-                <Route path="/enterprise" element={<EnterpriseSearch />}/>
-                <Route path="/program" element={<Program />}/>
-                <Route path="/mypage" element={<Mypage />}/>
-                <Route path="/enterprise/info/:id" element={<EnterpriseInfo />} />
-                <Route path="*" element={<div>페이지를 찾을 수 없습니다.</div>} />
-            </Route>
-            <Route element={<BackLayout/>}>
-              <Route path="/magazine/:id" element={<MagazineDetail />}/>
-              <Route path='/mypage/review/write' element={<ReviewWrite/>}/> 
-              <Route path='/mypage/review/editwrite' element={<EditWrite/>}/>  
-              <Route path='/mypage/review' element={<Review/>}/> 
-            </Route>
-            <Route path='/mypage/review/keyword' element={<ReviewKeyword/>}/>
-            <Route path='/mypage/review/editkeyword' element={<EditKeyword/>}/>  
-        </Routes>
-        
-            
+      <Routes>
+        <Route path="/magazine/:id" element={<MagazineDetail />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/magazine" element={<Magazine />} />
+          <Route path="/enterprise" element={<EnterpriseSearch />} />
+          <Route path="/program" element={<Program />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/enterprise/info/:id" element={<EnterpriseInfo />} />
+          <Route path="*" element={<div>페이지를 찾을 수 없습니다.</div>} />
+        </Route>
+        <Route element={<BackLayout />}>
+          <Route path='/mypage/review/write' element={<ReviewWrite />} />
+          <Route path='/mypage/review/editwrite' element={<EditWrite />} />
+          <Route path='/mypage/review' element={<Review />} />
+        </Route>
+        <Route path='/mypage/review/keyword' element={<ReviewKeyword />} />
+        <Route path='/mypage/review/editkeyword' element={<EditKeyword />} />
+      </Routes>
+
+
     </BrowserRouter>
   );
 }

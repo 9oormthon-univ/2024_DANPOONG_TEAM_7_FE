@@ -1,0 +1,227 @@
+[
+    {
+        "title": "프로그램 참여",
+        "searchPlaceholder": "장소 또는 프로그램 유형",
+        "items": [
+            {
+                "type": "program",
+                "programTitle": "AI 멘토링 교과연수",
+                "enterpriseName": "(주)맘이랜서",
+                "field": "교육",
+                "place": "서울특별시 송파구",
+                "time": "2024-09-20 ~ 2024-12-31",
+                "likes": 30,
+                "comments": 30,
+                "description": "교육내용\n· AI멘토링의 ‘고등정보’ 대상 코스웨어인 <코들> 을 활용한 수업 지도 방법 등 학습\n\n수료 기준\n· 모든 강의의 시청 및 과제/퀴즈 제출이 완료되어야 수료증이 발급",
+                "image": "entNews1"
+            },
+            {
+                "type": "program",
+                "programTitle": "창업게임으로 배우는 사회 경제 교육",
+                "enterpriseName": "한국경영교육진흥원",
+                "field": "교육",
+                "place": "천안 아산/청주",
+                "time": "2024-11-05 ~ 2024-11-23",
+                "likes": 14,
+                "comments": 6,
+                "description": "교육내용\n· 본 강의는 사회적경제와 관련된 기본 개념과 실제 적용 사례를 배우는 특별한 체험형 프로그램입니다.\n· 참가자들에게 게임 후 피드백 세션을 통해 자신만의 창업 아이디어를 발전시키는 기회를 제공합니다.",
+                "image": "entNews1"
+            },
+            {
+                "type": "program",
+                "programTitle": "꿀벌과 밀원식물 이해",
+                "enterpriseName": "농업회사법인온스주식회사",
+                "field": "일자리제공",
+                "place": "경기도 고양시",
+                "time": "2024-08-05 ~ 2024-12-21",
+                "likes": 24,
+                "comments": 7,
+                "description": "교육내용\n· 본 강의는 꿀벌의 생태와 밀원 식물의 역할을 쉽고 재미있게 배우는 체험형 교육 프로그램입니다.\n참가자들은 관찰과 실습을 통해 자연 생태계의 중요성을 이해하고 밀원 조성을 위한 실천 아이디어를 발전시키는 기회를 갖습니다.",
+                "image": "entNews1"
+            },
+            {
+                "type": "program",
+                "programTitle": "공예 체험 수업",
+                "enterpriseName": "고양아트마켓 사회적협동조합",
+                "field": "일자리제공",
+                "place": "경기도 고양시",
+                "time": "2024-09-11 ~ 2024-12-30",
+                "likes": 41,
+                "comments": 13,
+                "description": "교육내용\n· 본 수업은 자연을 테마로 한 공예 체험을 통해 창의성과 감각을 키우는 프로그램입니다.\n\n참가자들은 다양한 재료를 활용해 자신만의 작품을 만들고 공예 과정을 통해 소소한 성취감과 힐링의 시간을 경험할 수 있습니다.",
+                "image": "entNews1"
+            }
+        ]
+    },
+    {
+        "title": "일자리 소개",
+        "searchPlaceholder": "일자리 유형이나 장소",
+        "items": [
+            {
+                "type": "job",
+                "jobName": "경기광역자활센터 실무자 채용",
+                "enterpriseName": "경기광역자활센터",
+                "field": "전략기획부",
+                "place": "경기도 수원시",
+                "time": "주 5일",                
+                "day": "D-day",
+                "job": "지역자활센터 자활사업 지원(정규직)",
+                "city": "경기도 수원시",
+
+                "salary": "내규에 따라 협의",  
+                "workingPeriod": "최초 1년 계약",   
+                "workDays": "월 ~ 금",        
+                "workingHours": "주 40시간",  
+                "industryOccupation": "전략기획부", 
+                "employmentType": "정규직",    
+                "welfareBenefits": "퇴직연금제도 운용(DC형)",   
+            
+                "recruitmentClosing": "24.11.24. (수)",
+                "recruitmenPersonNumber": "0명",
+                "education": "명시 없음",
+                "preferentialTreatment": "자활사업 및 사회복지 경력자",
+                
+                "address": "경기도 수원시 소재\n경기광역자활센터",
+                
+                "recruitmeRepresentative": "김현화",
+                "phone": "031-267-0140",
+                "email": "gpsc1@hanmail.net",
+                "website": "-",
+
+                "image": "entNews1"
+            },
+            {
+                "type": "job",
+                "jobName": "점프 프로그램 매니저 채용",
+                "enterpriseName": "사단법인 점프",
+                "field": "교육/비영리 경영",
+                "place": "서울특별시 성동구",
+                "time": "주 5일(월요일 재택근무)",                
+                "day": "D-day",
+                "job": "프로그램 매니저(정규직 전환형 계약직, 경력직)",
+                "city": "서울특별시 성동구(서울숲 인근)",
+
+                "salary": "내규에 따라 협의",  
+                "workingPeriod": "최초 1년 계약",   
+                "workDays": "월 ~ 금",        
+                "workingHours": "유연 근무제(자율 출근)",  
+                "industryOccupation": "교육 프로그램 기획/운영", 
+                "employmentType": "정규직 전환형",    
+                "welfareBenefits": "유연 근무제/재택근무",   
+            
+                "recruitmentClosing": "24.11.24. (일)",
+                "recruitmenPersonNumber": "1명",
+                "education": "명시 없음",
+                "preferentialTreatment": "비영리/사회적경제 경험자",
+                
+                "address": "서울특별시 성동구 송정6길 5(송정동) 2층, 사단법인 점프",
+                
+                "recruitmeRepresentative": "서창범",
+                "phone": "02-2088-6366",
+                "email": "-",
+                "website": "www.jumpsp.org",
+
+                "image": "entNews1"
+            },
+            {
+                "type": "job",
+                "jobName": "라라워시 직원 채용",
+                "enterpriseName": "경기광영자활센터",
+                "field": "회계/행정",
+                "job": "가맹점 및 거래처관리(정규직)",
+                "place": "경기도 수원시",
+                "time": "주 5일",                
+                "day": "D-17",                
+                "city": "경기도 수원시",
+
+                "salary": "내규에 따라 협의",  
+                "workingPeriod": "최초 1년 계약",   
+                "workDays": "월 ~ 금",        
+                "workingHours": "월~금, 09:00~18:00",  
+                "industryOccupation": "전략기획부", 
+                "employmentType": "정규직",    
+                "welfareBenefits": "퇴직연금제도 운용(DC형)",   
+            
+                "recruitmentClosing": "24.12.11. (수)",
+                "recruitmenPersonNumber": "0명",
+                "education": "명시 없음",
+                "preferentialTreatment": "기업 회계 및 행정 관련 경력자",
+                
+                "address": "경기도 수원시 소재\n라라워시 프랜차이즈 협동조합",
+                
+                "recruitmeRepresentative": "김현화",
+                "phone": "031-267-0140",
+                "email": "gpsc1@hanmail.net",
+                "website": "https://lalawash.co.kr/",
+
+                "image": "entNews1"
+            },
+            {
+                "type": "job",
+                "jobName": "위스테이 회계/행정 인력",
+                "enterpriseName": "위스테이지축사회적협동조합",
+                "field": "회계/행정",
+                "job": "행정 업무 (정규직, 경력직)",
+                "place": "서울특별시 중구",
+                "time": "주 40시간",                
+                "day": "D-30",                
+                "city": "서울특별시 중구",
+                
+                "salary": "내규에 따라 협의",  
+                "workingPeriod": "최초 1년 계약",   
+                "workDays": "월 ~ 금",        
+                "workingHours": "주40시간",  
+                "industryOccupation": "회계/행정 업무", 
+                "employmentType": "정규직",    
+                "welfareBenefits": "유연 근무제/재택근무",   
+            
+                "recruitmentClosing": "24.12.24. (일)",
+                "recruitmenPersonNumber": "1명",
+                "education": "명시 없음",
+                "preferentialTreatment": "공동주택  유경험자",
+                
+                "address": "서울시 중구 명동1가 1-1번지\n주식회사 더함에스디",
+                
+                "recruitmeRepresentative": "양동수",
+                "phone": "1670-3624",
+                "email": "-",
+                "website": "http://westay.kr/",
+
+                "image": "entNews1"
+            },
+            {
+                "type": "job",
+                "jobName": "루트그린에너지 주민참여사업 담당",
+                "enterpriseName": "(주)루트그린에너지",
+                "field": "재생에너지 사업",
+                "job": "시장 분석 및 신사업 기획",
+                "place": "서울특별시 성동구",
+                "time": "주 40시간",                
+                "day": "D-47",                
+                "city": "서울특별시 성동구",
+                
+                "salary": "내규에 따라 협의",  
+                "workingPeriod": "최초 1년 계약",   
+                "workDays": "탄력근무, 재택근무",        
+                "workingHours": "주40시간",  
+                "industryOccupation": "시장 분석 및 신사업 기획", 
+                "employmentType": "정규직",    
+                "welfareBenefits": "스톡옵션, 교육비 지원 ",   
+            
+                "recruitmentClosing": "24.01.10. (금)",
+                "recruitmenPersonNumber": "1명",
+                "education": "4년제 학사 이상 소지자",
+                "preferentialTreatment": "정부사업(지자체),금융 경험자",
+                
+                "address": "서울 성동구 뚝섬로1나길 5 헤이그라운드(HEYGROUND), 4층(성수동1가)",
+                
+                "recruitmeRepresentative": "-",
+                "phone": "02-792-8934",
+                "email": "kw.kim@rootenergy.co.kr",
+                "website": "https://rootenergy.co.kr/",
+
+                "image": "entNews1"
+            }
+        ]
+    }
+]

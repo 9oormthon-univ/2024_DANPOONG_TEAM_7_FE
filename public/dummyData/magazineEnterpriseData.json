@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "GreenFarm",
+        "likes": 120,
+        "location": "Seoul, South Korea",
+        "image": "ent1"
+    },
+    {
+        "id": 2,
+        "name": "EcoSolutions",
+        "likes": 98,
+        "location": "Busan, South Korea",
+        "image": "ent2"
+    },
+    {
+        "id": 3,
+        "name": "UrbanGreen",
+        "likes": 150,
+        "location": "Incheon, South Korea",
+        "image": "ent3"
+    },
+    {
+        "id": 4,
+        "name": "OrganicHub",
+        "likes": 75,
+        "location": "Daejeon, South Korea",
+        "image": "ent4"
+    },
+    {
+        "id": 5,
+        "name": "BlueOcean",
+        "likes": 200,
+        "location": "Daegu, South Korea",
+        "image": "ent5"
+    },
+    {
+        "id": 6,
+        "name": "Renewable Co.",
+        "likes": 180,
+        "location": "Ulsan, South Korea",
+        "image": "ent6"
+    },
+    {
+        "id": 7,
+        "name": "CleanEarth",
+        "likes": 65,
+        "location": "Gwangju, South Korea",
+        "image": "ent7"
+    },
+    {
+        "id": 8,
+        "name": "PureWater",
+        "likes": 220,
+        "location": "Sejong, South Korea",
+        "image": "ent8"
+    },
+    {
+        "id": 9,
+        "name": "SmartWaste",
+        "likes": 140,
+        "location": "Jeju, South Korea",
+        "image": "ent9"
+    },
+    {
+        "id": 10,
+        "name": "GreenEnergy",
+        "likes": 95,
+        "location": "Pohang, South Korea",
+        "image": "ent10"
+    }
+]

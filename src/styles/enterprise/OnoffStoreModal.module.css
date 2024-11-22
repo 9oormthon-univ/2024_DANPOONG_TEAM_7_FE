@@ -33,7 +33,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    width: 243px;
+    width: 223px;
     height: 210px;
     padding: 0 20px 0 20px;
     background-color: #FFFFFF;
@@ -55,12 +55,13 @@
 .modalName{
     margin: 0 0 0 0;
     font-size: 15px;
-    font-weight: 900;
+    font-weight: 600;
 }
 
 .modalMemo{
     margin: 0 0 0 0;
     font-size: 9px;
+    font-weight: 500;
     color: #BEBEBE;
 }
 
@@ -70,7 +71,7 @@
     justify-content: center;
     align-items: flex-start;
     gap: 0px;
-    width: 80%;
+    width: 95%;
     height: 120px;
     margin: 0 0 0 0;
 }
@@ -85,7 +86,9 @@
     border-radius: 0;
     background-color: transparent;
     border-bottom: 1px solid #D3D3D3;
+    color: #000000;
     font-size: 12px;
+    font-weight: 500;
 }
 
 .selectedOnoffStore{
@@ -106,4 +109,5 @@
     font-size: 12px;
     font-weight: 500;
     background-color: transparent;
+    color: #000000;
 }

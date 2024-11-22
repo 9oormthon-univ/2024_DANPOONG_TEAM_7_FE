@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Bar from './Bar'; // Bar 컴포넌트 import
-import TopBar from './TopBar';
 import Back from './Back';
 
 export default function BackLayout() {

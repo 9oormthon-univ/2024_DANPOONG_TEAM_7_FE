@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from '../../styles/enterprise/OnoffStoreModal.module.css';
+
+//redux
 import { setSelectedOnoffStore, setOnoffModalOpen } from '../../redux/slices/OnoffStoreSlice';
 import { updateActiveFilters, setFilteredEnterprises } from '../../redux/slices/FilteredEnterpriseListSlice';
-import styles from '../../styles/enterprise/OnoffStoreModal.module.css';
+
+//img
 import checkIcon from '../../assets/images/enterprise/type-check.svg'
 
 const ONOFFSTORE = ['온라인', '오프라인'];
@@ -71,9 +75,6 @@ function OnoffStoreModal({ handleClose }) {
                             onClick={() => toggleOnoffStore(onoffStore)}
                         >
                             {onoffStore}
-                            {localOnoffStore === onoffStore && 
-                                <img src={checkIcon} alt="selected" className={styles.checkIcon} />
-                            }
                         </button>
                     ))}
                 </div>

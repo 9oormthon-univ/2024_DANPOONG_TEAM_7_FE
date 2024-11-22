@@ -1,5 +1,4 @@
-// src/hooks/useEnterprises.jsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSocialEnterprises } from '../redux/slices/EnterpriseSlice';
 import { setFilteredEnterprises, setShouldShowMarkers } from '../redux/slices/FilteredEnterpriseListSlice';
@@ -12,20 +11,23 @@ export const useEnterprises = () => {
     const fetchEnterprises = async () => {
         try {
             setLoading(true);
-            // 실제 API 연동 시:
-            // const response = await axios.get('/api/enterprises');
+            setError(null);
+            
             const response = await fetch('/dummyData/SocialEnterprises.json');
+            if (!response.ok) throw new Error('Network response was not ok');
+            
             const data = await response.json();
             
             dispatch(setSocialEnterprises(data));
             dispatch(setFilteredEnterprises(data));
             dispatch(setShouldShowMarkers(false));
             
-        } catch (err) {
-            setError(err);
-            console.error('Failed to load enterprises:', err);
-        } finally {
             setLoading(false);
+            return data;
+        } catch (err) {
+            setError(err.message);
+            setLoading(false);
+            throw err;
         }
     };
 

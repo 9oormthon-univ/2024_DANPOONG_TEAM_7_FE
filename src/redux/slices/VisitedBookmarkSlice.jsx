@@ -1,31 +1,32 @@
+// redux/slices/VisitedBookmarkSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    reviewLocations: [],
+    visitedLocations: [],    // reviewLocations -> visitedLocations
     bookmarkLocations: [],
-    activeMarkerType: null, // 'filtered', 'search', 'review', 'bookmark'
+    activeMarkerType: null,
     lastUpdated: null,
     isLoading: false,
     error: null
 };
 
-const reviewBookmarkSlice = createSlice({
-    name: 'reviewBookmark',
+const visitedBookmarkSlice = createSlice({      // reviewBookmarkSlice -> visitedBookmarkSlice
+    name: 'visitedBookmark',                    // name도 변경
     initialState,
     reducers: {
-        setReviewLocations: (state, action) => {
-            state.reviewLocations = action.payload;
-            state.activeMarkerType = 'review';
+        setVisitedLocations: (state, action) => {    // setReviewLocations -> setVisitedLocations
+            state.visitedLocations = action.payload;
             state.lastUpdated = Date.now();
         },
         setBookmarkLocations: (state, action) => {
             state.bookmarkLocations = action.payload;
-            state.activeMarkerType = 'bookmark';
             state.lastUpdated = Date.now();
         },
         setActiveMarkerType: (state, action) => {
             state.activeMarkerType = action.payload;
-            state.lastUpdated = Date.now();
+            if (action.payload !== null) {
+                state.lastUpdated = Date.now();
+            }
         },
         setLoading: (state, action) => {
             state.isLoading = action.payload;
@@ -34,30 +35,27 @@ const reviewBookmarkSlice = createSlice({
             state.error = action.payload;
         },
         clearLocations: (state) => {
-            state.reviewLocations = [];
-            state.bookmarkLocations = [];
-            state.activeMarkerType = null;
-            state.lastUpdated = null;
+            return initialState;
         }
     }
 });
 
 export const {
-    setReviewLocations,
+    setVisitedLocations,           // setReviewLocations -> setVisitedLocations
     setBookmarkLocations,
     setActiveMarkerType,
     setLoading,
     setError,
     clearLocations
-} = reviewBookmarkSlice.actions;
+} = visitedBookmarkSlice.actions;
 
 // Thunk action creators
-export const fetchReviewLocations = () => async (dispatch) => {
+export const fetchVisitedLocations = () => async (dispatch) => {    // fetchReviewLocations -> fetchVisitedLocations
     try {
         dispatch(setLoading(true));
-        const response = await fetch('/dummyData/reviewData.json');
+        const response = await fetch('/dummyData/visitedData.json');  // reviewData.json -> visitedData.json
         const data = await response.json();
-        dispatch(setReviewLocations(data));
+        dispatch(setVisitedLocations(data));
     } catch (error) {
         dispatch(setError(error.message));
     } finally {
@@ -78,4 +76,4 @@ export const fetchBookmarkLocations = () => async (dispatch) => {
     }
 };
 
-export default reviewBookmarkSlice.reducer;
+export default visitedBookmarkSlice.reducer;

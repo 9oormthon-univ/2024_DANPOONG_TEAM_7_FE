@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
+import styles from '../../styles/enterprise/SocialPurposeModal.module.css';
+
+//redux
 import { setSelectedSocialPurpose,  setSocialPurposeModalOpen } from '../../redux/slices/SocialPurposeSlice';
 import { updateActiveFilters } from '../../redux/slices/FilteredEnterpriseListSlice'; // 추가
-import styles from '../../styles/enterprise/SocialPurposeModal.module.css';
+
+//img
 import checkIcon from '../../assets/images/enterprise/type-check.svg'
 
 // 상수로 유형 정의

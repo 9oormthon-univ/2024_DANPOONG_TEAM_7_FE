@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: auto;
+    text-align: center;
+    overflow-y: auto;
+    scroll-behavior: smooth; 
+    position: relative;
+}
+
+.newsDetailContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+    padding: 0 0 100px 0;
+    text-align: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth; 
+    position: relative;
+}

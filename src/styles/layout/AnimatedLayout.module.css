@@ -1,0 +1,23 @@
+/*AnimatedLayout.module.css */
+.pageTransition {
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  .fadeEnter {
+    opacity: 0;
+  }
+  
+  .fadeEnterActive {
+    opacity: 1;
+    transition: opacity 1000ms ease-in;
+  }
+  
+  .fadeExit {
+    opacity: 1;
+  }
+  
+  .fadeExitActive {
+    opacity: 0;
+    transition: opacity 1000ms ease-in;
+  }

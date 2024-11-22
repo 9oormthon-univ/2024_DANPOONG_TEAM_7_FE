@@ -11,14 +11,22 @@ const enterpriseSlice = createSlice({
        mapMarkers: []
    },
    reducers: {
-       setSocialEnterprises: (state, action) => {
-           state.socialEnterprises = action.payload;
-           state.filteredEnterprises = action.payload; // 초기 설정에서 모든 기업을 필터링된 목록에 추가
-           
-           console.log('EnterpriseSlice - Social Enterprises Loaded:', {
-               total: action.payload.length
-           });
-       },
+        setSocialEnterprises: (state, action) => {
+            // 이미 같은 데이터가 있다면 업데이트 하지 않음
+            if (state.lastUpdated && 
+                JSON.stringify(state.socialEnterprises) === JSON.stringify(action.payload)) {
+                return;
+            }
+            
+            state.socialEnterprises = action.payload;
+            state.filteredEnterprises = action.payload;
+            state.lastUpdated = Date.now();
+            
+            console.log('EnterpriseSlice - Social Enterprises Loaded:', {
+                total: action.payload.length,
+                timestamp: new Date(state.lastUpdated).toISOString()
+            });
+        },
        setFilteredEnterprises: (state, action) => {
            state.filteredEnterprises = action.payload; // 필터링된 목록 설정
            

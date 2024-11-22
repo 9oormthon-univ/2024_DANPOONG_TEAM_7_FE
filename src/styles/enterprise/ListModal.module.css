@@ -16,7 +16,7 @@
         transform: translateY(calc(100% - 150px));
     }
 }
-
+ 
 .listModalContainer {
     display: flex;
     justify-content: center;
@@ -95,7 +95,7 @@
 }
   
 .handleBar {
-    width: 40px;
+    width: 80px;
     height: 4px;
     background-color: #E0E0E0;
     border-radius: 2px;
@@ -121,6 +121,7 @@
     margin: 0 0 0 0;
     border-radius: 15px;
     background-color: transparent;
+    color: #000000;
     font-size: 15px;
     font-weight: 500;
     border: none;
@@ -154,6 +155,7 @@
     border-radius: 14px;
     border: 1px solid #BEBEBE;
     background-color: #FFFFFF;
+    color: #000000;
     font-size: 12px;
     font-weight: 500;
 }
@@ -167,6 +169,7 @@
     border-radius: 14px;
     border: 1px solid #BEBEBE;
     background-color: #FFFFFF;
+    color: #000000;
     font-size: 12px;
     font-weight: 500;
 }
@@ -191,14 +194,13 @@
 
 .socialEnterprise{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: flex-end;
     position: relative;
     width: 90%;
     min-height: 120px;
-    gap: 10px;
-    padding: 0 0 8px 0;
+    gap: 25px;
+    padding: 0 0 8px 10px;
     margin: 0 0 5px 0;
     border-bottom: 1px solid #D3D3D3;
 }
@@ -212,9 +214,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    right: 20px;
-    bottom: 5px;
+    width: 80px;
+
 }
 
 .graph{
@@ -241,33 +242,53 @@
     font-weight: 500;
 }
 
-
-.listRow1{
+.listInfo{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.listRow1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
-    width: 75%;
+    width: 100%;
     margin: 0 0 0 0;
 }
 
 .listRow2, .listRow3{
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
     gap: 13px;
-    width: 70%;
+    width: 100%;
     margin: 0 0 0 0;
 }
 
-.listCompanyInfoRow1{
+.listRow2 span{
+    color: #BEBEBE;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.companyName{
     display: flex;
-    flex-direction: row;
-    gap: 20px;
-    width: 100%;
+    flex-direction: column;
+    width: 90%;
     margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
     background-color: transparent;
 }
 
@@ -289,9 +310,17 @@
     font-weight: 500;
 }
 
-.listCompanyInfoRow2{
+.bookmarkBtn{
     display: flex;
+    justify-content: center;
     align-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 0 0 0 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
 }
 
 .listSocialPurposeType{
@@ -311,6 +340,9 @@
     width: 93px;
     height: 20px;
     padding: 0 0 0 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
     background-color: transparent;
 }
 
@@ -426,4 +458,16 @@
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
+}
+
+button:focus 
+, button:active
+, button:hover{
+    outline: none !important; /* 포커스 시 외곽선 강제로 제거 */
+    border: none !important; 
+    box-shadow: none !important; /* 포커스 시 그림자 강제로 제거 */
+}
+
+button{
+    -webkit-tap-highlight-color: transparent;
 }

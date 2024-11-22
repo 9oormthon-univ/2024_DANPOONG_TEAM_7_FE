@@ -1,8 +1,10 @@
 import React , { useState }from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from '../../styles/enterprise/TypeModal.module.css';
+
+//redux
 import { setSelectedTypes, setTypeModalOpen } from '../../redux/slices/TypeSlice';
 import { updateActiveFilters } from '../../redux/slices/FilteredEnterpriseListSlice'; 
-import styles from '../../styles/enterprise/TypeModal.module.css';
 
 // 상수로 카테고리 정의
 const TYPE = [

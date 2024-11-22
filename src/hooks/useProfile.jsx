@@ -1,39 +1,38 @@
-// hooks/useUserInfo.js
+// hooks/useProfile.jsx
 import { useState, useEffect } from 'react';
 
-export const useUserInfo = () => {
-    const [userInfo, setUserInfo] = useState(null);
+export const useProfile = () => {
+    const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchUserInfo = async () => {
+    const fetchProfile = async () => {
         try {
             setLoading(true);
-            // 현재는 더미데이터를 불러오지만, 나중에 백엔드 API로 대체될 부분
             const response = await fetch('/dummyData/userDummyData.json');
             const data = await response.json();
-            setUserInfo(data[0]); // 현재는 더미데이터의 첫 번째 유저
+            setProfile(data[0]); 
             
-            // 나중에는 이렇게 될 것입니다:
-            // const response = await fetch('/api/user/info', {
+            // 실제 API 연동 시:
+            // const response = await fetch('/api/profile', {
             //     headers: {
             //         'Authorization': `Bearer ${accessToken}`,
             //     }
             // });
             // const data = await response.json();
-            // setUserInfo(data);
+            // setProfile(data);
             
         } catch (err) {
             setError(err);
-            console.error('사용자 정보 로드 실패:', err);
+            console.error('프로필 정보 로드 실패:', err);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchUserInfo();
+        fetchProfile();
     }, []);
 
-    return { userInfo, loading, error, fetchUserInfo };
+    return { profile, loading, error, fetchProfile };
 };

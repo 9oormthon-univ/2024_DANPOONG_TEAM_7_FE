@@ -1,0 +1,493 @@
+/*스와이프설정*/
+.container {
+    width: 100%;
+    max-width: 42rem; /* max-w-2xl */
+    margin: 0 auto;
+}
+
+.tabList {
+    display: flex;
+    background-color: #D5F8F3;
+    margin-bottom: 1rem;
+}
+
+.tabButton {
+    flex: 1;
+    height: 4px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    transition: color 0.2s;
+    background-color: #D5F8F3;
+}
+
+.activeTab {
+    background-color: #113C35;  /* text-emerald-900 */
+    font-weight: 500;
+}
+
+.contentContainer {
+    overflow: hidden;
+    touch-action: pan-y;
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.3s ease-out;
+    user-select: none;
+}
+
+.slide {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/*기업정보*/
+.enterpriseInfoContainer {
+    height: 100%;
+}
+
+.sectionTitle {
+    width: 100%;
+    text-align: left;
+    margin: 15px 0 0 25px;
+    color: #113C35;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 26px */
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment{
+    margin: 100px 0 0 0;
+    flex-shrink: 0;
+}
+
+.comment p{
+    margin: 0 0 9px 0;
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 26px */
+}
+
+.comment span:nth-of-type(1){
+    margin: 0 0 0 0;
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 26px */
+}
+
+.comment span:nth-of-type(2){
+    margin: 0 0 0 0;
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+}
+
+
+.infoBox{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin: 40px 0 0 0;
+}
+
+.foxBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 155px;
+    height: 155px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    background: #D5F8F3;
+    box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.foxImage{
+    width: 126px;
+    height: 126px;
+    flex-shrink: 0;
+}
+
+.typeBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 155px;
+    height: 155px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    background: #FFF;
+    box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.typeCircle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 114px;
+    height: 114px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #FFF;
+    box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.typeCircle p{
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 26px */
+}
+
+
+.infoCard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:flex-start;
+    gap: 36px;
+    text-align: left;
+    width: 329px;
+    height: 482px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    margin: 32px 0 20px 0;
+    background: #FFF;
+    box-shadow: 0px 4px 7.6px 0px rgba(0, 0, 0, 0.25);
+}
+
+.infoItemRow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 67px;
+    margin: 0 0 0 15px;
+}
+
+.column1 p:first-child{
+    margin: 0 4px 0;
+    color: #BEBEBE;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 19.5px */
+}
+
+.column1 p:last-child{
+    margin: 0 0 0 3px;
+    color: #5C5C5C;
+    font-family: Pretendard;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+}
+
+.infoItem {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 0 15px;
+}
+
+.label {
+    margin: 0 0 4px 0;
+    color: #BEBEBE;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 19.5px */
+}
+
+.value {
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-family: Pretendard;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+}
+
+
+.link {
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/*리뷰*/
+.reviewContainter{
+    height: 100%;
+}
+
+.reviewHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.reviewTitle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 15px 0 0 20px;
+}
+
+.reviewTitle p{
+    margin: 0 0 20px 0;
+    text-align: left;
+    color: #113C35;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 26px */
+}
+
+.alignment{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 71px;
+    height: 23px;
+    margin: 0 0 0 20px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    border: 1px solid #BEBEBE;
+    color: #000;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.reviewCardList{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    height: auto;
+    margin: 40px 0 20px 0;
+}
+
+.reviewCard{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+    min-height: 120px;
+}
+
+.reviewCardInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.reviewCardProfile{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+}
+
+.reviewProfileImage{
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: #5C5C5C;
+}
+
+.reviewCardInfo p{
+    margin: 0;
+    color: #5C5C5C;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 20.8px */
+}
+
+.reviewCardInfo span{
+    color: #5C5C5C;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 15.6px */
+}
+
+.reviewCardText{
+    width: 97%;
+    height: 70px;
+    text-align: left;
+}
+
+
+/*매거진*/
+.magazineContainter{
+    height: 100%;
+}
+
+.magazineHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.magazineTitle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 15px 0 0 20px;
+}
+
+.magazineTitle p{
+    margin: 0 0 20px 0;
+    text-align: left;
+    color: #113C35;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 26px */
+}
+
+.magazineCardList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    width: 100%;
+    height: auto;
+    margin: 40px 0 20px 0;
+}
+  
+.magazineCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 290px;
+    outline: none;
+    border: none;
+    background-color: #FFFFFF;
+}
+
+.magazineCardImage{
+    width: 100%;
+    height: 200px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    overflow: hidden;
+    background-color: #5C5C5C;
+    position: relative;
+}
+
+.magazineImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.magazineImage.loaded {
+    opacity: 1;
+}
+
+.magazineCardText{
+    width: 100%;
+    margin: 10px 0 0 0;
+    text-align: left;
+}
+  
+.magazineCardText span:nth-of-type(1){
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+}
+
+.magazineCardText span:nth-of-type(2){
+    margin: 0 0 0 15px;
+    color: #5C5C5C;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 15.6px */
+}
+  
+.magazineCardText p{
+    margin: 10px 0 0 0;
+    color: #5C5C5C;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 19.5px */
+}
+  
+.magazineCardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #666;
+}
+  
+.magazineCardStats {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+  
+.loadingContainer, .errorContainer {
+    text-align: center;
+    padding: 2rem 0;
+}
+  
+.errorText {
+    color: #dc2626;
+}
+

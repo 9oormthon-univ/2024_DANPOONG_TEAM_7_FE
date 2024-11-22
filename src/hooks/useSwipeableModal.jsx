@@ -9,7 +9,7 @@ const useSwipeableModal = (isActive, handleClose) => {
   const [isBackgroundActive, setIsBackgroundActive] = useState(false);
 
   const SWIPE_THRESHOLD = 100;
-  const PEEK_HEIGHT = 135;
+  const PEEK_HEIGHT = 145;
 
   useEffect(() => {
     if (isActive) {

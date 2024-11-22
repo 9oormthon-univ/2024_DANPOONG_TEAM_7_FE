@@ -4,9 +4,9 @@ import { configureStore } from '@reduxjs/toolkit';
 //map
 import enterpriseReducer from './slices/EnterpriseSlice';
 import searchReducer from './slices/SearchSlice';
-import reviewBookmarkReducer from './slices/ReviewBookmarkSlice';
-import typeReducer from './slices/SocialPurposeSlice';
-import socialPurposeReducer from './slices/TypeSlice';
+import visitedBookmarkReducer from './slices/VisitedBookmarkSlice';
+import typeReducer from './slices/TypeSlice';
+import socialPurposeReducer from './slices/SocialPurposeSlice';
 import onoffStoreReducer from './slices/OnoffStoreSlice'
 import filteredEnterpriseListReducer from './slices/FilteredEnterpriseListSlice';
 
@@ -19,7 +19,7 @@ export const store = configureStore({
     reducer: {
         enterprise: enterpriseReducer,
         search: searchReducer,
-        reviewBookmark: reviewBookmarkReducer,
+        visitedBookmark: visitedBookmarkReducer  ,
         type: typeReducer,
         socialPurpose: socialPurposeReducer,
         onoffStore: onoffStoreReducer,

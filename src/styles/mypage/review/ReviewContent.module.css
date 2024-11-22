@@ -86,6 +86,10 @@
     font-size: 15px;
     font-style: normal;
     font-weight: 500;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
     line-height: 22px; /* 146.667% */
 }
 
@@ -133,9 +137,10 @@
     flex-direction: column;
     align-items: flex-start;
     position: relative;
+    gap: 5px;
     padding: 18px 18px 18px 18px;
     width: 90%;
-    height: 152px;
+    min-height: 152px;
     border-radius: 27px;
     box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
     background-position: center;
@@ -151,11 +156,20 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 245px;
+    width: 100%;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
-.reviewTitle {
+.reviewTitle{
     margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+.reviewTitle p{
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    text-align: left;
     color: #113C35;
     font-size: 15px;
     font-style: normal;
@@ -164,36 +178,42 @@
 }
 
 .reviewDate {
-    font-size: 9px;
+    margin: 0 10px 0 0;
+    color: #5C5C5C;
+    font-size: 12px;
+    font-style: normal;
     font-weight: 400;
-    color: #000000;
+    line-height: 130%; /* 11.7px */
 }
 
 .manageBtn{
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute !important;  /* 다른 스타일에 의해 덮어써지는 것을 방지 */
-    top: 17px !important;
-    right: 2px !important;
+    position: absolute;
+    right: 6px;
     width: 25px;
     height: 25px;
+    outline: none;
+    border: none;
+    box-shadow: none;
     padding: 0 0 0 0;
     background-color: transparent;
 }
 
 .reviewAddress {
-    margin: 0 0 0 0;
-    font-size: 9px;
+    margin: 8px 0 0 0;
+    font-size: 12px;
     font-weight: 400;
     color: #5C5C5C;
 }
 
 .reviewContent {
     width: 233px;
+    min-height: 70px;
     margin: 0 0 0 0;
     text-align: left;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 300;
     color: #4b5563;
 }
@@ -201,16 +221,14 @@
 .Keyword{
     display: flex;
     justify-content: center;
-    gap: 17px;
-    position: absolute;
-    bottom: 18px;
+    gap: 9px;
 }
 
 .primaryKeyword{
     display: flex;
     align-items: center;
     height: 21px;
-    padding: 0 13px 0 13px;
+    padding: 0 7px 0 7px;
     border-radius: 9px;
     border: 1px solid #2DDDC3;
     color: #318064;

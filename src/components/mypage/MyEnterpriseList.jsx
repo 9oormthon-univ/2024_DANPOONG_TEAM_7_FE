@@ -1,12 +1,23 @@
 //MyEnterpriseList.jsx
 import React, { useState } from 'react';
 import styles from '../../styles/mypage/MyEnterpriseList.module.css';
+
+//utils
+import { formatCompanyName, isCompanyNameOverflow } from '../../utils/companyNameUtils';
+
+//img
 import manageIcon from '../../assets/images/mypage/myenterprise-detail.svg';
 import deleteOn from '../../assets/images/mypage/deleteon.svg';
 import deleteOff from '../../assets/images/mypage/deleteoff.svg';
 import pinOn from '../../assets/images/mypage/pinon.svg';
 import pinOff from '../../assets/images/mypage/pinoff.svg';
-import { formatCompanyName, isCompanyNameOverflow } from '../../utils/companyNameUtils';
+
+//enterprise icon
+import employIcon from '../../assets/images/enterprise-icons/employment-icon.svg';
+import communityIcon from '../../assets/images/enterprise-icons/local-community-icon.svg';
+import mixedIcon from '../../assets/images/enterprise-icons/mixed-type-icon.svg';
+import otherIcon from '../../assets/images/enterprise-icons/other-creative-icon.svg';
+import serviceIcon from '../../assets/images/enterprise-icons/service-icon.svg';
 
 const MyEnterpriseList = ({ items }) => {
     const [showAll, setShowAll] = useState(false);
@@ -71,18 +82,41 @@ const MyEnterpriseList = ({ items }) => {
         return a.originalIndex - b.originalIndex;
     });
 
+    //기업 아이콘
+    const getTypeIcon = (socialPurpose) => {
+        switch(socialPurpose) {
+            case '사회서비스제공형':
+                return serviceIcon;
+            case '일자리제공형':
+                return employIcon;
+            case '지역사회공헌형':
+                return communityIcon;
+            case '혼합형':
+                return mixedIcon;
+            case '기타(창의ㆍ혁신)형':
+                return otherIcon;
+            default:
+                return serviceIcon; // 기본 아이콘
+        }
+    };
+
     return (
         <div className={styles.myEnterpriseListContainer}>
             <div className={styles.myEnterpriseList}>
                 {sortedEnterprises.slice(0, showAll ? sortedEnterprises.length : 3).map((enterprise, index) => {
                     const currentIndex = enterprises.indexOf(enterprise);
                     const isPinned = pinnedIndex === currentIndex;
-                    const { front, back } = formatCompanyName(enterprise.company_name);
-                    const isOverflow = isCompanyNameOverflow(enterprise.company_name);
+                    const { front, back } = formatCompanyName(enterprise.enterpriseName);
+                    const isOverflow = isCompanyNameOverflow(enterprise.enterpriseName);
 
                     return (
                         <div key={enterprise.originalIndex} className={styles.myEnterpriseItem}>
-                            <div className={styles.enterpriseIcon}></div>
+
+                            <img 
+                                src={getTypeIcon(enterprise.socialPurpose)}
+                                alt={enterprise.socialPurpose}
+                                className={styles.enterpriseIcon}
+                            />
                             <div className={styles.enterpriseInfo}>
                                 <p className={styles.myEnterpriseName}>
                                     {front}
@@ -93,7 +127,7 @@ const MyEnterpriseList = ({ items }) => {
                                         </>
                                     )}
                                 </p>
-                                <p className={styles.myEnterpriseAddress}>{enterprise.address}</p>
+                                <p className={styles.myEnterpriseAddress}>{enterprise.city}</p>
                             </div>
                             <button 
                                 className={styles.manageBtn}

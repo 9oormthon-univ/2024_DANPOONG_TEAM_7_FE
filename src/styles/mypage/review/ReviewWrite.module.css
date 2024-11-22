@@ -25,15 +25,21 @@
     height: 109px;
     margin: 0 0 0 30px;
     border-radius: 10px;
-    background-color: #D9D9D9;
+    background-color: #FFFFFF;
+    object-fit: contain;
 }
 
 .reviewMetadata{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
     text-align: left;
     margin: 0 0 0 15px;
 }
 
-.reviewMetadata p:first-child{
+.companyNameFront, .companyNameBack{
+    margin: 0 0 0 0;
     color: #5C5C5C;
     font-size: 15px;
     font-style: normal;
@@ -41,8 +47,8 @@
     line-height: 130%;
 }
 
-.reviewMetadata p{
-    margin: 0 0 0 0;
+.socialPurpose{
+    margin: 3px 0 0 0;
     color: #5C5C5C;
     font-size: 12px;
     font-style: normal;
@@ -263,7 +269,7 @@
 
 .reviewInput{
     width: 275px;
-    height: 130px;
+    height: 140px;
     margin: 35px 30px 35px 30px;
     background-color: transparent;
     color: #000000;

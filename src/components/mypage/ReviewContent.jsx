@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import styles from '../../styles/mypage/ReviewContent.module.css';
+import { useEdit } from '../../contexts/EditContext';
+import styles from '../../styles/mypage/review/ReviewContent.module.css';
+
+//utils
+import { formatCompanyName } from '../../utils/companyNameUtils';
+import { formatAddress } from '../../utils/formatAddress';
+import { formatDateWithShortDots } from '../../utils/formatDate';
+
+//img
 import manageIcon from '../../assets/images/mypage/myenterprise-detail.svg';
+import editIcon from '../../assets/images/mypage/edit-pencil.svg';
 import deleteOn from '../../assets/images/mypage/deleteon.svg';
 import deleteOff from '../../assets/images/mypage/deleteoff.svg';
 
-const ReviewContent = ({ reviews: initialReviews = [] }) => {
+const isCompanyNameOverflow = (companyName) => {
+    if (!companyName) return false;
+    return companyName.length > 10; // 10자 이상이면 overflow로 간주
+};
+
+const ReviewContent = ({ reviews }) => {
+    console.log('ReviewContent에서 받은 reviews:', reviews);
     const navigate = useNavigate();
-    const [reviews, setReviews] = useState(initialReviews);
+    const { setCurrentReview, clearEditData } = useEdit();
     const [selectedModalId, setSelectedModalId] = useState(null);
     const [clickedDeleteId, setClickedDeleteId] = useState(null);
 
@@ -16,21 +31,21 @@ const ReviewContent = ({ reviews: initialReviews = [] }) => {
         if (!Array.isArray(reviews)) return {};
         
         return reviews.reduce((groups, review) => {
-            if (!review.date) return groups;
-
+            if (!review.createAt) return groups;  // date 대신 createAt 사용
+    
             try {
-                const date = new Date(review.date);
+                const date = new Date(review.createAt);
                 if (isNaN(date.getTime())) return groups;
                 
                 const monthYear = `${date.getMonth() + 1}월`;
-
+    
                 if (!groups[monthYear]) {
                     groups[monthYear] = [];
                 }
-
+    
                 groups[monthYear].push(review);
                 return groups;
-            }   catch (error) {
+            } catch (error) {
                 console.error('날짜 처리 중 오류 발생:', error);
                 return groups;
             }
@@ -51,31 +66,30 @@ const ReviewContent = ({ reviews: initialReviews = [] }) => {
     const handleDeleteClick = (month, index, e) => {
         e.stopPropagation();
         setClickedDeleteId(`${month}-${index}`);
+    };
+    
+    const handleEditClick = (e, review) => {
+        e.stopPropagation();
+        setSelectedModalId(null);
+        
+        // 먼저 이전 편집 상태를 초기화
+        clearEditData();
+        
+        // 약간의 딜레이 후 새로운 리뷰 데이터 설정
         setTimeout(() => {
-            setReviews(prevReviews => {
-                const newReviews = [...prevReviews];
-                const monthReviews = groupReviewsByMonth(newReviews);
-                const reviewToDelete = monthReviews[month][index];
-                return newReviews.filter(review => review !== reviewToDelete);
-            });
-            setSelectedModalId(null);
-            setClickedDeleteId(null);
-        }, 100);
+            setCurrentReview(review);
+            navigate('/mypage/review/editkeyword');
+        }, 0);
     };
-
-    const handleEditClick = (e) => {
-        e.stopPropagation(); // 이벤트 버블링 방지
-        setSelectedModalId(null); // 모달 닫기
-        navigate('/mypage/review/editkeyword'); // 네비게이션 실행
-    };
-
+    
     const groupedReviews = groupReviewsByMonth(reviews);
     const sortedMonths = Object.keys(groupedReviews).sort((a, b) => {
         const dateA = new Date(a.replace('년 ', '-').replace('월', ''));
         const dateB = new Date(b.replace('년 ', '-').replace('월', ''));
         return dateB - dateA;
     });
-
+    console.log('그룹화된 리뷰:', groupedReviews);
+    console.log('정렬된 월:', sortedMonths);
     return (
         <div className={styles.container}>
         <div className={styles.reviewSection}>
@@ -83,7 +97,7 @@ const ReviewContent = ({ reviews: initialReviews = [] }) => {
                 <div className={styles.reviewBar}>
                     <div className={styles.reviewCount}>
                         <span>전체</span>
-                        <span>{reviews?.length || 0}</span>
+                        <span>{reviews.length || 0}</span>
                     </div>
                     <button className={styles.reviewArray}>최신순</button>
                 </div>
@@ -95,6 +109,8 @@ const ReviewContent = ({ reviews: initialReviews = [] }) => {
                             </div>
                             <div className={styles.reviewsContainer}>
                                 {groupedReviews[month].map((review, index) => {
+                                    const { front, back } = formatCompanyName(review.enterpriseName);
+                                    const isOverflow = isCompanyNameOverflow(review.enterpriseName);
                                     const modalId = `${month}-${index}`;
                                     const remainingKeywords = review.keywords ? review.keywords.length - 1 : 0;
                                     
@@ -104,42 +120,47 @@ const ReviewContent = ({ reviews: initialReviews = [] }) => {
                                             className={styles.itemCard}
                                         >
                                             <div className={styles.reviewInfo}>
-                                            <p className={styles.reviewTitle}>{review.company_name}</p>
-                                            <div className={styles.reviewDate}>{review.date}</div>
-                                            </div>
-                                            <button 
-                                            className={styles.manageBtn}
-                                            onClick={(e) => handleManageClick(month, index, e)}
-                                            >
-                                            <img src={manageIcon} alt='manage icon' className={styles.manageIcon}/>
-                                            </button>
-                                            {selectedModalId === modalId && (
-                                                <div className={styles.manageModal}>
-                                                    <button 
-                                                        className={styles.editBtn} 
-                                                        onClick={handleEditClick}
-                                                    >
-                                                        <div className={styles.editLabel}>수정</div>
-                                                    </button>
-                                                    <button 
-                                                    className={`${styles.deleteBtn} ${clickedDeleteId === modalId ? styles.deleteActive : ''}`}
-                                                    onClick={(e) => handleDeleteClick(month, index, e)}
-                                                    onMouseDown={() => handleDeleteMouseDown(month, index)}
-                                                    >
-                                                        <div 
-                                                            className={`${styles.deleteLabel} ${clickedDeleteId === modalId ? styles.deleteLabelActive : ''}`}
-                                                        >
-                                                        삭제
-                                                        </div>
-                                                        <img 
-                                                            src={clickedDeleteId === modalId ? deleteOn : deleteOff} 
-                                                            alt='delete icon' 
-                                                            className={styles.deleteIcon}
-                                                        />
-                                                    </button>
+                                                <div className={styles.reviewTitle}>
+                                                    <p>{front}</p>
+                                                    {isOverflow && <p>{back}</p>}
                                                 </div>
-                                            )}
-                                            <p className={styles.reviewAddress}>경기도 용인시</p>
+                                                <div className={styles.reviewDate}>{formatDateWithShortDots(review.createAt)}</div>
+                                                <button 
+                                                className={styles.manageBtn}
+                                                onClick={(e) => handleManageClick(month, index, e)}
+                                                >
+                                                <img src={manageIcon} alt='manage icon' className={styles.manageIcon}/>
+                                                </button>
+                                                {selectedModalId === modalId && (
+                                                    <div className={styles.manageModal}>
+                                                        <button 
+                                                            className={styles.editBtn} 
+                                                            onClick={(e) => handleEditClick(e, review)}
+                                                        >
+                                                            <div className={styles.editLabel}>수정</div>
+                                                            <img src={editIcon} alt='edit pencil' className={styles.editIcon}/>
+                                                        </button>
+                                                        <button 
+                                                        className={`${styles.deleteBtn} ${clickedDeleteId === modalId ? styles.deleteActive : ''}`}
+                                                        onClick={(e) => handleDeleteClick(month, index, e)}
+                                                        onMouseDown={() => handleDeleteMouseDown(month, index)}
+                                                        >
+                                                            <div 
+                                                                className={`${styles.deleteLabel} ${clickedDeleteId === modalId ? styles.deleteLabelActive : ''}`}
+                                                            >
+                                                            삭제
+                                                            </div>
+                                                            <img 
+                                                                src={clickedDeleteId === modalId ? deleteOn : deleteOff} 
+                                                                alt='delete icon' 
+                                                                className={styles.deleteIcon}
+                                                            />
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            
+                                            <p className={styles.reviewAddress}>{formatAddress(review.enterpriseAddress)}</p>
                                             <p className={styles.reviewContent}>{review.content}</p>
                                             <div className={styles.Keyword}>
                                                 {review.keywords && review.keywords.length > 0 && (

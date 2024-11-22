@@ -49,7 +49,7 @@
     background-color: #EAFBF9;
     border: 1px solid #2DDDC3;
     color: #000000;
-    border-radius: 20px;
+    border-radius: 22.5px;
     white-space: nowrap;
     cursor: pointer;
     font-size: 15px;
@@ -63,13 +63,13 @@
 }
 
 .keyword.selected {
-    background-color: #4a90e2;
-    color: white;
-    border-color: #357abd;
+    background-color: #2DDDC3;
+    color: #000000;
+    border-color: #2DDDC3;
 }
 
 .keyword.selected:hover {
-    background-color: #357abd;
+    background-color: #2DDDC3;
 }
 
 @keyframes slideLeft {
@@ -105,3 +105,4 @@
 .slider:hover .slideTrack {
     animation-play-state: paused;
 }
+

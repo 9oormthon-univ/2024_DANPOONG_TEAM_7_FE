@@ -50,5 +50,8 @@
     height: 60px;
     border-radius: 50%;
     flex-shrink: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
     background-color: #2DDDC3;
 }

@@ -1,42 +1,103 @@
 import React from "react";
 import KakaoLogin from '../../assets/images/login/kakao-login.svg';
 import styles from '../../styles/login/KakaoLoginButton.module.css';
+import Icon from '../../assets/images/login/Icon.svg';
+import logoName from '../../assets/images/login/logo-name.svg';
+import posterImg from '../../assets/images/login/post-img.svg';
+
 
 const KakaoLoginButton = () => {
-    const handleLogin = async () => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    console.log('현재 기기:', isIOS ? 'iOS' : '다른 기기'); // 디버깅용
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        console.log('로그인 시도 시작'); // 디버깅용
+        
         try {
-            const response = await fetch("https://api.ssoenter.store/api/kakao/login");
-            const kakaoLoginUrl = await response.text(); // 로그인 URL 가져오기
-            window.location.href = kakaoLoginUrl; // 카카오 로그인 페이지로 이동
+            console.log('API 요청 시작'); // 디버깅용
+            const response = await fetch('https://ssoenter.store/api/kakao/login', {
+                method: 'GET',
+                credentials: 'include',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'text/plain'
+                }
+            });
+
+            console.log('응답 상태:', response.status); // 디버깅용
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const kakaoLoginUrl = await response.text();
+            console.log('받은 URL:', kakaoLoginUrl); // 디버깅용
+
+            // iOS Safari에서 쿠키/세션 관련 이슈를 피하기 위한 처리
+            const finalUrl = new URL(kakaoLoginUrl);
+            
+            if (isIOS) {
+                // iOS에서는 직접 링크 열기
+                console.log('iOS에서 URL 열기 시도'); // 디버깅용
+                
+                // SameSite=None 이슈 해결을 위한 리다이렉트 처리
+                const a = document.createElement('a');
+                a.setAttribute('href', finalUrl.href);
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                window.location.href = kakaoLoginUrl;
+            }
         } catch (error) {
-            console.error("카카오 로그인 URL 요청 실패:", error);
+            console.error('에러 발생:', error); // 디버깅용
+            console.error('에러 세부정보:', {
+                name: error.name,
+                message: error.message,
+                stack: error.stack
+            });
+            alert("로그인 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
         }
     };
 
     return (
         <div className={styles.container}>
-            <div className={styles.logo}>
-
-            </div>
-            <div className={styles.comment}>
-                <p>나와 사회를 잇는</p>
-                <p>소비와 참여,</p>
-                <p>우리 모두의 성장을 이끈다!</p>
+            <img className={styles.logo} src={Icon} alt="icon" />
+            <img className={styles.logoName} src={logoName} alt="logo name" />
+            <div className={styles.content}>
+                <img
+                    className={styles.posterImg}
+                    src={posterImg} alt="background" />
             </div>
             <div className={styles.content}>
-
             </div>
-            <button 
+            <div 
+                role="button"
+                tabIndex={0}
                 className={styles.loginBtn}
                 onClick={handleLogin}
+                onTouchStart={handleLogin}
+                style={{
+                    cursor: 'pointer',
+                    WebkitTapHighlightColor: 'transparent',
+                    WebkitTouchCallout: 'none',
+                    WebkitUserSelect: 'none',
+                    touchAction: 'manipulation'
+                }}
             >
                 <img
-                src={KakaoLogin}
-                alt='KakaoLogin'  
+                    src={KakaoLogin}
+                    alt='KakaoLogin'
+                    style={{
+                        pointerEvents: 'none',
+                        WebkitTouchCallout: 'none',
+                        WebkitUserSelect: 'none'
+                    }}
                 />
-            </button>
+            </div>
         </div>
-    
     );
 };
 

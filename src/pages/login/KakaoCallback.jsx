@@ -15,7 +15,7 @@ const KakaoCallback = () => {
       const formData = new URLSearchParams();
       formData.append('code', code);
 
-      fetch("https://api.ssoenter.store/api/kakao/token", {
+      fetch("https://ssoenter.store/api/kakao/token", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

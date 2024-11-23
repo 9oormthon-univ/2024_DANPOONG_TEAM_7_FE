@@ -1,0 +1,18 @@
+[
+    {
+      "reviewId": 1,
+      "userName": "서하은",
+      "content": "사회적 기업에 대해 잘 알고 갑니다.",
+      "createAt": "2024-11-18",
+      "tagCount": 3,
+      "tagNumbers": [1, 2, 3]
+    },
+    {
+      "reviewId": 2,
+      "userName": "서하은",
+      "content": "수정된 리뷰 내용입니다.",
+      "createAt": "2024-11-18",
+      "tagCount": 4,
+      "tagNumbers": [5, 7, 12, 14]
+    }
+]

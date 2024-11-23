@@ -4,6 +4,7 @@
     align-items: center;
     width: 100vw;
     min-height: 100vh;
+    padding: 0 0 20px 0;
     margin: 0 0 70px 0;
     text-align: center;
     overflow-y: auto;
@@ -127,24 +128,24 @@
 .reviewContainer{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     width: 90%;
     height: 215px;
+    margin: 34px 0 0 0;
     flex-shrink: 0;
     border-radius: 27px;
     background: #FFF;
     box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
     overflow: hidden;
-    margin-top: 34px;
 }
 
 .reviewHeader{
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
     width: 87%;
     align-items: center;
-    margin: 0 0 26px 0;
+    margin: 23px 0 26px 0;
 }
 
 .myReview{
@@ -152,6 +153,8 @@
     justify-content: center;
     align-items: center;
     gap: 8px;
+    min-height: 100%;
+    flex-shrink: 0;
 }
 
 .myReview span{
@@ -174,14 +177,16 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 77px;
-    height: 24px;
+    width: 85px;
+    height: 31px;
+    margin: 0 0 0 145px;
     flex-shrink: 0;
+    padding: 0;
     border-radius: 27px;
     border: 1px solid #5C5C5C;
     color: #5C5C5C;
     background-color: #FFFFFF;
-    font-size: 12px;
+    font-size: 15px;
     font-style: normal;
     font-weight: 500;
     line-height: 130%; /* 15.6px */
@@ -206,7 +211,7 @@
     border-radius: 27px;
     background: #FFF;
     box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
-    margin: 45px 0 20px 0; /* transform 대신 margin 사용 */
+    margin: 40px 0 20px 0; /* transform 대신 margin 사용 */
     transition: min-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* transition 최적화 */
     will-change: min-height; /* 변화 예고 */
     transform: translateZ(0); /* 하드웨어 가속 */
@@ -223,5 +228,5 @@
 .bookmarkList{
     width: 92%;
     min-height: 100%;
-    margin: 40px 0 0 0;
+    margin: 20px 0 0 0;
 }

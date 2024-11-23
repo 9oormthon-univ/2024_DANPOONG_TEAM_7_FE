@@ -1,11 +1,39 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: true, // 모든 IP 주소에서 접근 가능하도록 설정
-    port: 5173,  // 기본 포트는 5173입니다
-  },
-});
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'Soenter',
+        short_name: 'Soenter',
+        start_url: '/',
+        display: 'standalone',
+        background_color: '#ffffff',
+        theme_color: '#000000',
+        icons: [
+          {
+            src: '/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      },
+      workbox: {
+        cleanupOutdatedCaches: true,
+        globPatterns: [
+          '**/*.{js,css,html,ico,png,svg}'
+        ],
+        navigateFallback: '/index.html'
+      }
+    })
+  ]
+})

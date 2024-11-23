@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; // useLocation 추가
 import styles from '../../styles/layout/Bar.module.css';
+
+//img
 import enterpriseOn from '../../assets/images/bar/enterprise-on.svg';
 import magazineOn from '../../assets/images/bar/magazine-on.svg';
 import homeOn from '../../assets/images/bar/home-on.svg';
@@ -22,7 +24,7 @@ const Bar = () => {
   };
 
   const handleHomeClick = () => {
-    navigate('/');
+    navigate('/home');
   };
 
   const handleMagazineClick = () => {
@@ -66,7 +68,7 @@ const Bar = () => {
         onClick={handleHomeClick}
       >
         <img
-          src={location.pathname === '/' ? homeOn : homeOff}  // 현재 경로에 따라 on/off 이미지 설정
+          src={location.pathname === '/home' ? homeOn : homeOff}  // 현재 경로에 따라 on/off 이미지 설정
           alt="Home Button"
           className={styles.home}
         />

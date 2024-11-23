@@ -4,7 +4,7 @@
  * @param {number} [maxLength=10] - 분리할 최대 길이 (기본값: 10)
  * @returns {{front: string, back: string}} - 분리된 회사명 객체
  */
-export const formatCompanyName = (name, maxLength = 10) => {
+export const formatCompanyName = (name, maxLength = 14) => {
     if (!name) return { front: '', back: '' };
 
     // "(주)" 로 시작하는 경우
@@ -96,10 +96,10 @@ export const formatCompanyName = (name, maxLength = 10) => {
 /**
  * 회사명이 최대 길이를 초과하는지 확인
  * @param {string} name - 확인할 회사명
- * @param {number} [maxLength=10] - 최대 길이 (기본값: 10)
+ * @param {number} [maxLength=14] - 최대 길이 (기본값: 10)
  * @returns {boolean} - 초과 여부
  */
-export const isCompanyNameOverflow = (name, maxLength = 10) => {
+export const isCompanyNameOverflow = (name, maxLength = 14) => {
     if (!name) return false;
     
     // "(주)"로 시작하는 경우 "(주)" 제외하고 길이 체크

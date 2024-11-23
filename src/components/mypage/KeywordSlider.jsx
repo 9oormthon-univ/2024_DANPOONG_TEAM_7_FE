@@ -1,7 +1,6 @@
 // KeywordSlider.jsx
 import React, { useState } from 'react';
 import styles from '../../styles/mypage/KeywordSlider.module.css';
-import keywordOn from '../../assets/images/mypage/review-keywordon.svg';
 
 function KeywordSlider({ onKeywordsChange }) {
     const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -54,6 +53,9 @@ function KeywordSlider({ onKeywordsChange }) {
             )[0];
             return { keyword: k, category: foundCategory };
         });
+
+        console.log(`Updated Selection:`, Array.from(newSet));
+        console.log(`Selected Info:`, selectedInfo);
         
         // setState를 한 번에 처리
         setSelectedKeywords(newSet);

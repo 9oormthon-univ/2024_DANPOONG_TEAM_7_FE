@@ -71,7 +71,7 @@
     justify-content: center;
     align-items: flex-start;
     gap: 0px;
-    width: 80%;
+    width: 95%;
     height: 263px;
     margin: 1% 0 0 0;
 }
@@ -109,4 +109,6 @@
     font-size: 12px;
     font-weight: 500;
     background-color: transparent;
+    color: #000000;
 }
+

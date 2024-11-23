@@ -1,7 +1,6 @@
 // EditKeywordSlider.jsx
 import React, { useState } from 'react';
-import styles from '../../styles/mypage/EditKeywordSlider.module.css';
-import keywordOn from '../../assets/images/mypage/review-keywordon.svg';
+import styles from '../../styles/mypage/review/EditKeywordSlider.module.css';
 
 function EditKeywordSlider({ onKeywordsChange }) {
     const [hoveredCategory, setHoveredCategory] = useState(null);

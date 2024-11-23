@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
+import KakaoMap from '../../components/enterprise/KakaoMap';
+import ListModal from '../../components/enterprise/ListModal';
+
+//redux
 import { 
     setSearchQuery,
     addToSearchHistory,
@@ -9,17 +14,16 @@ import {
     setFilteredEnterprises,
     setShouldShowMarkers 
 } from '../../redux/slices/FilteredEnterpriseListSlice';
-import {
-    fetchReviewLocations,
-    fetchBookmarkLocations,
-    setActiveMarkerType
-} from '../../redux/slices/ReviewBookmarkSlice';
 
-import { useEnterprises } from '../../hooks/useEnterprises';
-import KakaoMap from '../../components/enterprise/KakaoMap';
-import ListModal from '../../components/enterprise/ListModal';
-import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
-import searchIcon from '../../assets/images/enterprise/search-icon.svg';
+import { 
+    fetchVisitedLocations, 
+    fetchBookmarkLocations,
+    setActiveMarkerType 
+} from '../../redux/slices/VisitedBookmarkSlice';
+import { fetchEnterprises } from '../../redux/slices/EnterpriseSlice';
+
+//img
+import searchIcon from '../../assets/images/enterprise/company-search.svg';
 import BookmarkIcon from '../../assets/images/map/icon-bookmark.svg';
 import ReviewIcon from '../../assets/images/map/icon-review.svg';
 
@@ -28,39 +32,34 @@ function EnterpriseSearch() {
     const [isListModalFullView, setIsListModalFullView] = useState(false);    
     const [inputValue, setInputValue] = useState('');
     const [isInputFocused, setIsInputFocused] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
 
-    // API hooks
-    const { loading: enterprisesLoading, error: enterprisesError, fetchEnterprises } = useEnterprises();
-
-    // Redux states
-    const { isLoading: reviewBookmarkLoading, error: reviewBookmarkError } = useSelector(
-        state => state.reviewBookmark
+    const { isLoading: visitedBookmarkLoading, error: visitedBookmarkError } = useSelector(
+        state => state.visitedBookmark
     );
-    const { socialEnterprises } = useSelector(state => state.enterprise);
+    const { socialEnterprises, isLoading, error } = useSelector(state => state.enterprise);
     const { filteredEnterprises } = useSelector(state => state.filteredEnterprise);
 
-    // 초기 데이터 로딩
     useEffect(() => {
+        if (isInitialized) return;
+        
         const loadData = async () => {
             try {
+                const result = await dispatch(fetchEnterprises()).unwrap();
+                console.log('Enterprises loaded:', result);
                 await Promise.all([
-                    fetchEnterprises(),
-                    dispatch(fetchReviewLocations()),
+                    dispatch(fetchVisitedLocations()),
                     dispatch(fetchBookmarkLocations())
                 ]);
+                setIsInitialized(true);
             } catch (error) {
                 console.error('Failed to load data:', error);
             }
         };
+    
         loadData();
-    }, [dispatch]);
-
-    const isLoading = enterprisesLoading || reviewBookmarkLoading;
-    const hasError = enterprisesError || reviewBookmarkError;
-
-    if (isLoading) return <div>로딩 중...</div>;
-    if (hasError) return <div>데이터를 불러오는데 실패했습니다.</div>;
-
+    }, [dispatch, isInitialized]);
+    
     const handleSearch = () => {
         if (inputValue.trim()) {
             dispatch(setSearchQuery(inputValue));
@@ -86,10 +85,9 @@ function EnterpriseSearch() {
         setIsListModalFullView(false);
     };
 
-    const handleReviewClick = () => {
-        dispatch(fetchReviewLocations());
-        dispatch(setActiveMarkerType('review'));
-        dispatch(setDisplayMode('review'));
+    const handleVisitedClick = () => {
+        dispatch(fetchVisitedLocations());
+        dispatch(setActiveMarkerType('visited'));
     };
 
     const handleBookmarkClick = () => {
@@ -135,7 +133,7 @@ function EnterpriseSearch() {
                         </button>
                         <button 
                             className={styles.reviewBtn}
-                            onClick={handleReviewClick}
+                            onClick={handleVisitedClick}
                         >
                             <img src={ReviewIcon} alt='review icon' className={styles.reviewIcon}/>
                         </button>

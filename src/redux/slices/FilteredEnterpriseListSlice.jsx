@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchEnterprises } from './EnterpriseSlice';
 
 const initialState = {
     originalEnterprises: [],
     filteredEnterprises: [],
     activeFilters: {
-        categories: [],
+        types: [],
         socialPurpose: [],
         onoffStore: []
     },
@@ -36,7 +37,6 @@ const filteredEnterpriseListSlice = createSlice({
             
             let filteredList = [...state.originalEnterprises];
 
-            // 기존 필터 로직
             if (state.activeFilters.types && 
                 state.activeFilters.types.length > 0 && 
                 !state.activeFilters.types.includes('전체')) {
@@ -45,25 +45,23 @@ const filteredEnterpriseListSlice = createSlice({
                 );
             }
 
-            // 사회적 목적 필터 로직
             if (state.activeFilters.socialPurpose && 
                 state.activeFilters.socialPurpose.length > 0 && 
                 !state.activeFilters.socialPurpose.includes('전체')) {
                 filteredList = filteredList.filter(enterprise => {
-                    // 특수문자 처리를 위해 정규화 함수
+                    // null 체크 추가
                     const normalizeString = (str) => {
-                        return str.replace(/\s+/g, '')  // 공백 제거
-                                .replace(/[·ㆍ]/g, '·'); // 가운뎃점 통일
+                        if (!str) return '';  // null/undefined 값에 대해 빈 문자열 반환
+                        return str.replace(/\s+/g, '')
+                                .replace(/[·ㆍ]/g, '·');
                     };
                     
-                    // socialPurpose 필드와 비교
                     return state.activeFilters.socialPurpose.some(purpose => 
                         normalizeString(enterprise.socialPurpose) === normalizeString(purpose)
                     );
                 });
             }
 
-            // 온/오프라인 필터 로직 수정
             if (state.activeFilters.onoffStore && 
                 state.activeFilters.onoffStore.length > 0) {
                 filteredList = filteredList.filter(enterprise => {
@@ -116,6 +114,15 @@ const filteredEnterpriseListSlice = createSlice({
 
         setShouldShowMarkers: (state, action) => {
             state.shouldShowMarkers = action.payload;
+        },
+        extraReducers: (builder) => {
+            builder
+                .addCase(fetchEnterprises.fulfilled, (state, action) => {
+                    state.originalEnterprises = action.payload;
+                    state.filteredEnterprises = action.payload;
+                    state.totalFiltered = action.payload.length;
+                    state.lastUpdated = Date.now();
+                });
         }
     }
 });

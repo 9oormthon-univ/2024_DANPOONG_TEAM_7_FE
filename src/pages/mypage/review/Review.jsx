@@ -8,8 +8,11 @@ import ReviewContent from '../../../components/mypage/ReviewContent';
 import EnterpriseReviewModal from '../../../components/mypage/EnterpriseReviewModal';
 
 //hooks
-import { useEnterprises } from '../../../hooks/useEnterprises';
 import { useMyReviews } from '../../../hooks/useMyReviews';
+
+//기업정보
+import { fetchEnterprises } from '../../../redux/slices/EnterpriseSlice';
+
 
 //img
 import pencil from '../../../assets/images/mypage/pencil.svg';
@@ -17,8 +20,14 @@ import pencil from '../../../assets/images/mypage/pencil.svg';
 function Review() {
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { fetchEnterprises } = useEnterprises();
-    const enterprises = useSelector(state => state.enterprise.socialEnterprises);
+
+    //기업정보
+    const { 
+        socialEnterprises: enterprises, 
+        isLoading: enterprisesLoading,
+        error: enterprisesError 
+    } = useSelector(state => state.enterprise);
+
     const { 
         reviews, 
         loading: reviewLoading, 

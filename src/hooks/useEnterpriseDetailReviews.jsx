@@ -1,30 +1,27 @@
 import { useState, useEffect } from 'react';
+import axiosInstance from '../api/axiosInstance';
 
-const useEnterpriseDetailReviews = () => {
+const useEnterpriseDetailReviews = (enterpriseId) => {
   const [reviews, setReviews] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchEnterpriseReviews = async () => {
+    const fetchReviews = async () => {
       try {
-        const response = await fetch('/dummyData/enterpriseDetailReviews.json');
-        if (!response.ok) {
-          throw new Error('Failed to fetch enterprise reviews');
-        }
-        const data = await response.json();
-        setReviews(data);
-        setIsLoading(false);
+        const data = await axiosInstance.get(`/api/reviews/${enterpriseId}/enterprises`);
+        setReviews(data.result);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Failed to fetch enterprise reviews'));
-        setIsLoading(false);
+        setError(err.response?.data?.message || '리뷰를 불러오는데 실패했습니다');
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchEnterpriseReviews();
-  }, []);
+    fetchReviews();
+  }, [enterpriseId]);
 
-  return { reviews, isLoading, error };
+  return { reviews, loading, error };
 };
 
 export default useEnterpriseDetailReviews;

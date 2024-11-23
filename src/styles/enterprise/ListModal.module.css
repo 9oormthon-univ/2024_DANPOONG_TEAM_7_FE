@@ -223,6 +223,7 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+    position: relative;
     width: 18px;
     height: 67px;
     border-radius: 8px 8px 0 0;
@@ -231,7 +232,10 @@
 }
 
 .graphDegree{
-    width: 18px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     border-radius: 8px 8px 0 0;
     background-color: #2DDDC3;
     transition: height 0.3s ease;

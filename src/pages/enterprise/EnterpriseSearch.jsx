@@ -16,13 +16,11 @@ import {
 } from '../../redux/slices/FilteredEnterpriseListSlice';
 
 import { 
-    fetchVisitedLocations,
+    fetchVisitedLocations, 
     fetchBookmarkLocations,
-    setActiveMarkerType
-} from '../../redux/slices/VisitedBookmarkSlice'; 
-
-//hooks
-import { useEnterprises } from '../../hooks/useEnterprises';
+    setActiveMarkerType 
+} from '../../redux/slices/VisitedBookmarkSlice';
+import { fetchEnterprises } from '../../redux/slices/EnterpriseSlice';
 
 //img
 import searchIcon from '../../assets/images/enterprise/company-search.svg';
@@ -36,11 +34,10 @@ function EnterpriseSearch() {
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [isInitialized, setIsInitialized] = useState(false);
 
-    const { loading: enterprisesLoading, error: enterprisesError, fetchEnterprises } = useEnterprises();
     const { isLoading: visitedBookmarkLoading, error: visitedBookmarkError } = useSelector(
         state => state.visitedBookmark
     );
-    const { socialEnterprises } = useSelector(state => state.enterprise);
+    const { socialEnterprises, isLoading, error } = useSelector(state => state.enterprise);
     const { filteredEnterprises } = useSelector(state => state.filteredEnterprise);
 
     useEffect(() => {
@@ -48,18 +45,21 @@ function EnterpriseSearch() {
         
         const loadData = async () => {
             try {
-                const enterprisesData = await fetchEnterprises();
-                await dispatch(fetchVisitedLocations());
-                await dispatch(fetchBookmarkLocations());
+                const result = await dispatch(fetchEnterprises()).unwrap();
+                console.log('Enterprises loaded:', result);
+                await Promise.all([
+                    dispatch(fetchVisitedLocations()),
+                    dispatch(fetchBookmarkLocations())
+                ]);
                 setIsInitialized(true);
             } catch (error) {
                 console.error('Failed to load data:', error);
             }
         };
-
+    
         loadData();
-    }, [dispatch, fetchEnterprises, isInitialized]);
-
+    }, [dispatch, isInitialized]);
+    
     const handleSearch = () => {
         if (inputValue.trim()) {
             dispatch(setSearchQuery(inputValue));
@@ -86,9 +86,8 @@ function EnterpriseSearch() {
     };
 
     const handleVisitedClick = () => {
-        dispatch(fetchVisitedLocations());            
-        dispatch(setActiveMarkerType('visited')); 
-        dispatch(setDisplayMode('visited')); 
+        dispatch(fetchVisitedLocations());
+        dispatch(setActiveMarkerType('visited'));
     };
 
     const handleBookmarkClick = () => {

@@ -42,7 +42,7 @@ function EditKeyword() {
             } else {
                 navigate('/mypage/review');
             }
-        }
+        }        
     }, []);
 
     const handleKeywordsChange = (newKeywords, newKeywordInfo) => {

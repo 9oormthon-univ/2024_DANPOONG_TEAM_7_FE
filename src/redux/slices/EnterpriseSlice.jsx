@@ -1,63 +1,60 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axiosInstance from '../../api/axiosInstance';
 
-// -> enterprises 또는 companyList
-// name -> name
+export const fetchEnterprises = createAsyncThunk(
+   'enterprise/fetchEnterprises',
+   async (region = '경기') => {
+       const response = await axiosInstance.get(`/api/enterprises/${region}`);
+       return response.result;
+   }
+);
 
 const enterpriseSlice = createSlice({
    name: 'enterprise',
    initialState: {
        socialEnterprises: [],
        filteredEnterprises: [],
-       mapMarkers: []
+       isLoading: false,
+       error: null,
+       lastUpdated: null
    },
    reducers: {
-        setSocialEnterprises: (state, action) => {
-            // 이미 같은 데이터가 있다면 업데이트 하지 않음
-            if (state.lastUpdated && 
-                JSON.stringify(state.socialEnterprises) === JSON.stringify(action.payload)) {
-                return;
-            }
-            
-            state.socialEnterprises = action.payload;
-            state.filteredEnterprises = action.payload;
-            state.lastUpdated = Date.now();
-            
-            console.log('EnterpriseSlice - Social Enterprises Loaded:', {
-                total: action.payload.length,
-                timestamp: new Date(state.lastUpdated).toISOString()
-            });
-        },
-       setFilteredEnterprises: (state, action) => {
-           state.filteredEnterprises = action.payload; // 필터링된 목록 설정
-           
-           console.log('EnterpriseSlice - Filtered Enterprises Updated:', {
-               filteredCount: action.payload.length
-           });
+       setSocialEnterprises: (state, action) => {
+           if (state.lastUpdated && 
+               JSON.stringify(state.socialEnterprises) === JSON.stringify(action.payload)) {
+               return;
+           }
+           state.socialEnterprises = action.payload;
+           state.filteredEnterprises = action.payload;
+           state.lastUpdated = Date.now();
        },
-       updateEnterpriseCoords: (state, action) => {
-           const { name, coords } = action.payload;
-           
-           // socialEnterprises 배열에서 좌표 업데이트
-           const enterprise = state.socialEnterprises.find(e => e.name === name);
-           if (enterprise) {
-               enterprise.latitude = coords.latitude;
-               enterprise.longitude = coords.longitude;
-           }
-
-           // filteredEnterprises 배열에서도 좌표 업데이트
-           const filteredEnterprise = state.filteredEnterprises.find(e => e.name === name);
-           if (filteredEnterprise) {
-               filteredEnterprise.latitude = coords.latitude;
-               filteredEnterprise.longitude = coords.longitude;
-           }
-
-           console.log('EnterpriseSlice - Updated Coordinates:', {
-               name,
-               coordinates: coords
-           });
+       setFilteredEnterprises: (state, action) => {
+           state.filteredEnterprises = action.payload;
+       },
+       clearError: (state) => {
+           state.error = null;
        }
+   },
+   extraReducers: (builder) => {
+       builder
+           .addCase(fetchEnterprises.pending, (state) => {
+               state.isLoading = true;
+               state.error = null;
+           })
+           .addCase(fetchEnterprises.fulfilled, (state, action) => {
+               state.socialEnterprises = action.payload;
+               state.filteredEnterprises = action.payload;
+               state.isLoading = false;
+               state.lastUpdated = Date.now();
+           })
+           .addCase(fetchEnterprises.rejected, (state, action) => {
+               state.error = action.error.message;
+               state.isLoading = false;
+               state.socialEnterprises = [];
+               state.filteredEnterprises = [];
+           });
    }
 });
 
-export const { setSocialEnterprises, setFilteredEnterprises, updateEnterpriseCoords } = enterpriseSlice.actions;
+export const { setSocialEnterprises, setFilteredEnterprises, clearError } = enterpriseSlice.actions;
 export default enterpriseSlice.reducer;

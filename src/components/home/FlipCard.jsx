@@ -44,7 +44,7 @@ const FlipCard = ({profile, reviews}) => {
                                                 <>
                                                     <p>오늘은 뭐할까 ? 내일은 뭐하지?</p>
                                                     <p>{profile.name}님은 서초 2동의 인싸!</p>
-                                                </>
+                                                </> 
                                             );
                                         } else {
                                             return (
@@ -107,7 +107,7 @@ const FlipCard = ({profile, reviews}) => {
                                 alt="question fox" 
                                 className={styles.foxCharacter}
                             />
-                            <div className={styles.cardText}>
+                            <div className={styles.cardFrontText}>
                                 <p>{profile.name}님은 어떤 사람인가요?</p>
                                 <p>참여를 통해 알아보아요!</p>
                             </div>

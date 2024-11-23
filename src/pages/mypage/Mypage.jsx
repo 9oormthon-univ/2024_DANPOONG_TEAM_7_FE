@@ -1,7 +1,7 @@
 // Mypage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';//즐겨찾기
 import { useNavigate } from 'react-router-dom'; 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'; //즐겨찾기
 import styles from '../../styles/mypage/Mypage.module.css';
 import TopBar from '../../components/layout/TopBar';
 import ReviewSlider from '../../components/mypage/ReviewSlider';
@@ -12,28 +12,42 @@ import EnterpriseReviewModal from '../../components/mypage/EnterpriseReviewModal
 import { useProfile } from '../../hooks/useProfile';
 import { useMyReviews } from '../../hooks/useMyReviews';
 import { useBookmarks } from '../../hooks/useBookmarks';
-import { useVisitedEnterprises } from '../../hooks/useVisitedEnterprises';
-import { useEnterprises } from '../../hooks/useEnterprises';
+
+//즐겨찾기
+import { fetchVisitedLocations, fetchBookmarkLocations } from '../../redux/slices/VisitedBookmarkSlice';
+
+//기업정보
+import { fetchEnterprises } from '../../redux/slices/EnterpriseSlice';
 
 //utils
 import { calculateAge } from '../../utils/calculateAge';
 
+//img
+import logout from '../../assets/images/mypage/logout.svg';
+import profile20 from '../../assets/images/mypage/profile-20.svg';
+import profile30 from '../../assets/images/mypage/profile-30.svg';
+
 function Mypage() {
+    const dispatch = useDispatch(); //즐겨찾기
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { fetchEnterprises } = useEnterprises();
-    const enterprises = useSelector(state => state.enterprise.socialEnterprises);    
+
+    //즐겨찾기
+    const { bookmarkLocations, isLoading: bookmarkLoading, error: bookmarkError } = useSelector(state => state.visitedBookmark);
+    
+    //기업정보
+    const { 
+        socialEnterprises: enterprises, 
+        isLoading: enterprisesLoading,
+        error: enterprisesError 
+    } = useSelector(state => state.enterprise);
+
+
     const { 
         profile, 
         loading: profileLoading, 
         error: profileError 
     } = useProfile();
-    
-    const { 
-        bookmarks, 
-        loading: bookmarkLoading, 
-        error: bookmarkError 
-    } = useBookmarks();
 
     const { 
         reviews, 
@@ -42,9 +56,13 @@ function Mypage() {
     } = useMyReviews();
 
     const handleReviewClick = () => {
-        fetchEnterprises();
+        dispatch(fetchEnterprises());
         setIsModalOpen(true);
     };
+
+    useEffect(() => {
+        dispatch(fetchBookmarkLocations());
+    }, [dispatch]); //즐겨찾기
 
     if (profileLoading || bookmarkLoading || reviewLoading) {
         return <div>Loading...</div>;
@@ -59,25 +77,30 @@ function Mypage() {
             <div className={styles.TopBar}></div>
             <div className={styles.header}>
                 <div className={styles.profile}>
-                    <div className={styles.userProfile}></div>
+                    <div className={styles.userProfile}>
+                    <img 
+                        src={calculateAge(profile.birth) >= 30 ? profile30 : profile20}
+                        alt="profile" 
+                        className={styles.profileImage}
+                    />
+                    </div>
                     <div className={styles.userInfo}>
                         <div className={styles.userInfoRow1}>
                             <span className={styles.userName}>{profile.name}</span>
-                            <span className={styles.userAge}>{calculateAge(profile.birth)}세</span>
+                            <span className={styles.userAge}>{calculateAge(profile.birth) >= 30 ? '삼공이' : '이공이'}</span>
+                            <button className={styles.logoutBtn}>
+                                <img
+                                    src={logout}
+                                    alt='logout'
+                                    className={styles.logoutIcon}
+                                />
+                            </button>
                         </div>
                         <div className={styles.userInfoRow2}>
                             <span className={styles.reviewLabel}>나의 리뷰</span>
                             <span className={styles.reviewCount}>{reviews.length}</span>
                         </div>
                     </div>
-                </div>
-                <div className={styles.manageBtnContainer}>
-                    <button className={styles.profileManageBtn}>
-                        프로필관리
-                    </button>
-                    <button className={styles.accountSettingBtn}>
-                        계정설정
-                    </button>
                 </div>
             </div>
             <div className={styles.reviewContainer}>
@@ -101,12 +124,12 @@ function Mypage() {
                 <div className={styles.bookmarkHeader}>
                     <div className={styles.myReview}>
                         <span>내가 찜한 기업들</span>
-                        <span>{bookmarks.length}</span>
+                        <span>{bookmarkLocations.length}</span> {/*즐겨찾기*/}
                     </div>
                 </div>
                 <div className={styles.bookmarkList}>
                     <MyEnterpriseList
-                        items={bookmarks}
+                        items={bookmarkLocations} //즐겨찾기
                     />
                 </div>
             </div>

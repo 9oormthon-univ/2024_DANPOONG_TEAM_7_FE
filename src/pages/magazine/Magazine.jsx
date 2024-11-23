@@ -169,7 +169,7 @@ function Magazine() {
     };
 
     return (
-        <div style={{ minHeight: '100vh' }}>
+        <div style={{ width: '100vw', minHeight: '100vh' }}>
             {cards[currentIndex] && (
                 <div
                     style={{
@@ -188,13 +188,13 @@ function Magazine() {
                     }}
                 />
             )}
-            <div className={styles.container} style={{ overflowX: 'hidden' }}>
+            <div className={styles.container} style={{ display: 'flex', alignItems:'center', width: '100%',overflowX: 'hidden' }}>
                 {/* TopBar 대체 */}
                 <div style={{
                     width: '100%',
                     height: '62px',
                 }}></div>
-                <div>
+                <div style = {{width: '100%'}}>
                     <p style={{
                         fontSize: '20px',
                         color: '#5C5C5C',
@@ -221,9 +221,9 @@ function Magazine() {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     flex: '0 0 80%',
-                                    opacity: index === currentIndex ? 1 : 0.5,
-                                    transform: index === currentIndex ? 'scale(1)' : 'scale(0.9)',
+                                    opacity: index === currentIndex ? 1 : 0.5,                                    
                                     transition: 'transform 0.3s ease-out, opacity 0.3s ease-out',
+                                    transform: index === currentIndex ? 'scale(1)' : 'scale(0.9)',
                                 }}
                             >
                                 <div style={{

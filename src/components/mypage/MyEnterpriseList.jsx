@@ -1,5 +1,7 @@
 //MyEnterpriseList.jsx
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux'; //즐겨찾기 삭제
+import { removeBookmark, fetchBookmarkLocations } from '../../redux/slices/VisitedBookmarkSlice'; //즐겨찾기 삭제
 import styles from '../../styles/mypage/MyEnterpriseList.module.css';
 
 //utils
@@ -20,6 +22,7 @@ import otherIcon from '../../assets/images/enterprise-icons/other-creative-icon.
 import serviceIcon from '../../assets/images/enterprise-icons/service-icon.svg';
 
 const MyEnterpriseList = ({ items }) => {
+    const dispatch = useDispatch(); //즐겨찾기 삭제
     const [showAll, setShowAll] = useState(false);
     const [selectedManageIndex, setSelectedManageIndex] = useState(null);
     const [clickedDeleteIndex, setClickedDeleteIndex] = useState(null);
@@ -49,17 +52,15 @@ const MyEnterpriseList = ({ items }) => {
         setClickedDeleteIndex(index);
     };
 
-    const handleDeleteClick = (index) => {
-        setTimeout(() => {
-            setSelectedManageIndex(null);
-            setClickedDeleteIndex(null);
-            if (index === pinnedIndex) {
-                setPinnedIndex(null);
-            }
-            setEnterprises(prevEnterprises => 
-                prevEnterprises.filter((_, i) => i !== index)
-            );
-        }, 100);
+    const handleDeleteClick = async (enterpriseId) => { //즐겨찾기 삭제
+        try {
+            await dispatch(removeBookmark(enterpriseId)).unwrap();
+            // 성공적으로 삭제된 후 북마크 목록 새로고침
+            dispatch(fetchBookmarkLocations());
+        } catch (error) {
+            console.error('북마크 삭제 실패:', error);
+        }
+        setSelectedManageIndex(null);
     };
 
     const handlePinClick = (clickedIndex) => {
@@ -137,9 +138,9 @@ const MyEnterpriseList = ({ items }) => {
                             </button>
                             {selectedManageIndex === currentIndex && (
                                 <div className={styles.manageModal}>
-                                    <button 
+                                    <button //즐겨찾기 삭제
                                         className={`${styles.deleteBtn} ${clickedDeleteIndex === currentIndex ? styles.deleteActive : ''}`}
-                                        onClick={() => handleDeleteClick(currentIndex)}
+                                        onClick={() => handleDeleteClick(enterprise.enterpriseId)} 
                                         onMouseDown={() => handleDeleteMouseDown(currentIndex)}
                                     >
                                         <div 

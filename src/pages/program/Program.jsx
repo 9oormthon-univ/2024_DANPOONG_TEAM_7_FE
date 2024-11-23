@@ -15,8 +15,9 @@ const Program = () => {
     const [showModal, setShowModal] = useState(false);
     const [pages, setPages] = useState([]);
     const [showJobComponent, setShowJobComponent] = useState(false);
-    const [loading, setLoading] = useState(true); 
-    const [currentIndex, setCurrentIndex] = useState(0);    
+    const [loading, setLoading] = useState(true); // 로딩 상태 추가
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [startX, setStartX] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState(0);
     const [expandedCards, setExpandedCards] = useState({});
@@ -39,6 +40,7 @@ const Program = () => {
         entNews1,
     };
 
+    // 데이터 가져오기
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -59,9 +61,9 @@ const Program = () => {
                 setPages(mappedData);
             } catch (error) {
                 console.error('Fetch error:', error);
-                setPages([]); 
+                setPages([]); // 에러 발생 시 빈 배열 설정
             } finally {
-                setLoading(false); 
+                setLoading(false); // 로딩 상태 해제
             }
         };
         fetchData();
@@ -109,11 +111,11 @@ const Program = () => {
             setSearchTerm('');
             setFilteredItems(pages[currentIndex].items || []);
         } else {
-            setFilteredItems([]);
+            setFilteredItems([]); 
         }
     }, [currentIndex, pages]);
 
-    // 검색어 변경 시 필터링
+    // 검색어 변경 시 필터링 실행
     useEffect(() => {
         handleSearch(searchTerm, currentIndex);
     }, [searchTerm, currentIndex]);
@@ -127,6 +129,43 @@ const Program = () => {
     if (!pages || pages.length === 0) {
         return <div>No data available</div>;
     }
+
+    // const handleTouchStart = (e) => {
+    //     setStartX(e.touches[0].clientX);
+    //     setIsDragging(true);
+    // };
+
+    // const handleMouseDown = (e) => {
+    //     setStartX(e.clientX);
+    //     setIsDragging(true);
+    // };
+
+    // const handleTouchMove = (e) => {
+    //     if (!isDragging) return;
+    //     const currentX = e.touches[0].clientX;
+    //     const diff = currentX - startX;
+    //     setDragOffset(diff);
+    // };
+
+    // const handleMouseMove = (e) => {
+    //     if (!isDragging) return;
+    //     e.preventDefault();
+    //     const currentX = e.clientX;
+    //     const diff = currentX - startX;
+    //     setDragOffset(diff);
+    // };
+
+    // const handleEnd = () => {
+    //     if (Math.abs(dragOffset) > 100) {
+    //         if (dragOffset > 0 && currentIndex > 0) {
+    //             setCurrentIndex(currentIndex - 1);
+    //         } else if (dragOffset < 0 && currentIndex < pages.length - 1) {
+    //             setCurrentIndex(currentIndex + 1);
+    //         }
+    //     }
+    //     setIsDragging(false);
+    //     setDragOffset(0);
+    // };
 
     const handleTabClick = (index) => {
         setCurrentIndex(index);
@@ -591,7 +630,8 @@ const Program = () => {
                                     backgroundColor: 'white',
                                     padding: '40px 60px',
                                     borderRadius: '31px',
-                                    textAlign: 'center',                                    
+                                    textAlign: 'center',
+                                    // boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
                                 }}
                             >
                                 <img src={check} alt='check' style={{ width: '26px' }} />
@@ -1021,7 +1061,14 @@ const Program = () => {
                     <div
                         style={{
                             height: '100%',
-                        }}                    
+                        }}
+                    // onTouchStart={handleTouchStart}
+                    // onTouchMove={handleTouchMove}
+                    // onTouchEnd={handleEnd}
+                    // onMouseDown={handleMouseDown}
+                    // onMouseMove={handleMouseMove}
+                    // onMouseUp={handleEnd}
+                    // onMouseLeave={handleEnd}
                     >
                         <div style={{
                             display: 'flex',
@@ -1270,14 +1317,18 @@ const Program = () => {
                                                                 <span style={{
                                                                     whiteSpace: 'nowrap',
                                                                     textAlign: 'start',
-                                                                    fontSize: '15px',                                                                   
+                                                                    fontSize: '15px',
+                                                                    // transition: 'max-height 0.5s ease-in-out',
                                                                 }}>{item.place}</span>
                                                             </div>
 
                                                             <div style={{
                                                                 display: 'flex',
                                                                 justifyContent: 'space-between',
-                                                                alignItems: 'center',                                                                
+                                                                alignItems: 'center',
+                                                                // transition: 'all 0.5s ease-in-out',
+                                                                // opacity: isExpanded ? 0 : 1,
+                                                                // height: isExpanded ? 0 : 'auto',
                                                                 overflow: 'hidden',
                                                             }}>
                                                                 <div>

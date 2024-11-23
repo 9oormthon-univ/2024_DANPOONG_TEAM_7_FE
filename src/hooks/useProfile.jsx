@@ -1,5 +1,5 @@
-// hooks/useProfile.jsx
 import { useState, useEffect } from 'react';
+import axiosInstance from '../api/axiosInstance';
 
 export const useProfile = () => {
     const [profile, setProfile] = useState(null);
@@ -9,29 +9,30 @@ export const useProfile = () => {
     const fetchProfile = async () => {
         try {
             setLoading(true);
-            const response = await fetch('/dummyData/userDummyData.json');
-            const data = await response.json();
-            setProfile(data[0]); 
             
-            // 실제 API 연동 시:
-            // const response = await fetch('/api/profile', {
-            //     headers: {
-            //         'Authorization': `Bearer ${accessToken}`,
-            //     }
-            // });
-            // const data = await response.json();
-            // setProfile(data);
+            // axiosInstance를 사용하여 API 호출
+            const data = await axiosInstance.get('/api/users');
+            
+            // 응답 데이터의 result 필드를 프로필 정보로 설정
+            setProfile(data.result);
             
         } catch (err) {
             setError(err);
-            console.error('프로필 정보 로드 실패:', err);
+            console.error('사용자 정보 로드 실패:', err);
+            
+            // 토큰이 만료되었거나 유효하지 않은 경우는 
+            // axiosInstance의 인터셉터에서 자동으로 처리됨
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchProfile();
+        // 토큰이 있는 경우에만 API 호출
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            fetchProfile();
+        }
     }, []);
 
     return { profile, loading, error, fetchProfile };

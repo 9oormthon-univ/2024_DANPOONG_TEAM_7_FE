@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from '../../../styles/mypage/review/ReviewWrite.module.css';
 import TopBar from '../../../components/layout/TopBar';
 
+import axios from '../../../api/axiosInstance';
+
 //hooks
 import { useProfile } from '../../../hooks/useProfile';
 import { useReview } from '../../../contexts/ReviewContext';
@@ -16,17 +18,20 @@ import communityIcon from '../../../assets/images/enterprise-icons/local-communi
 import mixedIcon from '../../../assets/images/enterprise-icons/mixed-type-icon.svg';
 import otherIcon from '../../../assets/images/enterprise-icons/other-creative-icon.svg';
 import serviceIcon from '../../../assets/images/enterprise-icons/service-icon.svg';
+import modalHeart from '../../../assets/images/mypage/modalHeart.svg';
 
 function ReviewWrite() {
+    const [showCompletionModal, setShowCompletionModal] = useState(false);
+
     const navigate = useNavigate();
     const location = useLocation();
     const { profile, loading } = useProfile();
-    const { 
-        reviewText, 
-        setReviewText, 
+    const {
+        reviewText,
+        setReviewText,
         selectedKeywords,
         prepareSubmissionData,
-        validateReviewData 
+        validateReviewData
     } = useReview();
 
     const { enterpriseId, enterpriseName, socialPurpose } = location.state || {};
@@ -53,7 +58,7 @@ function ReviewWrite() {
         }
     }, [selectedKeywords, navigate]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isValid) {
             const submissionData = prepareSubmissionData();
             if (!submissionData) {
@@ -61,18 +66,40 @@ function ReviewWrite() {
                 return;
             }
 
-            console.log('ReviewWrite: Submitting review:', submissionData);
-            console.log('ReviewWrite: Selected keywords:', selectedKeywords);
-            navigate('/mypage');
+            console.log(submissionData)
+            const requestData = {
+                enterpriseId: submissionData.enterpriseId,
+                content: submissionData.content,
+                visitDate: submissionData.visitDate,
+                tagNumbers: submissionData.tagNumbers,
+            };
+            console.log(requestData)
+
+            try {
+                const response = await axios.post('/api/reviews', requestData);
+
+                console.log('Review submitted successfully:', response);
+
+                setShowCompletionModal(true);
+
+                const timer = setTimeout(() => {
+                    setShowCompletionModal(false);                    
+                    navigate('/mypage'); 
+                }, 1500);
+                
+                return () => clearTimeout(timer);
+            } catch (err) {
+                console.error('리뷰 등록 실패:', err);
+            }
         }
     };
 
     return (
         <div className={styles.container}>
-            <TopBar/>
-            <TopBar/>
+            <TopBar />
+            <TopBar />
             <div className={styles.reviewInfo}>
-                <img 
+                <img
                     src={currentIcon}
                     alt={`${socialPurpose} 아이콘`}
                     className={styles.enterpriseIcon}
@@ -81,20 +108,20 @@ function ReviewWrite() {
                     <p className={styles.companyNameFront}>
                         {formatCompanyName(enterpriseName).front}
                     </p>
-                        {formatCompanyName(enterpriseName).back && (
-                            <>
-                                <p className={styles.companyNameBack}>
-                                    {formatCompanyName(enterpriseName).back}
-                                </p>
-                            </>
-                        )}
+                    {formatCompanyName(enterpriseName).back && (
+                        <>
+                            <p className={styles.companyNameBack}>
+                                {formatCompanyName(enterpriseName).back}
+                            </p>
+                        </>
+                    )}
                     <p className={styles.socialPurpose}>{socialPurpose}</p>
                     <p>작성일: {new Date().toLocaleDateString()}</p>
                 </div>
             </div>
             <div className={styles.keywordSection}>
                 {Object.entries(
-                    selectedKeywords.reduce((acc, {keyword, category}) => {
+                    selectedKeywords.reduce((acc, { keyword, category }) => {
                         if (!acc[category]) acc[category] = [];
                         acc[category].push(keyword);
                         return acc;
@@ -115,18 +142,18 @@ function ReviewWrite() {
                 <p>{userName}님이 선택한 키워드는</p>
                 <p>전체 키워드 15개 중 {selectedKeywords.length}개 입니다!</p>
                 <div className={styles.graphSection}>
-                    <div 
+                    <div
                         className={styles.userGraphDegree}
-                        style={{ 
+                        style={{
                             height: `${Math.min(selectedKeywords.length / 15 * 100, 100)}%`,
                         }}
                     />
-                    <div 
+                    <div
                         className={styles.allGraphDegree}
-                        style={{ 
+                        style={{
                             height: `${Math.min(15 / 15 * 100, 100)}%`,
                         }}
-                    />    
+                    />
                 </div>
                 <div className={styles.graphComment}>
                     <span>{selectedKeywords.length}개</span>
@@ -140,7 +167,7 @@ function ReviewWrite() {
                 <textarea
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}
-                    placeholder="리뷰를 작성해주세요" 
+                    placeholder="리뷰를 작성해주세요"
                     className={styles.reviewInput}
                     maxLength={maxLength}
                     style={{ fontFamily: 'Pretendard' }}
@@ -156,6 +183,56 @@ function ReviewWrite() {
             >
                 등록하기
             </button>
+            {showCompletionModal &&
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 2000,
+                    }}
+                >
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '18px',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'white',
+                            padding: '40px 60px',
+                            borderRadius: '31px',
+                            textAlign: 'center',
+                            // boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                        }}
+                    >
+                        <img src={modalHeart} alt='modalHeart' style={{ width: '26px' }} />
+                        <div
+                            style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            리뷰가 등록되었어요!
+                        </div>
+                        <div
+                            style={{
+                                fontSize: '15px',
+                                color: '#5C5C5C',
+                                whiteSpace: 'pre-line'
+                            }}
+                        >
+                            {"서현님의 소중한 리뷰는 이웃들의 결정에\n많은 도움이 될 거에요!"}
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     );
 }

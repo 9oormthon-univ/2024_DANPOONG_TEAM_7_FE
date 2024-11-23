@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../../../styles/mypage/review/EditWrite.module.css';
 import TopBar from '../../../components/layout/TopBar';
 import { useEdit } from '../../../contexts/EditContext';
+import  axiosInstance from '../../../api/axiosInstance';
+import { convertKeywordsToTagNumbers } from '../../../utils/tagUtils';
 
 //hooks
 import { useProfile } from '../../../hooks/useProfile';
@@ -53,21 +55,38 @@ function EditWrite() {
 
     const handleSubmit = async () => {
         const { isValid } = validateEditData();
-        if (isValid) {
-            setSubmissionStatus('loading');
-            const submissionData = prepareSubmissionData();
+    
+        if (!isValid) {
+            console.error('Validation failed');
+            return;
+        }
+    
+        setSubmissionStatus('loading');
             
-            try {
-                console.log('Submitting edited review:', submissionData);
-                // TODO: API 호출 구현
-                
-                // 성공적으로 제출 후 상태 초기화
-                clearEditData();
-                navigate('/mypage');
-            } catch (error) {
-                console.error('Failed to submit review:', error);
-                setSubmissionStatus('error');
-            }
+        const tagNumbers = selectedKeywords.map(keyword =>
+            convertKeywordsToTagNumbers([{ category: keyword.category, keyword: keyword.keyword }])[0]
+        ).filter(tag => tag !== undefined);
+    
+        const submissionData = {
+            content: reviewText,
+            tagNumbers: tagNumbers,
+        };
+    
+        console.log('Payload being sent to the backend:', submissionData);
+    
+        try {
+            const response = await axiosInstance.put(
+                `/api/reviews/${currentReview.reviewId}`,
+                submissionData
+            );
+    
+            console.log('Response data:', response.data);
+                        
+            clearEditData();
+            navigate('/mypage');
+        } catch (error) {
+            console.error('Failed to submit review:', error);
+            setSubmissionStatus('error');
         }
     };
 

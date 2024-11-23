@@ -357,6 +357,51 @@
     width: 97%;
     height: 70px;
     text-align: left;
+    color: #000;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 19.5px */
+}
+
+.reviewCardKeywords{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 9px;
+    width: 100%;
+}
+
+.primaryKeyword{
+    display: flex;
+    align-items: center;
+    height: 30px;
+    flex-shrink: 0;
+    padding: 0 7px 0 7px;
+    border-radius: 17.5px;
+    border: 1px solid #2DDDC3;
+    background-color: #D5F8F350;
+    color: #000;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 19.5px */
+}
+
+.plusKeyword{
+    display: flex;
+    align-items: center;
+    height: 30px;
+    padding: 0 6px 0 6px;
+    border-radius: 13px;
+    border: 1px solid #2DDDC3;
+    color: #000;
+    background-color: #D5F8F350;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 19.5px */
 }
 
 

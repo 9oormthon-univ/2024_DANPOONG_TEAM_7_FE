@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect }from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/home/Home.module.css';
 import KakaoMap from '../../components/enterprise/KakaoMap';
@@ -33,6 +33,16 @@ function Home() {
     const handleReviewClick = (review) => {
         console.log('선택된 리뷰:', review);
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        console.log('홈 화면 토큰 상태:', token);
+        
+        if (!token) {
+          console.log('토큰이 없어 로그인 페이지로 이동');
+          navigate('/', { replace: true });
+        }
+      }, [navigate]);
 
     if (profileLoading || reviewLoading) {
         return <div className={styles.loading}>로딩 중...</div>;

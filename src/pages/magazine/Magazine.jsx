@@ -456,7 +456,7 @@ function Magazine() {
                                         {singleEnterpirseNews.title}
                                     </span>
                                     <span style={{
-                                        fontSize: '9px',
+                                        fontSize: '12px',
                                     }}>
                                         {singleEnterpirseNews.enterpriseName}
                                     </span>
@@ -469,7 +469,7 @@ function Magazine() {
                                     gap: '5px'
                                 }}>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
-                                        <span style={{ fontSize: '9px', color: '#333', textAlign: 'left' }}>{singleEnterpirseNews.content}</span>
+                                        <span style={{ fontSize: '12px', color: '#333', textAlign: 'left' }}>{singleEnterpirseNews.content}</span>
                                     </div>
                                 </div>
                             </div>

@@ -22,6 +22,7 @@ import modalHeart from '../../../assets/images/mypage/modalHeart.svg';
 
 function ReviewWrite() {
     const [showCompletionModal, setShowCompletionModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(''); // errorMessage 상태 선언
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -40,7 +41,6 @@ function ReviewWrite() {
     const { isValid } = validateReviewData();
     const userName = loading ? '...' : (profile.name || '사용자');
 
-    // 아이콘 매핑
     const iconMap = useMemo(() => ({
         '사회서비스제공형': serviceIcon,
         '일자리제공형': employIcon,
@@ -49,7 +49,6 @@ function ReviewWrite() {
         '기타(창의ㆍ혁신)형': otherIcon
     }), []);
 
-    // 현재 기업 유형에 맞는 아이콘 선택
     const currentIcon = iconMap[socialPurpose] || employIcon;
 
     useEffect(() => {
@@ -57,6 +56,18 @@ function ReviewWrite() {
             navigate('/mypage/review/keyword');
         }
     }, [selectedKeywords, navigate]);
+
+    const handleTextChange = (e) => {
+        const input = e.target.value;
+        setReviewText(input);
+
+        // 10자 이하일 경우 에러 메시지 설정
+        if (input.length < 10) {
+            setErrorMessage('*리뷰는 최소 10글자 이상이어야 합니다.');
+        } else {
+            setErrorMessage('');
+        }
+    };
 
     const handleSubmit = async () => {
         if (isValid) {
@@ -66,28 +77,20 @@ function ReviewWrite() {
                 return;
             }
 
-            console.log(submissionData)
-            const requestData = {
-                enterpriseId: submissionData.enterpriseId,
-                content: submissionData.content,
-                visitDate: submissionData.visitDate,
-                tagNumbers: submissionData.tagNumbers,
-            };
-            console.log(requestData)
-
             try {
-                const response = await axios.post('/api/reviews', requestData);
-
-                console.log('Review submitted successfully:', response);
+                const response = await axios.post('/api/reviews', {
+                    enterpriseId: submissionData.enterpriseId,
+                    content: submissionData.content,
+                    visitDate: submissionData.visitDate,
+                    tagNumbers: submissionData.tagNumbers,
+                });
 
                 setShowCompletionModal(true);
 
-                const timer = setTimeout(() => {
-                    setShowCompletionModal(false);                    
-                    navigate('/mypage'); 
+                setTimeout(() => {
+                    setShowCompletionModal(false);
+                    navigate('/mypage');
                 }, 1500);
-                
-                return () => clearTimeout(timer);
             } catch (err) {
                 console.error('리뷰 등록 실패:', err);
             }
@@ -96,7 +99,6 @@ function ReviewWrite() {
 
     return (
         <div className={styles.container}>
-            <TopBar />
             <TopBar />
             <div className={styles.reviewInfo}>
                 <img
@@ -109,11 +111,9 @@ function ReviewWrite() {
                         {formatCompanyName(enterpriseName).front}
                     </p>
                     {formatCompanyName(enterpriseName).back && (
-                        <>
-                            <p className={styles.companyNameBack}>
-                                {formatCompanyName(enterpriseName).back}
-                            </p>
-                        </>
+                        <p className={styles.companyNameBack}>
+                            {formatCompanyName(enterpriseName).back}
+                        </p>
                     )}
                     <p className={styles.socialPurpose}>{socialPurpose}</p>
                     <p>작성일: {new Date().toLocaleDateString()}</p>
@@ -163,19 +163,22 @@ function ReviewWrite() {
                 <p>선택한 키워드의 개수는 점수로 환산되어</p>
                 <p>기업에 대한 평균 추천 수에 포함될 예정입니다</p>
             </div>
+            <div className={styles.reviewWrapper}>
             <div className={styles.reviewBox}>
                 <textarea
                     value={reviewText}
-                    onChange={(e) => setReviewText(e.target.value)}
+                    onChange={handleTextChange}
                     placeholder="리뷰를 작성해주세요"
                     className={styles.reviewInput}
                     maxLength={maxLength}
-                    style={{ fontFamily: 'Pretendard' }}
                 />
                 <div className={styles.characterCount}>
                     {reviewText.length}/{maxLength}
                 </div>
             </div>
+                {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+            </div>
+
             <button
                 className={styles.submitBtn}
                 onClick={handleSubmit}
@@ -183,6 +186,7 @@ function ReviewWrite() {
             >
                 등록하기
             </button>
+
             {showCompletionModal &&
                 <div
                     style={{

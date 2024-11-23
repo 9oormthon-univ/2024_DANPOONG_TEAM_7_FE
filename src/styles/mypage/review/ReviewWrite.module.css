@@ -255,16 +255,17 @@
     line-height: 22px; /* 110% */
 }
 
-.reviewBox{
+.reviewBox {
     display: flex;
-    justify-content: center;
-    position: relative;
-    width: 90%;
-    min-height: 177px;
-    margin: 25px 0 0 0;
+    flex-direction: column; /* 수직 정렬 */
+    justify-content: flex-start;
+    align-items: flex-start; /* 왼쪽 정렬 */
+    width: 90%; /* 부모 요소에 맞는 너비 설정 */
+    margin: 20px 0; /* 외부 여백 추가 */
+    padding: 15px; /* 내부 여백 추가 */
     border-radius: 25px;
     background-color: #FFFFFF;
-    box-shadow: 0 2px 5px 1px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
 .reviewInput{
@@ -287,8 +288,8 @@
 
 .characterCount {
     position: absolute;
-    bottom: 15px;
-    right: 15px;
+    bottom: 10px;
+    right: 60px;
     color: #5C5C5C;
     font-size: 12px;
     font-weight: 400;
@@ -301,7 +302,7 @@
 .submitBtn {
     width: 302px;
     height: 59px;
-    margin: 57px 0 52px 0;
+    margin: 47px 0 42px 0;
     border-radius: 27px;
     font-size: 24px;
     font-weight: 500;
@@ -319,4 +320,19 @@
 .submitBtn:enabled {
     background-color: #5C5C5C;
     color: white;
+}
+
+.errorWrapper {
+    width: 100%; /* 부모 요소에 맞게 너비 조정 */
+    margin-top: 10px; /* 텍스트박스와 에러 메시지 간격 추가 */
+}
+
+.errorMessage {
+    color: red; /* 에러 메시지를 빨간색으로 표시 */
+    font-size: 12px; /* 적당한 글자 크기 */
+    font-weight: 400; /* 가벼운 글자 두께 */
+    margin-top: 5px; /* 위 요소와 간격 추가 */
+    text-align: left; /* 왼쪽 정렬 */
+    margin-left: 5%; /* 텍스트박스와 맞춤 */
+    width: 90%; /* 텍스트박스와 같은 너비 */
 }

@@ -18,7 +18,7 @@ const KakaoCallback = () => {
     console.log("인증 코드:", code);
 
     if (code) {
-      fetch("http://localhost:8080/api/kakao/token", {
+      fetch("https://ssoenter.store/api/kakao/token", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

@@ -5,7 +5,7 @@ import styles from '../../styles/login/KakaoLoginButton.module.css';
 const KakaoLoginButton = () => {
     const handleLogin = async () => {
         try {
-            const response = await fetch("http://api.ssoenter.store/api/kakao/login");
+            const response = await fetch("https://api.ssoenter.store/api/kakao/login");
             const kakaoLoginUrl = await response.text(); // 로그인 URL 가져오기
             window.location.href = kakaoLoginUrl; // 카카오 로그인 페이지로 이동
         } catch (error) {

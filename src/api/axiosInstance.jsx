@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://api.ssoenter.store',
+    baseURL: 'https://api.ssoenter.store',
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json',

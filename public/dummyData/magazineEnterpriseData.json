@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "주식회사 컴원",
+        "likes": 120,
+        "location": "경기도 화성시",
+        "image": "ent1"
+    },
+    {
+        "id": 2,
+        "name": "주식회사 담심포",
+        "likes": 98,
+        "location": "경기도 양주시",
+        "image": "ent2"
+    },
+    {
+        "id": 3,
+        "name": "더메이크사회적협동조합",
+        "likes": 150,
+        "location": "경기도 안양시",
+        "image": "ent3"
+    },
+    {
+        "id": 4,
+        "name": "사랑이야기",
+        "likes": 75,
+        "location": "경기도 부천시",
+        "image": "ent4"
+    },
+    {
+        "id": 5,
+        "name": "(주)테크인",
+        "likes": 200,
+        "location": "경기도 안산시",
+        "image": "ent5"
+    },
+    {
+        "id": 6,
+        "name": "(주)샵포스쿨",
+        "likes": 180,
+        "location": "경기도 의정부시",
+        "image": "ent6"
+    },
+    {
+        "id": 7,
+        "name": "다올사회적협동조합",
+        "likes": 65,
+        "location": "경기도 수원시",
+        "image": "ent7"
+    },
+    {
+        "id": 8,
+        "name": "우리들행복나눔",
+        "likes": 220,
+        "location": "경기도 포천시",
+        "image": "ent8"
+    },
+    {
+        "id": 9,
+        "name": "청보",
+        "likes": 140,
+        "location": "경기도 광주시",
+        "image": "ent9"
+    },
+    {
+        "id": 10,
+        "name": "(주)다래월드",
+        "likes": 95,
+        "location": "경기도 이천시",
+        "image": "ent10"
+    }
+]

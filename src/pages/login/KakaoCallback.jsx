@@ -54,7 +54,7 @@ const KakaoCallback = () => {
           setTimeout(() => {
             const returnPath = location.state?.from || "/age";
             navigate(returnPath, { replace: true });
-          }, 3000); // 3초 대기 후 홈으로 이동
+          }, 1000); // 3초 대기 후 홈으로 이동
         })
         .catch((error) => {
           console.error("로그인 에러:", error);

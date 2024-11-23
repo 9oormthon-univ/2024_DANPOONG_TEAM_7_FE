@@ -597,7 +597,7 @@ const Program = () => {
                                 color: 'white',
                                 border: 'none',
                                 borderRadius: '27px',
-                                fontSize: '16px',
+                                fontSize: '20px',
                                 marginTop: '20px',
                             }}
                         >
@@ -931,21 +931,20 @@ const Program = () => {
                             borderRadius: '27px',
                             height: '59px',
                             lineHeight: '59px',
-                            fontSize: '24px',
+                            fontSize: '20px',
                             color: '#747474'
                         }}>
                             기업 정보 보기
                         </div>
                         <div style={{
                             textAlign: 'center',
-                            background: '#2DDDC3',
+                            background: '#D9D9D9',
                             borderRadius: '27px',
                             height: '59px',
                             lineHeight: '59px',
-                            fontSize: '24px',
+                            fontSize: '20px',
                         }}>
-                            <span style={{ color: '#5C5C5C', fontWeight: 'bold', marginRight: '15px' }}>{card.day}</span>
-                            <span style={{ color: '#FFFFFF' }}>지원하기</span>
+                            <span style={{ color: '#FFFFFF' }}>서비스 준비중입니다</span>
                         </div>
                     </div>
                 </div>
@@ -1200,8 +1199,7 @@ const Program = () => {
                                                                 backgroundImage: `url(${item.image})`,
                                                                 backgroundSize: "cover",
                                                                 backgroundPosition: "center",
-                                                            }}>
-                                                                사진
+                                                            }}>                                                                
                                                             </div>
                                                             <div style={{ padding: '20px 0' }}>
                                                                 <p style={{
@@ -1252,7 +1250,7 @@ const Program = () => {
                                                                         style={{
                                                                             width: '100%',
                                                                             color: 'white',
-                                                                            fontSize: '24px',
+                                                                            fontSize: '20px',
                                                                             borderRadius: '27px',
                                                                             background: '#2DDDC3',
                                                                             margin: '10px 0 20px 0',

@@ -58,9 +58,9 @@ const SwipeableInfo = ({ enterpriseData }) => {
     }, []);
 
     const tabs = [
-        { id: 'company' },
-        { id: 'review' },
-        { id: 'magazine' }
+        { title: '기업정보', id: 'company' },
+        { title: '이웃들의 리뷰', id: 'review' },
+        { title: '기업 매거진', id: 'magazine' }
     ];
 
     const getTabIndex = (tabId) => tabs.findIndex(tab => tab.id === tabId);
@@ -159,7 +159,6 @@ const SwipeableInfo = ({ enterpriseData }) => {
             case 'company':
                 return (
                     <div className={styles.enterpriseInfoContainer}>
-                        <div className={styles.sectionTitle}>기업 정보</div>
                         <div className={styles.section}>
                             <div className={styles.comment}>
                                 <p>{getDisplayValue(enterpriseData.name)}은</p>
@@ -234,10 +233,9 @@ const SwipeableInfo = ({ enterpriseData }) => {
                     <div className={styles.reviewContainter}>
                         <div className={styles.reviewHeader}>
                             <div className={styles.reviewTitle}>
-                                <p>이웃들의 리뷰</p>
+                                <button className={styles.alignment}>최신 순</button>
                                 <p>{reviews?.length || 0}개</p>
                             </div>
-                            <button className={styles.alignment}>최신 순</button>
                         </div>
                         <div className={styles.reviewCardList}>
                         {reviews && reviews.length > 0 ? (
@@ -284,10 +282,9 @@ const SwipeableInfo = ({ enterpriseData }) => {
                     <div className={styles.magazineContainter}>
                         <div className={styles.magazineHeader}>
                             <div className={styles.magazineTitle}>
-                                <p>기업 매거진</p>
+                                <button className={styles.alignment}>최신 순</button>
                                 <p>{magazineData.length}개</p>
                             </div>
-                            <button className={styles.alignment}>최신 순</button>
                         </div>
                         <div className={styles.magazineCardList}>
                             {magazineData.map((magazine) => (
@@ -324,6 +321,7 @@ const SwipeableInfo = ({ enterpriseData }) => {
                         onClick={() => setActiveTab(tab.id)}
                         className={`${styles.tabButton} ${activeTab === tab.id ? styles.activeTab : ''}`}
                     >
+                        <p>{tab.title}</p>
                     </button>
                 ))}
             </div>

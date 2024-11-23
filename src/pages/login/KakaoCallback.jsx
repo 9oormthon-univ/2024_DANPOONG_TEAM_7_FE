@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import Lottie from "lottie-react";
-import loadingLottie from "../../assets/images/lottie/loadingLottie.json";
 
 const KakaoCallback = () => {
   const [searchParams] = useSearchParams();
@@ -75,8 +73,7 @@ const KakaoCallback = () => {
           alignItems: "center",
           height: "100vh",
         }}
-      >
-        <Lottie animationData={loadingLottie} loop={true} />
+      >      
       </div>
     );
   }

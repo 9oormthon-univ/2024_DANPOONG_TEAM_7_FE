@@ -24,7 +24,7 @@ const DEFAULT_LAT = 37.3517089;
 const DEFAULT_LNG = 127.0705171;
 const DEFAULT_ZOOM_LEVEL = 5;
 const ENTERPRISE_ZOOM_LEVEL = 9;
-const SEARCH_RADIUS = 2000;
+const SEARCH_RADIUS = 20000;
 
 // 사회적 기업 관련 검색어
 const SOCIAL_ENTERPRISE_KEYWORDS = ['사회적 기업', '사회적기업' , '사회적', '사회'];
@@ -152,6 +152,7 @@ function KakaoMap() {
 
   // ===== 마커 표시 함수들 =====
   const displayMarker = useCallback((map, locPosition, message, imageSrc) => {
+    
     if (imageSrc === currentLocationMarker) {
       // 기존 내 위치 마커가 있다면 제거
       if (myLocationMarkerRef.current) {
@@ -179,6 +180,7 @@ function KakaoMap() {
       myLocationMarkerRef.current = customOverlay;
     } else {
       const imageSize = new kakao.maps.Size(35, 35);
+      
       const imageOption = { offset: new kakao.maps.Point(11, 34) };
       const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
       
@@ -269,81 +271,157 @@ function KakaoMap() {
 }, [clearMarkers, displayMarker, addressToCoords, moveMapToLocation]);
 
   // 리뷰 마커 표시 함수
-  const displayVisitedMarkers = useCallback(async (map, locations) => {
-    if (!map || locations.length === 0) return;
+  // KakaoMap.js의 displayVisitedMarkers 함수 수정
+const displayVisitedMarkers = useCallback(async (map, locations) => {
+  
+  console.log('Marker image path:', visitedMarker);
+  
+    console.log('displayVisitedMarkers called with:', {
+        mapExists: !!map,
+        locationsLength: locations?.length,
+        locations: locations
+    });
 
-    clearMarkers();
-    
-    const processVisited = async (location) => {
+  if (!map || !locations || locations.length === 0) {
+      console.warn('No map instance or empty locations array', { 
+          map: !!map, 
+          locationsLength: locations?.length 
+      });
+      return;
+  }
+
+  clearMarkers();
+  console.log('Markers cleared, proceeding with locations:', locations);
+  
+  const processVisited = async (location) => {
+
+      console.log('Processing location:', location);
       try {
-        const coords = location.latitude && location.longitude 
-          ? { latitude: location.latitude, longitude: location.longitude }
-          : await addressToCoords(location.address || location.district);
+          const coords = location.latitude && location.longitude 
+              ? { latitude: location.latitude, longitude: location.longitude }
+              : await addressToCoords(location.address || location.district);
 
-        const position = new kakao.maps.LatLng(coords.latitude, coords.longitude);
-        
-        displayMarker(
-          map,
-          position,
-          `<div style="padding:5px;font-size:12px;">
-            ${location.enterpriseName}<br>
-            ${location.city} ${location.district}
-          </div>`,
-          visitedMarker
-        );
+          console.log('Coordinates obtained:', coords);
 
-        return coords;
+          if (!coords) {
+              console.warn('No coordinates found for location:', location);
+              return null;
+          }
+
+          const position = new kakao.maps.LatLng(coords.latitude, coords.longitude);
+          
+          const content = `
+              <div style="padding:5px;font-size:12px;">
+                  ${location.enterpriseName}<br>
+                  ${location.city} ${location.district}
+              </div>
+          `;
+
+          displayMarker(
+              map,
+              position,
+              content,
+              visitedMarker
+          );
+
+          return coords;
       } catch (error) {
-        console.error(`Failed to process location: ${location.name || location.companyName}`, error);
-        return null;
+          console.error('Error processing location:', {
+              location,
+              error: error.message,
+              stack: error.stack
+          });
+          return null;
       }
-    };
+  };
 
-    const firstCoords = await processBatchMarkers(locations, processVisited);
+  try {
+      const firstCoords = await processBatchMarkers(locations, processVisited);
+      console.log('First coordinates obtained:', firstCoords);
 
-    if (firstCoords) {
-      moveMapToLocation(map, firstCoords.latitude, firstCoords.longitude, 3);
-    }
-  }, [clearMarkers, displayMarker, addressToCoords, moveMapToLocation]);
+      if (firstCoords) {
+          moveMapToLocation(map, firstCoords.latitude, firstCoords.longitude, 3);
+      }
+  } catch (error) {
+      console.error('Error in displayVisitedMarkers:', error);
+  }
+}, [clearMarkers, displayMarker, addressToCoords, moveMapToLocation]);
 
   // 북마크 마커 표시 함수
   const displayBookmarkMarkers = useCallback(async (map, locations) => {
-    if (!map || locations.length === 0) return;
+    if (!map || !locations || locations.length === 0) {
+        console.log('No map instance or empty locations:', { map: !!map, locationCount: locations?.length });
+        return;
+    }
 
     clearMarkers();
+    console.log('Processing bookmark locations:', locations);
     
     const processBookmark = async (location) => {
-      try {
-        const coords = location.latitude && location.longitude 
-          ? { latitude: location.latitude, longitude: location.longitude }
-          : await addressToCoords(location.address);
+        try {
+            // 필수 필드 확인
+            if (!location.enterpriseId || !location.enterpriseName) {
+                console.warn('Missing required fields:', location);
+                return null;
+            }
 
-        const position = new kakao.maps.LatLng(coords.latitude, coords.longitude);
-        
-        displayMarker(
-          map,
-          position,
-          `<div style="padding:5px;font-size:12px;">
-            ${location.companyName}<br>
-            ${location.certificationNumber}<br>
-            ${location.address}
-          </div>`,
-          bookMarker
-        );
+            // 좌표 사용
+            const coords = {
+                latitude: location.latitude,
+                longitude: location.longitude
+            };
 
-        return coords;
-      } catch (error) {
-        console.error(`Failed to process bookmark: ${location.companyName}`, error);
-        return null;
-      }
+            // 좌표가 없는 경우 주소로 변환 시도
+            if (!coords.latitude || !coords.longitude) {
+                const addressCoords = await addressToCoords(location.district || location.city);
+                if (!addressCoords) {
+                    console.warn('Could not get coordinates for location:', location);
+                    return null;
+                }
+                coords.latitude = addressCoords.latitude;
+                coords.longitude = addressCoords.longitude;
+            }
+
+            const position = new kakao.maps.LatLng(coords.latitude, coords.longitude);
+            
+            // 정보창 내용 구성
+            const markerContent = `
+                <div style="padding:5px;font-size:12px;">
+                    ${location.enterpriseName}<br>
+                    ${location.socialPurpose || ''}<br>
+                    ${location.city} ${location.district || ''}<br>
+                    ${location.website ? `<a href="${location.website}" target="_blank">웹사이트</a>` : ''}
+                </div>
+            `;
+
+            displayMarker(
+                map,
+                position,
+                markerContent,
+                bookMarker
+            );
+
+            return coords;
+        } catch (error) {
+            console.error('Failed to process bookmark:', {
+                location,
+                error: error.message
+            });
+            return null;
+        }
     };
 
-    const firstCoords = await processBatchMarkers(locations, processBookmark);
+    try {
+        const firstCoords = await processBatchMarkers(locations, processBookmark);
+        console.log('First coordinates:', firstCoords);
 
-    if (firstCoords) {
-      moveMapToLocation(map, firstCoords.latitude, firstCoords.longitude, 3);
+        if (firstCoords) {
+            moveMapToLocation(map, firstCoords.latitude, firstCoords.longitude, 3);
+        }
+    } catch (error) {
+        console.error('Error displaying bookmark markers:', error);
     }
-  }, [clearMarkers, displayMarker, addressToCoords, moveMapToLocation]);
+}, [clearMarkers, displayMarker, addressToCoords, moveMapToLocation]);
 
   // ===== 지도 초기화 및 이벤트 처리 =====
   useEffect(() => {
@@ -469,6 +547,7 @@ function KakaoMap() {
               break;
           case 'visited':
             if (visitedLocations.length > 0) {
+              
               await displayVisitedMarkers(mapInstance, visitedLocations);
             }
             break;

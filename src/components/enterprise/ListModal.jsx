@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../../styles/enterprise/ListModal.module.css';
@@ -10,6 +10,7 @@ import OnoffStoreModal from './OnoffStoreModal';
 import { setTypeModalOpen } from '../../redux/slices/TypeSlice';
 import { setOnoffModalOpen } from '../../redux/slices/OnoffStoreSlice';
 import { setFilteredEnterprises } from '../../redux/slices/FilteredEnterpriseListSlice';
+import { fetchBookmarkLocations, addBookmark, removeBookmark } from '../../redux/slices/VisitedBookmarkSlice';
 
 //utils
 import { formatCompanyName } from '../../utils/companyNameUtils';
@@ -17,7 +18,6 @@ import { handleExternalUrl } from '../../utils/urlUtils';
 
 //hooks
 import useSwipeableModal from '../../hooks/useSwipeableModal';
-import { useBookmarks } from '../../hooks/useBookmarks';
 
 //image
 import alignmentIcon from '../../assets/images/enterprise/alignment-icon.svg';
@@ -34,6 +34,8 @@ function ListModal({ isActive, handleClose }) {
     const [selectedSorting, setSelectedSorting] = useState('');
     const [isSocialPurposeModalOpen, setIsSocialPurposeModalOpen] = useState(false);
     const [detailedAddressStates, setDetailedAddressStates] = useState({});
+    const { bookmarkLocations, isLoading, error } = useSelector(state => state.visitedBookmark);
+
     const { 
         touchHandlers, 
         modalStyle, 
@@ -41,18 +43,24 @@ function ListModal({ isActive, handleClose }) {
         handleBackgroundClick 
     } = useSwipeableModal(isActive, handleClose);
 
-    const { 
-        bookmarks, 
-        loading: bookmarkLoading, 
-        error: bookmarkError,
-        addBookmark,
-        removeBookmark 
-    } = useBookmarks();
-
     // Redux store에서 데이터 가져오기
     const { socialEnterprises } = useSelector(state => state.enterprise);
     const activeFilters = useSelector(state => state.filteredEnterprise.activeFilters);
     const filteredEnterprises = useSelector(state => state.filteredEnterprise.filteredEnterprises);
+    
+    useEffect(() => {
+        if (socialEnterprises.length > 0) {
+            dispatch(setFilteredEnterprises(socialEnterprises));
+        }
+    }, [socialEnterprises, dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchBookmarkLocations())
+            .unwrap()
+            .catch(error => {
+                console.error('북마크 로드 실패:', error);
+            });
+    }, [dispatch]);
 
     //모달 열고 닫기 함수
     const openSocialPurposeModal = () => {
@@ -104,22 +112,42 @@ function ListModal({ isActive, handleClose }) {
     };
 
      // 기업이 북마크되어 있는지 확인하는 함수
-     const isBookmarked = useCallback((enterpriseId) => {
-        return bookmarks?.some(bookmark => bookmark.enterpriseId === enterpriseId);
-    }, [bookmarks]);
+    const isBookmarked = useCallback((enterpriseId) => {
+        if (!enterpriseId || !Array.isArray(bookmarkLocations)) {
+            return false;
+        }
+        return bookmarkLocations.some(bookmark => 
+            bookmark && bookmark.enterpriseId === enterpriseId
+        );
+    }, [bookmarkLocations]);
 
     // 북마크 토글 처리 함수
     const handleBookmarkToggle = async (enterpriseId) => {
+        if (!enterpriseId || isLoading) {
+            console.log('북마크 처리 불가:', { enterpriseId, isLoading });
+            return;
+        }
+
         try {
-            if (isBookmarked(enterpriseId)) {
-                await removeBookmark(enterpriseId);
-            } else {
-                await addBookmark(enterpriseId);
-            }
+            const currentlyBookmarked = isBookmarked(enterpriseId);
+            const actionToDispatch = currentlyBookmarked ? removeBookmark : addBookmark;
+            
+            console.log('북마크 처리 시작:', { 
+                enterpriseId, 
+                action: currentlyBookmarked ? 'remove' : 'add' 
+            });
+
+            const resultAction = await dispatch(actionToDispatch(enterpriseId)).unwrap();
+            
+            console.log('북마크 처리 성공:', resultAction);
         } catch (error) {
-            console.error('북마크 처리 중 오류 발생:', error);
+            console.error('북마크 처리 실패:', {
+                enterpriseId,
+                error: error?.message || error
+            });
         }
     };
+    
 
     // 버튼 선택 상태 → 관리 함수 정렬 유형 ('리뷰 순' | '높은 추천 순')
     const handleSortingSelect = (sortType) => {
@@ -138,6 +166,23 @@ function ListModal({ isActive, handleClose }) {
     // 정보 보기 버튼 클릭 핸들러
     const handleInfoClick = (enterpriseId) => {
         navigate(`/enterprise/info/${enterpriseId}`);
+    };
+
+    const calculateGraphHeight = (reviewCount) => {
+        // 최소값과 최대값 설정
+        const MIN_HEIGHT = 0;
+        const MAX_HEIGHT = 100;
+        
+        // 리뷰 개수가 없는 경우 0 반환
+        if (!reviewCount || reviewCount === 0) return MIN_HEIGHT;
+        
+        // 리뷰 개수를 20% 기준으로 변환 (예: 6개 리뷰 = 20%)
+        // 30을 기준으로 잡으면 6은 20%가 됩니다
+        const maxReviews = 30;
+        const normalized = (reviewCount / maxReviews) * 100;
+        
+        // 최대 100%를 넘지 않도록 제한
+        return Math.min(normalized, MAX_HEIGHT);
     };
 
     return (
@@ -184,11 +229,19 @@ function ListModal({ isActive, handleClose }) {
                     </button>
                 </div>
                 <div className={styles.companyList}>
-                    {filteredEnterprises.length > 0 ? (
+                        {isLoading ? (
+                            <p>로딩 중...</p>
+                        ) : error ? (
+                            <p>오류가 발생했습니다: {error}</p>
+                        ) : filteredEnterprises.length > 0 ? (
                         filteredEnterprises.map((enterprise, index) => {
-                            const enterpriseId = enterprise.enterpriseId || index;
-                            const bookmarked = isBookmarked(enterpriseId); 
-                            // enterprise.number -> enterprise.enterpriseId
+                            const { enterpriseId } = enterprise;
+                            if (!enterpriseId) {
+                                console.warn('Enterprise without ID:', enterprise);
+                                return null;
+                            }
+
+                            const bookmarked = isBookmarked(enterpriseId);
                             return (
                                 <div key={enterpriseId} className={styles.socialEnterprise}>
                                     <div className={styles.averageRecommendation}>
@@ -196,7 +249,8 @@ function ListModal({ isActive, handleClose }) {
                                             <div 
                                                 className={styles.graphDegree}
                                                 style={{ 
-                                                    height: `30px`
+                                                    height: `${calculateGraphHeight(enterprise.reviewCount)}%`,
+                                                    transition: 'height 0.3s ease'
                                                 }}
                                             >
                                             </div>
@@ -226,6 +280,7 @@ function ListModal({ isActive, handleClose }) {
                                                     e.stopPropagation();
                                                     handleBookmarkToggle(enterpriseId);
                                                 }}
+                                                disabled={isLoading}
                                             >
                                                 <img 
                                                     src={bookmarked ? bookmarkOn : bookmarkOff}

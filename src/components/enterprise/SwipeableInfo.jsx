@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '../../styles/enterprise/SwipeableInfo.module.css';
 
-//hooks
 import useEnterpriseDetailReviews from '../../hooks/useEnterpriseDetailReviews';
 
 //utils
 import { formatDateWithDots } from '../../utils/formatDate';
+import { convertTagNumbersToKeywords } from '../../utils/tagUtils';
 
 //enterpriseInfo image
 import educationFox from '../../assets/images/fox/education-fox.svg';
@@ -15,16 +15,20 @@ import manufacturingFox from '../../assets/images/fox/manufacturing-fox.svg';
 import distributionFox from '../../assets/images/fox/distribution-fox.svg'; 
 
 //enterpriseMagazine image
-import exited20sFox from '../../assets/images/home/card/excited-20sfox.svg';
-import exited30sFox from '../../assets/images/home/card/excited-30sfox.svg';
-import basicd20sFox from '../../assets/images/home/card/basic-20sfox.svg';
-import questionFox from '../../assets/images/home/card/question-fox.svg';
+import card1 from '../../assets/images/magazine/card1.png';
+import card2 from '../../assets/images/magazine/card2.png';
+import card3 from '../../assets/images/magazine/card3.png';
+import card4 from '../../assets/images/magazine/card4.png';
+import card5 from '../../assets/images/magazine/card5.jpeg';
+
 const imageMap = {
-    exited20sFox,
-    exited30sFox,
-    basicd20sFox,
-    questionFox
+    card1,
+    card2,
+    card3,
+    card4,
+    card5,
 };
+
 
 const SwipeableInfo = ({ enterpriseData }) => {
     const [activeTab, setActiveTab] = useState('company');
@@ -33,7 +37,8 @@ const SwipeableInfo = ({ enterpriseData }) => {
     const [dragOffset, setDragOffset] = useState(0);
     const containerRef = useRef(null);
     const [magazineData, setMagazineData] = useState([]);
-    const { reviews, isLoading, error } = useEnterpriseDetailReviews();
+
+    const { reviews, isLoading } = useEnterpriseDetailReviews(enterpriseData.enterpriseId);
 
     useEffect(() => {    
         const fetchData = async () => {
@@ -225,37 +230,51 @@ const SwipeableInfo = ({ enterpriseData }) => {
                 );
 
             case 'review':
-                if (isLoading) return <div>로딩 중...</div>;
-                if (error) return <div>리뷰를 불러오는데 실패했습니다: {error.message}</div>;
-
                 return (
                     <div className={styles.reviewContainter}>
                         <div className={styles.reviewHeader}>
                             <div className={styles.reviewTitle}>
                                 <p>이웃들의 리뷰</p>
-                                <p>{reviews.length}개</p>
+                                <p>{reviews?.length || 0}개</p>
                             </div>
                             <button className={styles.alignment}>최신 순</button>
                         </div>
                         <div className={styles.reviewCardList}>
-                        {reviews.map((review) => (
-                            <div key={review.reviewId} className={styles.reviewCard}>
-                                <div className={styles.reviewCardInfo}>
-                                    <div className={styles.reviewCardProfile}>
-                                        <div className={styles.reviewProfileImage}></div>
-                                        <p>{review.userName}</p>
+                        {reviews && reviews.length > 0 ? (
+                                reviews.map((review) => (
+                                    <div key={review.reviewId} className={styles.reviewCard}>
+                                        <div className={styles.reviewCardInfo}>
+                                            <div className={styles.reviewCardProfile}>
+                                                <div className={styles.reviewProfileImage}></div>
+                                                <p>{review.userName}</p>
+                                            </div>
+                                            <span>{formatDateWithDots(review.createAt)}</span>
+                                        </div>
+                                        <div className={styles.reviewCardText}>
+                                            <p>{review.content}</p>
+                                        </div>
+                                        <div className={styles.reviewCardKeywords}>
+                                            {/* tagNumbers를 태그로 표시 */}
+                                            {review.tagNumbers && review.tagNumbers.length > 0 && (
+                                                <>
+                                                    <div className={styles.primaryKeyword}>
+                                                        {convertTagNumbersToKeywords([review.tagNumbers[0]])[0]?.keyword || ''}
+                                                    </div>
+                                                    {review.tagNumbers.length > 1 && (
+                                                        <div className={styles.plusKeyword}>
+                                                            +{review.tagCount - 1}
+                                                        </div>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
-                                    <span>{formatDateWithDots(review.createAt)}</span>
+                                ))
+                            ) : (
+                                <div className={styles.noReviews}>
+                                    아직 작성된 리뷰가 없습니다.
                                 </div>
-                                <div className={styles.reviewCardText}>
-                                    <p>{review.content}</p>
-                                </div>
-                                <div className={styles.reviewCardTags}>
-
-                                </div>
-                            </div>
-                            ))}
-
+                            )}
                         </div>
                     </div>
                 );

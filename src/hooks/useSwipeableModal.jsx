@@ -28,17 +28,17 @@ const useSwipeableModal = (isActive, handleClose) => {
 
   const handleTouchMove = (e) => {
     if (!startY) return;
-    
     const currentTouchY = e.touches[0].clientY;
     const deltaY = currentTouchY - startY;
-    
-    // peek 상태에서는 위로만 스와이프 가능
-    if (modalPosition === 'peek' && deltaY > 0) return;
-    // top 상태에서는 아래로만 스와이프 가능
-    if (modalPosition === 'top' && deltaY < 0) return;
-    
-    setCurrentY(deltaY);
-  };
+
+    requestAnimationFrame(() => {
+        // 터치 이동에 따른 상태 업데이트를 여기서 수행
+        if (modalPosition === 'peek' && deltaY > 0) return;
+        if (modalPosition === 'top' && deltaY < 0) return;
+        setCurrentY(deltaY);
+    });
+};
+
 
   const handleTouchEnd = () => {
     setIsDragging(false);

@@ -91,11 +91,11 @@
 }
 
 .slideLeft .slideTrack {
-    animation: slideLeft 60s linear infinite;
+    animation: slideLeft 50s linear infinite;
 }
 
 .slideRight .slideTrack {
-    animation: slideRight 60s linear infinite;
+    animation: slideRight 50s linear infinite;
 }
 
 .paused .slideTrack {

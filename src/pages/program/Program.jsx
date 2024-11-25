@@ -359,7 +359,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             borderRadius: '27px',
                             padding: '3% 4%',
                             margin: '0 1%',
@@ -402,7 +402,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             borderRadius: '27px',
                             padding: '3% 4%',
                             margin: '0 1%',
@@ -445,7 +445,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             borderRadius: '27px',
                             padding: '3% 4%',
                             margin: '0 1%',
@@ -488,7 +488,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             borderRadius: '27px',
                             padding: '3% 4%',
                             margin: '0 1%',
@@ -714,10 +714,9 @@ const Program = () => {
                             flexDirection: 'column',
                             backgroundColor: 'white',
                             borderRadius: '29px',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             padding: '5%',
                             marginBottom: '5%',
-                            border: 'none',
                             textAlign: 'start',
                             gap: '8px'
                         }}>
@@ -792,10 +791,9 @@ const Program = () => {
                             flexDirection: 'column',
                             backgroundColor: 'white',
                             borderRadius: '29px',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             padding: '5%',
                             marginBottom: '5%',
-                            border: 'none',
                             textAlign: 'start',
                             gap: '8px'
                         }}>
@@ -847,10 +845,9 @@ const Program = () => {
                             flexDirection: 'column',
                             backgroundColor: 'white',
                             borderRadius: '29px',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             padding: '5%',
                             marginBottom: '5%',
-                            border: 'none',
                             textAlign: 'start',
                             gap: '8px'
                         }}>
@@ -872,10 +869,9 @@ const Program = () => {
                             flexDirection: 'column',
                             backgroundColor: 'white',
                             borderRadius: '29px',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             padding: '5%',
                             marginBottom: '5%',
-                            border: 'none',
                             textAlign: 'start',
                             gap: '8px'
                         }}>
@@ -1087,10 +1083,9 @@ const Program = () => {
                                             <div key={itemIdx} style={{
                                                 backgroundColor: 'white',
                                                 borderRadius: '29px',
-                                                boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                                                border: '1px solid #D9D9D9',
                                                 padding: '5%',
                                                 marginBottom: '5%',
-                                                border: 'none',
                                                 transition: 'all 0.3s ease-in-out',
                                                 maxHeight: isExpanded ? '2000px' : '200px',
                                                 overflow: 'hidden'

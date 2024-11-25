@@ -82,7 +82,6 @@ function SelectAge() {
     return (
         <div className={styles.container}>
             <TopBar/>
-            <TopBar/>
             <div className={styles.comment}>
                 <p>나이를 입력해 주세요</p>
                 <p>앞으로 선택한 나이에 해당하는</p>

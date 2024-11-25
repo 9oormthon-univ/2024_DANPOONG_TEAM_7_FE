@@ -69,8 +69,6 @@ const KakaoLoginButton = () => {
                         alt="background" 
                     />
                 </div>
-                <div className={styles.content}>
-                </div>
                 <div 
                     role="button"
                     tabIndex={0}

@@ -48,11 +48,7 @@ const KakaoCallback = () => {
 
           console.log("저장된 토큰:", localStorage.getItem("accessToken"));
 
-          // Lottie 애니메이션을 더 오래 표시
-          setTimeout(() => {
-            const returnPath = location.state?.from || "/age";
-            navigate(returnPath, { replace: true });
-          }, 1000); // 3초 대기 후 홈으로 이동
+          navigate("/home");
         })
         .catch((error) => {
           console.error("로그인 에러:", error);

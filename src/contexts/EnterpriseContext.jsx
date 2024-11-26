@@ -14,7 +14,6 @@ const EnterpriseContext = createContext(null);
 export const EnterpriseProvider = ({ children }) => {
   const navigate = useNavigate();
   
-  // 기존 상태들
   const [enterprises, setEnterprises] = useState([]);
   const [filteredEnterprises, setFilteredEnterprises] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState(
@@ -40,6 +39,11 @@ export const EnterpriseProvider = ({ children }) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [displayMode, setDisplayMode] = useState('initial');
   const [lastUpdated, setLastUpdated] = useState(null);
+
+  const [lastAction, setLastAction] = useState({
+    type: null,
+    timestamp: null
+});
 
   // 인증 상태 확인
   useEffect(() => {
@@ -86,12 +90,25 @@ export const EnterpriseProvider = ({ children }) => {
     }
   }, [enterprises, selectedRegion, activeFilters]);
 
+  const updateLastAction = useCallback((actionType) => {
+    setLastAction({
+        type: actionType,
+        timestamp: Date.now()
+    });
+}, []);
+
   // 필터 업데이트
   const updateFilters = useCallback((newFilters) => {
     const updatedFilters = { ...activeFilters, ...newFilters };
     setActiveFilters(updatedFilters);
     saveToLocalStorage(STORAGE_KEYS.FILTERS, updatedFilters);
-  }, [activeFilters]);
+    
+    if (Object.values(updatedFilters).some(filter => 
+        Array.isArray(filter) && filter.length > 0)
+    ) {
+        updateLastAction('enterprises');
+    }
+}, [activeFilters, updateLastAction]);
 
   // 지역 업데이트
   const updateRegion = useCallback(async (region) => {
@@ -129,6 +146,7 @@ export const EnterpriseProvider = ({ children }) => {
     setSearchQuery(query);
     setLastUpdated(Date.now());
   }, []);
+  
 
   const value = {
     // 기존 상태와 함수들
@@ -147,6 +165,8 @@ export const EnterpriseProvider = ({ children }) => {
     isLoading,
     error,
     fetchEnterprises,
+    lastAction,
+    updateLastAction,
 
     // 검색 관련 상태와 함수들
     searchQuery,

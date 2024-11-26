@@ -36,18 +36,20 @@
     align-items: center;
     gap: 3px;
     width: 195px;
+   
     overflow: hidden; /* region 영역 스크롤 방지 */
 }
 
 .regionButton{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 186px;
     height: 40px;
     flex-shrink: 0;
     margin: 0 0 0 2px;
     transform: 0;
+    text-align: left;
     background-color: #FFFFFF;
     -webkit-tap-highlight-color: transparent;
 }

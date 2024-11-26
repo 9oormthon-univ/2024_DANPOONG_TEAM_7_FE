@@ -39,9 +39,9 @@ function KakaoMap() {
 
     const { 
       filteredEnterprises,
-      activeMarkerType,
       shouldShowMarkers,
-      searchQuery
+      searchQuery,
+      lastAction
   } = useEnterprise();
 
     const {
@@ -338,25 +338,43 @@ function KakaoMap() {
         );
     
         // 활성화된 마커 타입에 따라 마커 표시
-        if (activeMarkerType === 'search' && searchQuery) {
-            displaySearchResults(map, searchQuery, userPosition.getLat(), userPosition.getLng());
-        } else if (activeMarkerType === 'visited' && visitedLocations?.length > 0) {
-            displayVisitedMarkers(map, visitedLocations);
-        } else if (activeMarkerType === 'bookmark' && bookmarkLocations?.length > 0) {
-            displayBookmarkMarkers(map, bookmarkLocations);
-        } else if (activeMarkerType === 'enterprises' && shouldShowMarkers && filteredEnterprises?.length > 0) {
-            displayFilteredMarkers(map, filteredEnterprises);
+        if (lastAction) {
+            switch (lastAction.type) {
+                case 'search':
+                    if (searchQuery) {
+                        displaySearchResults(map, searchQuery, userPosition.getLat(), userPosition.getLng());
+                    }
+                    break;
+                case 'visited':
+                    if (visitedLocations?.length) {
+                        displayVisitedMarkers(map, visitedLocations);
+                    }
+                    break;
+                case 'bookmark':
+                    if (bookmarkLocations?.length) {
+                        displayBookmarkMarkers(map, bookmarkLocations);
+                    }
+                    break;
+                case 'enterprises':
+                    if (shouldShowMarkers && filteredEnterprises?.length) {
+                        displayFilteredMarkers(map, filteredEnterprises);
+                    }
+                    break;
+            }
+        } else {
+            // 초기 상태일 때는 내 위치 마커만 표시
         }
     }, [
         isMapInitialized,
         userPosition,
-        activeMarkerType,
+        lastAction,  // lastAction 의존성 추가
         searchQuery,
         visitedLocations,
         bookmarkLocations,
         shouldShowMarkers,
         filteredEnterprises
     ]);
+
     
     if (isLoading) {
         return (

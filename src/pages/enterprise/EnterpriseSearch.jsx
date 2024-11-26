@@ -30,7 +30,8 @@ function EnterpriseSearch() {
         filteredEnterprises,
         isLoading,
         error,
-        setDisplayMode
+        setDisplayMode,
+        updateLastAction
     } = useEnterprise();
 
     const { 
@@ -50,7 +51,7 @@ function EnterpriseSearch() {
         if (inputValue.trim()) {
             setSearchQuery(inputValue);
             addToSearchHistory(inputValue);
-            setActiveMarkerType('search');
+            updateLastAction('search');
             setDisplayMode('search');
             setInputValue('');
             setIsInputFocused(false);
@@ -64,14 +65,12 @@ function EnterpriseSearch() {
     };
 
     const handleVisitedClick = async () => {
-        setActiveMarkerType('visited');
-        setDisplayMode('visited');
+        updateLastAction('visited');
         await fetchVisitedLocations();
     };
 
     const handleBookmarkClick = async () => {
-        setActiveMarkerType('bookmark');
-        setDisplayMode('bookmark');
+        updateLastAction('bookmark');
         await fetchBookmarkLocations();
     };
 

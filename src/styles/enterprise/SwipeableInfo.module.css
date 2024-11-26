@@ -362,7 +362,7 @@
 
 .reviewCardText{
     width: 97%;
-    height: 70px;
+    min-height: 70px;
     text-align: left;
     color: #000;
     font-size: 15px;

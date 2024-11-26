@@ -48,7 +48,7 @@ const KakaoCallback = () => {
 
           console.log("저장된 토큰:", localStorage.getItem("accessToken"));
 
-          navigate("/home");
+          navigate("/age");
         })
         .catch((error) => {
           console.error("로그인 에러:", error);

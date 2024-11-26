@@ -72,7 +72,7 @@
     gap: 5px;
 }
 
-.education, .health, .environment, .childcare, 
+.typeButton, .education, .health, .environment, .childcare, 
 .manufacturing,.distribution, .others, .all {
     display: flex;
     justify-content: center;

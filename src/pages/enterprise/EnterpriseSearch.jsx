@@ -12,6 +12,7 @@ import { getFromLocalStorage, STORAGE_KEYS } from '../../utils/enterpriseStorage
 import searchIcon from '../../assets/images/enterprise/company-search.svg';
 import BookmarkIcon from '../../assets/images/map/icon-bookmark.svg';
 import ReviewIcon from '../../assets/images/map/icon-review.svg';
+import regionIcon from '../../assets/images/enterprise/region-button.svg';
 
 function EnterpriseSearch() {
     const navigate = useNavigate();
@@ -101,41 +102,46 @@ function EnterpriseSearch() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.searchContainer}>
-                <input
-                    type="text"
-                    className={`${styles.searchInput} ${isInputFocused ? styles.focused : ''}`}
-                    placeholder="사회적 기업으로 검색해보세요!"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    onFocus={() => setIsInputFocused(true)}
-                    onBlur={() => setIsInputFocused(false)}
-                />
+            <div className={styles.header}>
                 <button 
-                    className={styles.searchBtn}
-                    onClick={handleSearch}
+                    className={styles.regionBtn}
+                    onClick={handleRegionClick}
                 >
-                    <img 
-                        src={searchIcon} 
-                        alt="search icon" 
-                        className={styles.searchIcon} 
+                    <img
+                        src={regionIcon}
+                        alt='region icon'
+                        className={styles.region}
                     />
-                </button> 
+                </button>
+                <div className={styles.searchContainer}>
+                    <input
+                        type="text"
+                        className={`${styles.searchInput} ${isInputFocused ? styles.focused : ''}`}
+                        placeholder="사회적 기업으로 검색해보세요!"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        onFocus={() => setIsInputFocused(true)}
+                        onBlur={() => setIsInputFocused(false)}
+                    />
+                    <button 
+                        className={styles.searchBtn}
+                        onClick={handleSearch}
+                    >
+                        <img 
+                            src={searchIcon} 
+                            alt="search icon" 
+                            className={styles.searchIcon} 
+                        />
+                    </button> 
+                </div>
             </div>
+            
 
             <div className={styles.map}>
                 <div className={styles.mapView}>
                     <KakaoMap />
                     <div className={styles.filterContainer}>
-                        <button 
-                            className={styles.regionBtn}
-                            onClick={handleRegionClick}
-                        >
-                            <span className={styles.selectedRegion}>
-                                {selectedRegion || '지역 선택'}
-                            </span>
-                        </button>
                         <button 
                             className={styles.bookmarkBtn}
                             onClick={handleBookmarkClick}

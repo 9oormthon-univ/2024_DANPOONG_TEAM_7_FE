@@ -7,6 +7,7 @@ import minus from '../../assets/images/program/minus.svg';
 import plus from '../../assets/images/program/plus.svg';
 import check from '../../assets/images/program/check.svg';
 import leftArrow from '../../assets/images/program/leftArrow.svg';
+import LoadingSpinner from '../../components/layout/LoadingSpinner';
 
 import entNews1 from '../../assets/images/magazine/entNews1.png';
 
@@ -122,7 +123,7 @@ const Program = () => {
 
     // 로딩 상태 처리
     if (loading) {
-        return <div>Loading...</div>;
+        return <div><LoadingSpinner/></div>;
     }
 
     // 데이터가 없을 때 처리

@@ -1,44 +1,72 @@
-// Mypage.jsx
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import styles from '../../../styles/mypage/review/Review.module.css';
 import TopBar from '../../../components/layout/TopBar';
 import Back from '../../../components/layout/Back';
 import ReviewContent from '../../../components/mypage/ReviewContent';
 import EnterpriseReviewModal from '../../../components/mypage/EnterpriseReviewModal';
+import LoadingSpinner from '../../../components/layout/LoadingSpinner';
 
-//hooks
+// Contexts
+import { useEnterprise } from '../../../contexts/EnterpriseContext';
+
+// hooks
 import { useMyReviews } from '../../../hooks/useMyReviews';
 
-//기업정보
-import { fetchEnterprises } from '../../../redux/slices/EnterpriseSlice';
-
-
-//img
+// images
 import pencil from '../../../assets/images/mypage/pencil.svg';
 
 function Review() {
-    const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    //기업정보
+    // EnterpriseContext 사용
     const { 
-        socialEnterprises: enterprises, 
+        filteredEnterprises: enterprises, 
         isLoading: enterprisesLoading,
-        error: enterprisesError 
-    } = useSelector(state => state.enterprise);
+        error: enterprisesError,
+        fetchEnterprises
+    } = useEnterprise();
 
+    // Reviews 데이터
     const { 
         reviews, 
         loading: reviewLoading, 
         error: reviewError 
     } = useMyReviews();
-    console.log('useMyReviews 데이터:', { reviews, reviewLoading, reviewError });
 
+    // 리뷰 작성 버튼 클릭 핸들러
     const handleWriteClick = () => {
-        fetchEnterprises(); 
         setIsModalOpen(true);
+        // 비동기로 기업 데이터 로드
+        fetchEnterprises();
     };
+
+    // 로딩 상태 처리
+    if (reviewLoading) {
+        return (
+            <div className={styles.container}>
+                <TopBar/>
+                <div className={styles.topBar}>
+                    <Back/>
+                    <p>나의 리뷰내역</p>
+                </div>
+                <div className={styles.loading}><LoadingSpinner/></div>
+            </div>
+        );
+    }
+
+    // 에러 상태 처리
+    if (reviewError) {
+        return (
+            <div className={styles.container}>
+                <TopBar/>
+                <div className={styles.topBar}>
+                    <Back/>
+                    <p>나의 리뷰내역</p>
+                </div>
+                <div className={styles.error}>리뷰를 불러오는데 실패했습니다.</div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.container}>
@@ -48,9 +76,7 @@ function Review() {
                 <p>나의 리뷰내역</p>
             </div>
             <div className={styles.content}>
-                <ReviewContent 
-                    reviews={reviews}
-                /> 
+                <ReviewContent reviews={reviews} /> 
             </div>
             <button 
                 className={styles.writeBtn}

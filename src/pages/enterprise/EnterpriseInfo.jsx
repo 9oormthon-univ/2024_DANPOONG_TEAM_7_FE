@@ -1,11 +1,11 @@
-// EnterpriseInfo.jsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useEnterprise } from '../../contexts/EnterpriseContext';
 import styles from '../../styles/enterprise/EnterpriseInfo.module.css';
 import SwipeableInfo from '../../components/enterprise/SwipeableInfo';
 import TopBar from '../../components/layout/TopBar';
 import Back from '../../components/layout/Back';
+import LoadingSpinner from '../../components/layout/LoadingSpinner';
 
 //img
 import employIcon from '../../assets/images/enterprise-icons/employment-icon.svg';
@@ -16,20 +16,25 @@ import serviceIcon from '../../assets/images/enterprise-icons/service-icon.svg';
 
 function EnterpriseInfo() {
     const { enterpriseId } = useParams();
-    const { socialEnterprises } = useSelector(state => state.enterprise);
+    const { enterprises, isLoading, error } = useEnterprise();
     
-    const enterpriseData = socialEnterprises.find(
+    const enterpriseData = enterprises.find(
         enterprise => enterprise.enterpriseId === parseInt(enterpriseId)
     );
 
-    if (!enterpriseData) return <div>기업 정보가 없습니다.</div>;
-    
-    console.log('전체 기업 데이터:', enterpriseData);
-    console.log('Social Purpose 값:', enterpriseData.socialPurpose);
+    if (isLoading) {
+        return <div><LoadingSpinner/></div>;
+    }
+
+    if (error) {
+        return <div>에러가 발생했습니다: {error}</div>;
+    }
+
+    if (!enterpriseData) {
+        return <div>기업 정보가 없습니다.</div>;
+    }
 
     const getTypeBackgroundStyle = (socialPurpose) => {
-        console.log('받은 socialPurpose:', socialPurpose);
-        
         let style = {};
 
         switch(socialPurpose) {
@@ -53,12 +58,8 @@ function EnterpriseInfo() {
                 break;
         }
         
-        console.log('선택된 스타일:', style);
         return style;
     };
-
-    const typeBackgroundStyle = getTypeBackgroundStyle(enterpriseData.socialPurpose);
-    console.log('최종 적용될 스타일:', typeBackgroundStyle);
 
     const getTypeIcon = (socialPurpose) => {
         switch(socialPurpose) {
@@ -73,9 +74,11 @@ function EnterpriseInfo() {
             case '기타(창의ㆍ혁신)형':
                 return otherIcon;
             default:
-                return serviceIcon; // 기본 아이콘
+                return serviceIcon;
         }
     };
+
+    const typeBackgroundStyle = getTypeBackgroundStyle(enterpriseData.socialPurpose);
 
     return (
         <div className={styles.container}>

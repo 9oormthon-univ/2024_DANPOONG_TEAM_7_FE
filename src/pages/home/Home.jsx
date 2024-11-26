@@ -4,6 +4,7 @@ import styles from '../../styles/home/Home.module.css';
 import KakaoMap from '../../components/enterprise/KakaoMap';
 import FlipCard from '../../components/home/FlipCard';
 import TopBar from '../../components/layout/TopBar';
+import LoadingSpinner from '../../components/layout/LoadingSpinner';
 
 //hooks
 import { useProfile } from '../../hooks/useProfile';
@@ -45,7 +46,7 @@ function Home() {
       }, [navigate]);
 
     if (profileLoading || reviewLoading) {
-        return <div className={styles.loading}>로딩 중...</div>;
+        return <div className={styles.loading}><LoadingSpinner/></div>;
     }
 
     if (profileError || reviewError) {

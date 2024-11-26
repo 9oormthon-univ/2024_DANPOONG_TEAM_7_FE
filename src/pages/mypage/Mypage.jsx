@@ -1,47 +1,46 @@
-// Mypage.jsx
-import React, { useState, useEffect } from 'react';//즐겨찾기
-import { useNavigate } from 'react-router-dom'; 
-import { useSelector, useDispatch } from 'react-redux'; //즐겨찾기
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/mypage/Mypage.module.css';
 import TopBar from '../../components/layout/TopBar';
 import ReviewSlider from '../../components/mypage/ReviewSlider';
 import MyEnterpriseList from '../../components/mypage/MyEnterpriseList';
 import EnterpriseReviewModal from '../../components/mypage/EnterpriseReviewModal';
+import LoadingSpinner from '../../components/layout/LoadingSpinner';
 
-//hooks
+// Contexts
+import { useEnterprise } from '../../contexts/EnterpriseContext';
+import { useVisitBookmark } from '../../contexts/VisitBookmarkContext';
+
+// hooks
 import { useProfile } from '../../hooks/useProfile';
 import { useMyReviews } from '../../hooks/useMyReviews';
-import { useBookmarks } from '../../hooks/useBookmarks';
 
-//즐겨찾기
-import { fetchVisitedLocations, fetchBookmarkLocations } from '../../redux/slices/VisitedBookmarkSlice';
-
-//기업정보
-import { fetchEnterprises } from '../../redux/slices/EnterpriseSlice';
-
-//utils
+// utils
 import { calculateAge } from '../../utils/calculateAge';
 
-//img
+// images
 import logout from '../../assets/images/mypage/logout.svg';
 import profile20 from '../../assets/images/mypage/profile-20.svg';
 import profile30 from '../../assets/images/mypage/profile-30.svg';
 
 function Mypage() {
-    const dispatch = useDispatch(); //즐겨찾기
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    //즐겨찾기
-    const { bookmarkLocations, isLoading: bookmarkLoading, error: bookmarkError } = useSelector(state => state.visitedBookmark);
-    
-    //기업정보
+    // Context 사용
     const { 
-        socialEnterprises: enterprises, 
+        filteredEnterprises: enterprises, 
         isLoading: enterprisesLoading,
-        error: enterprisesError 
-    } = useSelector(state => state.enterprise);
+        error: enterprisesError,
+        fetchEnterprises
+    } = useEnterprise();
 
+    const {
+        bookmarkLocations,
+        isLoading: bookmarkLoading,
+        error: bookmarkError,
+        fetchBookmarkLocations
+    } = useVisitBookmark();
 
     const { 
         profile, 
@@ -55,20 +54,28 @@ function Mypage() {
         error: reviewError 
     } = useMyReviews();
 
-    const handleReviewClick = () => {
-        dispatch(fetchEnterprises());
+    const handleReviewClick = async () => {
         setIsModalOpen(true);
+        fetchEnterprises();
     };
 
-    useEffect(() => {
-        dispatch(fetchBookmarkLocations());
-    }, [dispatch]); //즐겨찾기
+    // 로딩 상태 처리
+    if (profileLoading || bookmarkLoading || reviewLoading || enterprisesLoading) {
+        return (
+            <div className={styles.container}>
+            <TopBar/>
+            <div className={styles.profile}></div>
+            <div className={styles.reviewContainer}>
+            </div>
+            <div className={styles.loading}><LoadingSpinner/></div>
+            <div className={styles.bookmarkContainer}></div>
+            </div>
 
-    if (profileLoading || bookmarkLoading || reviewLoading) {
-        return <div>Loading...</div>;
+        );
     }
     
-    if (profileError || bookmarkError || reviewError) {
+    // 에러 상태 처리
+    if (profileError || bookmarkError || reviewError || enterprisesError) {
         return <div>사용자 정보를 불러오는데 실패했습니다.</div>;
     }
 
@@ -78,16 +85,18 @@ function Mypage() {
             <div className={styles.header}>
                 <div className={styles.profile}>
                     <div className={styles.userProfile}>
-                    <img 
-                        src={calculateAge(profile.birth) >= 30 ? profile30 : profile20}
-                        alt="profile" 
-                        className={styles.profileImage}
-                    />
+                        <img 
+                            src={calculateAge(profile.birth) >= 30 ? profile30 : profile20}
+                            alt="profile" 
+                            className={styles.profileImage}
+                        />
                     </div>
                     <div className={styles.userInfo}>
                         <div className={styles.userInfoRow1}>
                             <span className={styles.userName}>{profile.name}</span>
-                            <span className={styles.userAge}>{calculateAge(profile.birth) >= 30 ? '삼공이' : '이공이'}</span>
+                            <span className={styles.userAge}>
+                                {calculateAge(profile.birth) >= 30 ? '삼공이' : '이공이'}
+                            </span>
                             <button className={styles.logoutBtn}>
                                 <img
                                     src={logout}
@@ -103,6 +112,7 @@ function Mypage() {
                     </div>
                 </div>
             </div>
+
             <div className={styles.reviewContainer}>
                 <div className={styles.reviewHeader}>
                     <div className={styles.myReview}>
@@ -116,23 +126,21 @@ function Mypage() {
                         리뷰쓰기
                     </button>
                 </div>
-                <ReviewSlider
-                    items={reviews}
-                />
+                <ReviewSlider items={reviews} />
             </div>
+
             <div className={styles.bookmarkContainer}>
                 <div className={styles.bookmarkHeader}>
                     <div className={styles.myReview}>
                         <span>내가 찜한 기업들</span>
-                        <span>{bookmarkLocations.length}</span> {/*즐겨찾기*/}
+                        <span>{bookmarkLocations.length}</span>
                     </div>
                 </div>
                 <div className={styles.bookmarkList}>
-                    <MyEnterpriseList
-                        items={bookmarkLocations} //즐겨찾기
-                    />
+                    <MyEnterpriseList items={bookmarkLocations} />
                 </div>
             </div>
+
             <EnterpriseReviewModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

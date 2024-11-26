@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useReview } from '../../contexts/ReviewContext';
+import { useEnterprise } from '../../contexts/EnterpriseContext';
 import styles from '../../styles/mypage/review/EnterpriseReviewModal.module.css';
 
 //utils
@@ -14,38 +14,40 @@ import goReview from '../../assets/images/mypage/goreview.svg';
 const EnterpriseReviewModal = ({ isOpen, onClose }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isAnimating, setIsAnimating] = useState(false);
     const navigate = useNavigate();
     const { setCurrentEnterprise } = useReview();
-    const [isAnimating, setIsAnimating] = useState(false);
+    const { 
+        filteredEnterprises,
+        isLoading, 
+        error 
+    } = useEnterprise();
     
-    const enterprises = useSelector(state => state.enterprise.socialEnterprises);
-
     useEffect(() => {
         if (isOpen) {
             setIsAnimating(true);
         } else {
             const timer = setTimeout(() => {
                 setIsAnimating(false);
-            }, 1000); // 애니메이션 시간과 동일하게 설정
+            }, 1000);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
 
     const handleReviewClick = (enterprise) => {
-        console.log('Modal: Selected enterprise:', enterprise);
         setCurrentEnterprise(enterprise);
         navigate('/mypage/review/keyword');
     };
 
     const handleSearch = (e) => {
-        e.preventDefault(); // 폼 기본 동작 방지
+        e.preventDefault();
         setSearchQuery(searchTerm);
     };
 
     const handleInputChange = (e) => {
         const newSearchTerm = e.target.value;
         setSearchTerm(newSearchTerm);
-        setSearchQuery(newSearchTerm); // 실시간 검색을 유지
+        setSearchQuery(newSearchTerm);
     };
 
     const handleKeyPress = (e) => {
@@ -55,7 +57,7 @@ const EnterpriseReviewModal = ({ isOpen, onClose }) => {
         }
     };
 
-    const filteredEnterprises = enterprises?.filter(enterprise =>
+    const searchedEnterprises = filteredEnterprises?.filter(enterprise =>
         enterprise.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 

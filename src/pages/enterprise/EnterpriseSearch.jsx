@@ -22,7 +22,8 @@ function EnterpriseSearch() {
     const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
 
     const { 
-        setSearchQuery, 
+        setSearchQuery,
+        searchQuery, 
         addToSearchHistory,
         setActiveMarkerType,
         updateRegion,
@@ -31,7 +32,8 @@ function EnterpriseSearch() {
         isLoading,
         error,
         setDisplayMode,
-        updateLastAction
+        updateLastAction,
+        lastAction
     } = useEnterprise();
 
     const { 
@@ -39,6 +41,13 @@ function EnterpriseSearch() {
         fetchBookmarkLocations,
         isLoading: bookmarkLoading
     } = useVisitBookmark();
+
+    useEffect(() => {
+        if (lastAction?.type === 'search' && 
+            (!lastAction || Date.now() - lastAction.timestamp <= lastAction.timestamp)) {
+            setInputValue(searchQuery);
+        }
+    }, [lastAction, searchQuery]);
 
     useEffect(() => {
         const storedRegion = getFromLocalStorage(STORAGE_KEYS.REGION);
@@ -53,7 +62,6 @@ function EnterpriseSearch() {
             addToSearchHistory(inputValue);
             updateLastAction('search');
             setDisplayMode('search');
-            setInputValue('');
             setIsInputFocused(false);
         }
     };
@@ -67,17 +75,22 @@ function EnterpriseSearch() {
     const handleVisitedClick = async () => {
         updateLastAction('visited');
         await fetchVisitedLocations();
+        setDisplayMode('visited');
+        setActiveMarkerType('visited');
     };
 
     const handleBookmarkClick = async () => {
         updateLastAction('bookmark');
         await fetchBookmarkLocations();
+        setDisplayMode('bookmark');
+        setActiveMarkerType('bookmark');
     };
 
     const handleListModalOpen = () => {
         setIsListModalOpen(true);
         setActiveMarkerType('enterprises');
         setDisplayMode('enterprises');
+        updateLastAction('enterprises');
     };
 
     const handleRegionClick = () => {
@@ -94,6 +107,7 @@ function EnterpriseSearch() {
         setActiveMarkerType('');
         setDisplayMode('initial');
     };
+
 
     if (error) {
         return <div className={styles.error}>데이터를 불러오는데 실패했습니다: {error}</div>;

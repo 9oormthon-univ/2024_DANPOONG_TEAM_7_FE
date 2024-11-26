@@ -31,7 +31,7 @@ const FilterButton = ({ label, selectedValues, onClick }) => {
       
       // 전체 텍스트가 4글자 초과시 자르기 (쉼표와 공백 포함)
       if (combinedText.length > 6) {
-        return `${combinedText.slice(0, 6)}..`;
+        return `${combinedText.slice(0, 5)}..`;
       }
       
       return combinedText;

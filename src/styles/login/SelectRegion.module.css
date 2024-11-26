@@ -5,8 +5,123 @@
     width: 100vw;
     height: 100vh;
     margin: 0 0 0 0;
+    overflow: hidden;
     text-align: center;
-    overflow-y: auto;
-    overflow-x: hidden;
     background-color: #FFFFFF;
+}
+
+.header p{
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 26px */
+}
+
+.content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 555px;
+    margin: 40px 0 0 0;
+    overflow: hidden;
+}
+
+.regionContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 3px;
+    width: 195px;
+    overflow: hidden; /* region 영역 스크롤 방지 */
+}
+
+.regionButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 186px;
+    height: 40px;
+    flex-shrink: 0;
+    margin: 0 0 0 2px;
+    transform: 0;
+    background-color: #FFFFFF;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.cityContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 185px;
+    height: 500px; /* 고정된 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤만 허용 */
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+    -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */
+    scrollbar-width: none; /* Firefox 스크롤바 숨기기 */
+    -ms-overflow-style: none; /* IE 스크롤바 숨기기 */
+}
+
+/* Webkit 브라우저용 스크롤바 스타일링 */
+.cityContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.citiesGrid{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 3px;
+    width: 100%; /* 컨테이너 너비에 맞춤 */
+}
+
+.cityButton, .selectAllButton{
+    width: 165px;
+    height: 39px;
+    flex-shrink: 0;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button,
+button:active,
+button:focus {
+    outline: none !important;   /* 포커스 시 외각선 제거 */
+    border: none !important;    /* 테두리 제거 */
+    transform: none !important; /* 크기 변환 없애기 */
+    box-shadow: none !important; /* 버튼 클릭 시 그림자도 없애기 */
+}
+
+.startButton{
+    margin: 10px 0 0 0;
+    width: 224px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background-color: #5C5C5C;
+    color: #FFF;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 26px */
+}
+
+.disabled{
+    width: 224px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #D9D9D9;
+    color: #FFF;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 26px */
 }

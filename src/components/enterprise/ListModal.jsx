@@ -56,6 +56,7 @@ const FilterButton = ({ label, selectedValues, onClick }) => {
 function ListModal({ isActive, handleClose }) {
     const navigate = useNavigate();
     const [selectedSorting, setSelectedSorting] = useState('');
+    const [sortedEnterprises, setSortedEnterprises] = useState([]);
     const [isSocialPurposeModalOpen, setIsSocialPurposeModalOpen] = useState(false);
     const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
     const [isOnoffModalOpen, setIsOnoffModalOpen] = useState(false);
@@ -87,6 +88,22 @@ function ListModal({ isActive, handleClose }) {
     const getSelectedOnOffs = () => {
         return activeFilters.onoffStore || [];
     };
+
+    useEffect(() => {
+        let sorted = [...filteredEnterprises];
+        
+        if (selectedSorting === '높은 추천 순') {
+          sorted.sort((a, b) => b.reviewCount - a.reviewCount);
+        } else if (selectedSorting === '즐겨찾기 순') {
+          sorted.sort((a, b) => {
+            const aBookmarked = isBookmarked(a.enterpriseId);
+            const bBookmarked = isBookmarked(b.enterpriseId); 
+            return bBookmarked - aBookmarked;
+          });
+        }
+        
+        setSortedEnterprises(sorted);
+       }, [selectedSorting, filteredEnterprises, bookmarkLocations]);
 
     useEffect(() => {
         if (isActive) {
@@ -183,23 +200,23 @@ function ListModal({ isActive, handleClose }) {
                 {/* 정렬 옵션 */}
                 <div className={styles.companySorting}>
                     <button
-                        className={`${styles.sortingReviewBtn} ${selectedSorting === '리뷰 순' ? styles.selectedSorting : ''}`}
-                        onClick={() => handleSortingSelect('리뷰 순')}
-                    >
-                        리뷰 순
-                    </button>
-                    <button
-                        className={`${styles.sortingRecommendationBtn} ${selectedSorting === '높은 추천 순' ? styles.selectedSorting : ''}`}
+                        className={`${styles.sortingReviewBtn} ${selectedSorting === '높은 추천 순' ? styles.selectedSorting : ''}`}
                         onClick={() => handleSortingSelect('높은 추천 순')}
                     >
                         높은 추천 순
+                    </button>
+                    <button
+                        className={`${styles.sortingRecommendationBtn} ${selectedSorting === '즐겨찾기 순' ? styles.selectedSorting : ''}`}
+                        onClick={() => handleSortingSelect('즐겨찾기 순')}
+                    >
+                        즐겨찾기 순
                     </button>
                 </div>
 
                 {/* 기업 목록 */}
                 <div className={styles.companyList}>
-                    {filteredEnterprises.length > 0 ? (
-                        filteredEnterprises.map(enterprise => (
+                    {sortedEnterprises.length > 0 ? (
+                        sortedEnterprises.map(enterprise => (
                             <div key={enterprise.enterpriseId} className={styles.socialEnterprise}>
                                 <div className={styles.averageRecommendation}>
                                     <div className={styles.graph}>

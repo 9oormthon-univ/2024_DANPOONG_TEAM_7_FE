@@ -33,6 +33,13 @@
     outline: none; 
   }
 
+.enterpriseBtn:active, .magazineBtn:active, .homeBtn:active, .programBtn:active, .mypageBtn:active,
+.enterpriseBtn:focus, .magazineBtn:focus, .homeBtn:focus, .programBtn:focus, .mypageBtn:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+
 .enterprise, .magazine, .home, .program, .mypage{
     width: 20px;
     height: 20px;

@@ -1,3 +1,5 @@
+/*ListModal.module.css*/
+
 /* 슬라이드 애니메이션 수정 */
 @keyframes slideUp {
     from {
@@ -150,7 +152,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 75px;
+    width: 100px;
     height: 26px;
     border-radius: 14px;
     border: 1px solid #BEBEBE;
@@ -174,6 +176,15 @@
     font-weight: 500;
 }
 
+
+.sortingRecommendationBtn:active, .sortingRecommendationBtn:focus,
+.sortingReviewBtn:active, .sortingReviewBtn:focus{
+    outline: none;
+    border: 1px solid #BEBEBE;
+    box-shadow: none;
+}
+
+
 .selectedSorting{
     background-color: #BEBEBE;
     color: #FFFFFF;
@@ -184,12 +195,15 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
+    width: 100.5%;
     height: 75%;
     margin: 5% 0 0 0;
     overflow-y: auto; 
     scroll-behavior: smooth; 
     overflow-x: hidden; 
+    -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */
+    scrollbar-width: none; /* Firefox 스크롤바 숨기기 */
+    -ms-overflow-style: none; /* IE 스크롤바 숨기기 */
 }
 
 .socialEnterprise{
@@ -463,4 +477,6 @@
     font-weight: 500;
     cursor: pointer;
 }
+
+
 

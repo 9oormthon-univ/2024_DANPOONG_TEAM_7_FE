@@ -13,6 +13,7 @@ import searchIcon from '../../assets/images/enterprise/company-search.svg';
 import BookmarkIcon from '../../assets/images/map/icon-bookmark.svg';
 import ReviewIcon from '../../assets/images/map/icon-review.svg';
 import regionIcon from '../../assets/images/enterprise/region-button.svg';
+import mylocationIcon from '../../assets/images/map/icon-mylocation.svg';
 
 function EnterpriseSearch() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ function EnterpriseSearch() {
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [isListModalOpen, setIsListModalOpen] = useState(false);
     const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
+    const [focusOnMyLocation, setFocusOnMyLocation] = useState(false);
 
     const { 
         setSearchQuery,
@@ -65,7 +67,12 @@ function EnterpriseSearch() {
         }
     };
 
+    const handleMyLocationClick = () => {
+        setFocusOnMyLocation(true);
+    };
+
     const handleVisitedClick = async () => {
+        setFocusOnMyLocation(false);
         updateLastAction('visited');
         await fetchVisitedLocations();
         setDisplayMode('visited');
@@ -73,17 +80,11 @@ function EnterpriseSearch() {
     };
 
     const handleBookmarkClick = async () => {
+        setFocusOnMyLocation(false);
         updateLastAction('bookmark');
         await fetchBookmarkLocations();
         setDisplayMode('bookmark');
         setActiveMarkerType('bookmark');
-    };
-
-    const handleListModalOpen = () => {
-        setIsListModalOpen(true);
-        setActiveMarkerType('enterprises');
-        setDisplayMode('enterprises');
-        updateLastAction('enterprises');
     };
 
     const handleRegionClick = () => {
@@ -146,8 +147,18 @@ function EnterpriseSearch() {
 
             <div className={styles.map}>
                 <div className={styles.mapView}>
-                    <KakaoMap />
+                    <KakaoMap focusOnMyLocation={focusOnMyLocation} setFocusOnMyLocation={setFocusOnMyLocation}/>
                     <div className={styles.filterContainer}>
+                        <button 
+                            className={styles.mylocationBtn}
+                            onClick={() => setFocusOnMyLocation(true)}
+                        >
+                        <img
+                            src={mylocationIcon}
+                            alt='mylocation icon' 
+                            className={styles.mylocationIcon}
+                        />
+                        </button>
                         <button 
                             className={styles.bookmarkBtn}
                             onClick={handleBookmarkClick}
@@ -168,14 +179,6 @@ function EnterpriseSearch() {
                                 alt='review icon' 
                                 className={styles.reviewIcon}
                             />
-                        </button>
-                        <button
-                            className={styles.listBtn}
-                            onClick={handleListModalOpen}
-                        >
-                            <span className={styles.listCount}>
-                                {filteredEnterprises.length}
-                            </span>
                         </button>
                     </div>
                 </div>

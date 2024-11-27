@@ -26,8 +26,9 @@ const SEARCH_RADIUS = 20000;
 // 사회적 기업 관련 검색어
 const SOCIAL_ENTERPRISE_KEYWORDS = ['사회적 기업', '사회적기업', '사회적', '사회'];
 
-function KakaoMap() {
+function KakaoMap(props) {
     // === State & Ref 관리 ===
+    const { focusOnMyLocation, setFocusOnMyLocation } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [userPosition, setUserPosition] = useState(null);
     const [isMapInitialized, setIsMapInitialized] = useState(false);
@@ -161,6 +162,18 @@ function KakaoMap() {
         });
     }, [clearMarkers, displayMarker, moveMapToLocation, searchQuery]);
 
+    const fitBoundsToMarkers = useCallback((map, locations) => {
+        if (!locations?.length) return;
+    
+        const bounds = new kakao.maps.LatLngBounds();
+        locations.forEach(location => {
+            if (location.latitude && location.longitude) {
+                bounds.extend(new kakao.maps.LatLng(location.latitude, location.longitude));
+            }
+        });
+        map.setBounds(bounds);
+    }, []);
+
     // 방문 장소 마커 표시
     const displayVisitedMarkers = useCallback(async (map, locations) => {
       if (!map || !locations?.length) return;
@@ -186,12 +199,7 @@ function KakaoMap() {
       });
 
       if (locations[0]) {
-          moveMapToLocation(
-              map,
-              locations[0].latitude,
-              locations[0].longitude,
-              3
-          );
+          fitBoundsToMarkers(map, locations);
       }
   }, [clearMarkers, displayMarker, moveMapToLocation]);
 
@@ -220,12 +228,7 @@ function KakaoMap() {
       });
 
       if (locations[0]) {
-          moveMapToLocation(
-              map,
-              locations[0].latitude,
-              locations[0].longitude,
-              3
-          );
+        fitBoundsToMarkers(map, locations);
       }
   }, [clearMarkers, displayMarker, moveMapToLocation]);
 
@@ -263,6 +266,17 @@ function KakaoMap() {
         }
     }, [clearMarkers, displayMarker, moveMapToLocation]);
 
+    useEffect(() => {
+        if (!isMapInitialized || !userPosition || !mapRef.current) return;
+
+        if (focusOnMyLocation) {
+            clearMarkers();
+            displayMarker(mapRef.current, userPosition, '내 위치', currentLocationMarker);
+            moveMapToLocation(mapRef.current, userPosition.getLat(), userPosition.getLng(), 3);
+            setFocusOnMyLocation(false); // 위치 이동 후 상태 초기화
+        }
+    }, [focusOnMyLocation, userPosition, isMapInitialized, clearMarkers, displayMarker, moveMapToLocation]);
+    
       // 지도 초기화 및 마커 표시
       useEffect(() => {
         const initializeMap = async () => {

@@ -221,3 +221,18 @@
     background-color: transparent;
     color: #000000;
 }
+
+:is(.typeButton, .education, .health, .environment, .childcare, 
+.manufacturing, .distribution, .others, .all, .socialWelfare, .cultureArt, 
+.tourismSports, .housekeepingCare, .regionalDevelopment, .informationTechnology,
+.forestConservationManagement, .culturalHeritageConservationUtilization, 
+.employmentServices, .facilityManagementCleaning, .socialServiceProvision, .greenEnergy):active,
+:is(.typeButton, .education, .health, .environment, .childcare, 
+.manufacturing, .distribution, .others, .all, .socialWelfare, .cultureArt, 
+.tourismSports, .housekeepingCare, .regionalDevelopment, .informationTechnology,
+.forestConservationManagement, .culturalHeritageConservationUtilization, 
+.employmentServices, .facilityManagementCleaning, .socialServiceProvision, .greenEnergy):focus {
+    outline: none;
+    border: 1px solid #D3D3D3;
+    box-shadow: none;
+}

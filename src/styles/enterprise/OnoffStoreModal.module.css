@@ -91,6 +91,15 @@
     font-weight: 500;
 }
 
+.onoffStore:active, .onoffStore:focus{
+    outline: none;
+    border-bottom: 1px solid #D3D3D3;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+}
+
 .selectedOnoffStore{
     color: #FF6C6A;
 }

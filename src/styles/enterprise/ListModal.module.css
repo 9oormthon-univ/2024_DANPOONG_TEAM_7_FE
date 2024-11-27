@@ -133,6 +133,12 @@
     align-items: center;
 }
 
+.alignmentBtn:active, .alignmentBtn:focus{
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
 .alignmentIcon{
     width: 16px;
     height: 13px;

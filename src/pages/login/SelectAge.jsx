@@ -68,7 +68,7 @@ function SelectAge() {
 
             if (response.isSuccess) {
                 // 성공적으로 처리된 경우
-                navigate('/home');
+                navigate('/region');
             } else {
                 // 서버에서 실패 응답을 받은 경우
                 throw new Error(response.message || '생년월일 등록에 실패했습니다.');
@@ -81,7 +81,6 @@ function SelectAge() {
 
     return (
         <div className={styles.container}>
-            <TopBar/>
             <TopBar/>
             <div className={styles.comment}>
                 <p>나이를 입력해 주세요</p>

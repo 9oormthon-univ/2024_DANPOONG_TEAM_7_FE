@@ -1,10 +1,6 @@
-import React , { useState }from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import styles from '../../styles/enterprise/TypeModal.module.css';
-
-//redux
-import { setSelectedTypes, setTypeModalOpen } from '../../redux/slices/TypeSlice';
-import { updateActiveFilters } from '../../redux/slices/FilteredEnterpriseListSlice'; 
+import { useEnterprise } from '../../contexts/EnterpriseContext';
 
 // 상수로 카테고리 정의
 const TYPE = [
@@ -18,11 +14,9 @@ const TYPE = [
   '녹색에너지', '기타', '전체'
 ];
 
-function TypeModal({ handleClose }) {
-    const dispatch = useDispatch();
-    const { selectedTypes, isTypeModalOpen } = useSelector(state => state.type);
-
-    const [tempSelectedTypes, setTempSelectedTypes] = useState(selectedTypes);
+function TypeModal({ handleClose, isOpen }) {
+    const { activeFilters, updateFilters } = useEnterprise();
+    const [tempSelectedTypes, setTempSelectedTypes] = useState(activeFilters.types || []);
 
     const handleTypeSelect = (type) => {
         if (type === '전체') {
@@ -44,33 +38,20 @@ function TypeModal({ handleClose }) {
         }
     };
 
-    // 모달 닫기 - 변경 사항을 저장하지 않음
-    const handleCancel = () => {
-        setTempSelectedTypes(selectedTypes); // 원래 선택 상태로 복원
-        handleClose();
-        dispatch(setTypeModalOpen(false));
-    };
-
-    // 확인 버튼 클릭 시 - 변경 사항을 저장
     const handleConfirm = () => {
-        dispatch(setSelectedTypes(tempSelectedTypes)); // CategorySlice 업데이트
-        dispatch(updateActiveFilters({   // FilteredEnterpriseListSlice 업데이트
-            types: tempSelectedTypes
-        }));
+        updateFilters({ types: tempSelectedTypes });
         handleClose();
-        dispatch(setTypeModalOpen(false));
     };
 
-    // 선택 상태 확인 함수 - 임시 선택 상태를 사용
     const isTypeSelected = (type) => {
         return tempSelectedTypes.includes(type);
     };
 
-    if (!isTypeModalOpen) return null;
+    if (!isOpen) return null;
 
     return (
         <div className={styles.typeModalContainer}>
-            <div className={styles.typeModalBackground} onClick={handleCancel}></div>
+            <div className={styles.typeModalBackground} onClick={handleClose}></div>
             <div className={styles.typeModalContent}>
                 <div className={styles.typeModalHeader}>
                     <p className={styles.modalName}>카테고리 설정</p>
@@ -213,6 +194,14 @@ function TypeModal({ handleClose }) {
                             전체
                         </button>
                     </div>
+                </div>
+                <div className={styles.buttonContainer}>
+                    <button 
+                        className={styles.okay} 
+                        onClick={handleConfirm}
+                    >
+                        확인
+                    </button>
                 </div>
                 <div className={styles.buttonContainer}>
                     <button 

@@ -296,7 +296,7 @@
     background-color: transparent;
 }
 
-.companyNameFront{
+.companyName p{
     display: flex;
     justify-content: flex-start;
     margin: 0 0 0 0;

@@ -100,6 +100,7 @@ function ReviewWrite() {
     return (
         <div className={styles.container}>
             <TopBar />
+            <TopBar />
             <div className={styles.reviewInfo}>
                 <img
                     src={currentIcon}
@@ -171,6 +172,7 @@ function ReviewWrite() {
                     placeholder="리뷰를 작성해주세요"
                     className={styles.reviewInput}
                     maxLength={maxLength}
+                    style={{fontFamily: 'Pretendard'}}
                 />
                 <div className={styles.characterCount}>
                     {reviewText.length}/{maxLength}

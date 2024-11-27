@@ -7,9 +7,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #FFFFFF20;
+    background-color: #FFFFFF10;
     z-index: 9999;
-    backdrop-filter: blur(2px);
   }
   
   .container {

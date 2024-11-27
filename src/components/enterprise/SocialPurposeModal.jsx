@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
 import styles from '../../styles/enterprise/SocialPurposeModal.module.css';
+import { useEnterprise } from '../../contexts/EnterpriseContext';
 
-//redux
-import { setSelectedSocialPurpose,  setSocialPurposeModalOpen } from '../../redux/slices/SocialPurposeSlice';
-import { updateActiveFilters } from '../../redux/slices/FilteredEnterpriseListSlice'; // 추가
-
-//img
-import checkIcon from '../../assets/images/enterprise/type-check.svg'
-
-// 상수로 유형 정의
 const SOCIALPURPOSE = [
    '전체',
    '사회서비스제공형',
@@ -20,52 +11,36 @@ const SOCIALPURPOSE = [
    '기타(창의ㆍ혁신)형'
 ];
 
-function SocialPurposeModal({ isActive, handleClose, initialSocialPurpose = [] }) {
-   const dispatch = useDispatch();
-   console.log('SocialPurposeModal - Initial SocialPurpose:', initialSocialPurpose);
-   const [localSocialPurpose, setLocalSocialPurpose] = useState(initialSocialPurpose);
+function SocialPurposeModal({ isActive, handleClose }) {
+   const { activeFilters, updateFilters } = useEnterprise();
+   const [localSocialPurpose, setLocalSocialPurpose] = useState(
+       activeFilters.socialPurpose || []
+   );
 
    const toggleSocialPurpose = (socialPurpose) => {
        setLocalSocialPurpose(prev => {
-           // '전체' 유형 선택 시 로직
            if (socialPurpose === '전체') {
                return prev.includes('전체') ? [] : ['전체'];
            }
            
-           // 다른 유형 선택 시
            const newSocialPurpose = prev.includes(socialPurpose)
                ? prev.filter(t => t !== socialPurpose)
                : [...prev.filter(t => t !== '전체'), socialPurpose];
-           
-           console.log('SocialPurposeModal - Toggling SocialPurpose:', {
-               socialPurpose,
-               previousSocialPurpose: prev,
-               newSocialPurpose
-           });
            
            return newSocialPurpose;
        });
    };
 
    const handleConfirm = () => {
-       console.log('SocialPurposeModal - Confirming SocialPurpose:', {
-           selectedSocialPurpose: localSocialPurpose
-       });
-       
-       // SocialPurposeSlice에 선택한 카테고리 저장
-       dispatch(setSelectedSocialPurpose(localSocialPurpose));
-        
-       // FilteredEnterpriseListSlice에 필터 업데이트
-       dispatch(updateActiveFilters({
-            socialPurpose: localSocialPurpose
-       }));
-        
+       updateFilters({ socialPurpose: localSocialPurpose });
        handleClose();
    };
 
-   return isActive ? (
+   if (!isActive) return null;
+
+   return (
        <div className={styles.socialPurposeModalContainer}>
-           <div className={styles.socialPurposeModalBackground} onClick={handleClose}></div>
+           <div className={styles.socialPurposeModalBackground} onClick={handleClose} />
            <div className={styles.socialPurposeModalContent}>
                <div className={styles.socialPurposeModalHeader}>
                    <p className={styles.modalName}>유형 설정</p>
@@ -75,7 +50,10 @@ function SocialPurposeModal({ isActive, handleClose, initialSocialPurpose = [] }
                    {SOCIALPURPOSE.map(socialPurpose => (
                        <button 
                            key={socialPurpose} 
-                           className={localSocialPurpose.includes(socialPurpose) ? `${styles.socialPurpose} ${styles.selectedSocialPurpose}` : styles.socialPurpose} 
+                           className={`${styles.socialPurpose} ${
+                               localSocialPurpose.includes(socialPurpose) ? 
+                               styles.selectedSocialPurpose : ''
+                           }`}
                            onClick={() => toggleSocialPurpose(socialPurpose)}
                        >
                            {socialPurpose}
@@ -85,7 +63,7 @@ function SocialPurposeModal({ isActive, handleClose, initialSocialPurpose = [] }
                <button className={styles.okay} onClick={handleConfirm}>확인</button>
            </div>
        </div>
-   ) : null;
+   );
 }
 
 export default SocialPurposeModal;

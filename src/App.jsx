@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ReviewProvider } from './contexts/ReviewContext';
 import { EditProvider } from './contexts/EditContext';
+import { EnterpriseProvider } from './contexts/EnterpriseContext';
+import { VisitBookmarkProvider } from './contexts/VisitBookmarkContext';
 
 //Layout
 import AnimatedLayout from './components/layout/AnimatedLayout';
@@ -15,6 +17,7 @@ import KakaoLoginButton from './pages/login/KakaoLoginButton';
 import KakaoCallback from "./pages/login/KakaoCallback";
 import SelectAge from './pages/login/SelectAge';
 import ConfirmAge from './pages/login/ConfirmAge';
+import SelectRegion from './pages/login/SelectRegion';
 
 //Page
 import EnterpriseSearch from './pages/enterprise/EnterpriseSearch';
@@ -36,39 +39,43 @@ function App() {
     <BrowserRouter>
       <ReviewProvider>
         <EditProvider>
-          <AnimatedLayout>
-            <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<KakaoLoginButton />} />                
-                <Route path="/api/kakao/callback" element={<KakaoCallback />} />
-                
-                {/* Protected Routes */}
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/magazine/:id" element={<MagazineDetail />}/>
-                  <Route path='/age' element={<SelectAge/>}/>  
-                  <Route element={<Layout/>}>
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/magazine" element={<Magazine />}/>
-                    <Route path="/enterprise" element={<EnterpriseSearch />}/>
-                    <Route path="/program" element={<Program />}/>
-                    <Route path="/mypage" element={<Mypage />}/>
-                    <Route path="/admin/management" element={<AdminManagement />} />
-                    <Route path="/enterprise/info/:enterpriseId" element={<EnterpriseInfo />} />
-                    <Route path="*" element={<div>페이지를 찾을 수 없습니다.</div>} />
-                  </Route>
-                  
-                  <Route element={<BackLayout/>}>
-                    <Route path='/age/confirm' element={<ConfirmAge/>}/>  
-                    <Route path='/mypage/review/write' element={<ReviewWrite/>}/>  
-                    <Route path='/mypage/review/editwrite' element={<EditWrite/>}/>  
-                  </Route>
-                  
-                  <Route path="/mypage/review" element={<Review />}/>
-                  <Route path='/mypage/review/editkeyword' element={<EditKeyword/>}/> 
-                  <Route path='/mypage/review/keyword' element={<ReviewKeyword/>}/> 
-                </Route>
-            </Routes>
-          </AnimatedLayout>
+          <EnterpriseProvider> 
+            <VisitBookmarkProvider>
+              <AnimatedLayout>
+                <Routes>
+                    {/* Public Routes */}
+                    <Route path="/" element={<KakaoLoginButton />} />                
+                    <Route path="/api/kakao/callback" element={<KakaoCallback />} />
+                    
+                    {/* Protected Routes */}
+                    <Route element={<ProtectedRoute />}>
+                      <Route path="/magazine/:id" element={<MagazineDetail />}/>
+                      <Route path='/age' element={<SelectAge/>}/>  
+                      <Route element={<Layout/>}>
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/magazine" element={<Magazine />}/>
+                        <Route path="/enterprise" element={<EnterpriseSearch />}/>
+                        <Route path="/program" element={<Program />}/>
+                        <Route path="/mypage" element={<Mypage />}/>
+                        <Route path="/enterprise/info/:enterpriseId" element={<EnterpriseInfo />} />
+                        <Route path="*" element={<div>페이지를 찾을 수 없습니다.</div>} />
+                      </Route>
+                      
+                      <Route element={<BackLayout/>}>
+                        <Route path='/region' element={<SelectRegion/>}/>
+                        <Route path='/age/confirm' element={<ConfirmAge/>}/>  
+                        <Route path='/mypage/review/write' element={<ReviewWrite/>}/>  
+                        <Route path='/mypage/review/editwrite' element={<EditWrite/>}/>  
+                      </Route>
+                      
+                      <Route path="/mypage/review" element={<Review />}/>
+                      <Route path='/mypage/review/editkeyword' element={<EditKeyword/>}/> 
+                      <Route path='/mypage/review/keyword' element={<ReviewKeyword/>}/> 
+                    </Route>
+                </Routes>
+              </AnimatedLayout>
+            </VisitBookmarkProvider>
+          </EnterpriseProvider> 
         </EditProvider>
       </ReviewProvider>
     </BrowserRouter>

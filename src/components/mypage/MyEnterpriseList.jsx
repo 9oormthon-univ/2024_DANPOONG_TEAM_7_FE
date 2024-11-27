@@ -1,7 +1,6 @@
 //MyEnterpriseList.jsx
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux'; //즐겨찾기 삭제
-import { removeBookmark, fetchBookmarkLocations } from '../../redux/slices/VisitedBookmarkSlice'; //즐겨찾기 삭제
+import React, { useState, useEffect } from 'react';
+import { useVisitBookmark } from '../../contexts/VisitBookmarkContext';
 import styles from '../../styles/mypage/MyEnterpriseList.module.css';
 
 //utils
@@ -22,24 +21,31 @@ import otherIcon from '../../assets/images/enterprise-icons/other-creative-icon.
 import serviceIcon from '../../assets/images/enterprise-icons/service-icon.svg';
 
 const MyEnterpriseList = ({ items }) => {
-    const dispatch = useDispatch(); //즐겨찾기 삭제
     const [showAll, setShowAll] = useState(false);
     const [selectedManageIndex, setSelectedManageIndex] = useState(null);
     const [clickedDeleteIndex, setClickedDeleteIndex] = useState(null);
     const [pinnedIndex, setPinnedIndex] = useState(null);
-    const [enterprises, setEnterprises] = useState(
-        items.map((enterprise, index) => ({
+    const [enterprises, setEnterprises] = useState([]);
+
+    const { 
+        bookmarkLocations,
+        removeBookmark,
+        fetchBookmarkLocations,
+        isLoading 
+    } = useVisitBookmark();
+
+    useEffect(() => {
+        setEnterprises(items.map((enterprise, index) => ({
             ...enterprise,
             originalIndex: index
-        }))
-    );
+        })));
+    }, [items]);
 
     const handleShowAllClick = () => {
         setShowAll(!showAll);
-        // bookmarkContainer의 높이 조절
         const container = document.querySelector(`.${styles.bookmarkContainer}`);
         if (container) {
-            container.style.minHeight = !showAll ? '800px' : '400px'; // 예시 높이값
+            container.style.minHeight = !showAll ? '800px' : '400px';
         }
     };
 
@@ -52,11 +58,10 @@ const MyEnterpriseList = ({ items }) => {
         setClickedDeleteIndex(index);
     };
 
-    const handleDeleteClick = async (enterpriseId) => { //즐겨찾기 삭제
+    const handleDeleteClick = async (enterpriseId) => {
         try {
-            await dispatch(removeBookmark(enterpriseId)).unwrap();
-            // 성공적으로 삭제된 후 북마크 목록 새로고침
-            dispatch(fetchBookmarkLocations());
+            await removeBookmark(enterpriseId);
+            await fetchBookmarkLocations();
         } catch (error) {
             console.error('북마크 삭제 실패:', error);
         }
@@ -64,12 +69,7 @@ const MyEnterpriseList = ({ items }) => {
     };
 
     const handlePinClick = (clickedIndex) => {
-        // 이미 고정된 항목을 클릭한 경우
-        if (pinnedIndex === clickedIndex) {
-            setPinnedIndex(null); // 고정 해제
-        } else {
-            setPinnedIndex(clickedIndex); // 새로운 항목 고정
-        }
+        setPinnedIndex(pinnedIndex === clickedIndex ? null : clickedIndex);
         setSelectedManageIndex(null);
     };
 

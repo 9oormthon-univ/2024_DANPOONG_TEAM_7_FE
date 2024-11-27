@@ -1,71 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/enterprise/EnterpriseSearch.module.css';
 import KakaoMap from '../../components/enterprise/KakaoMap';
 import ListModal from '../../components/enterprise/ListModal';
+import RegionModal from '../../components/enterprise/RegionModal';
+import { useEnterprise } from '../../contexts/EnterpriseContext';
+import { useVisitBookmark } from '../../contexts/VisitBookmarkContext';
+import { getFromLocalStorage, STORAGE_KEYS } from '../../utils/enterpriseStorage';
 
-//redux
-import { 
-    setSearchQuery,
-    addToSearchHistory,
-    setDisplayMode,
-} from '../../redux/slices/SearchSlice';
-import { 
-    setFilteredEnterprises,
-    setShouldShowMarkers 
-} from '../../redux/slices/FilteredEnterpriseListSlice';
-
-import { 
-    fetchVisitedLocations, 
-    fetchBookmarkLocations,
-    setActiveMarkerType 
-} from '../../redux/slices/VisitedBookmarkSlice';
-import { fetchEnterprises } from '../../redux/slices/EnterpriseSlice';
-
-//img
+// images
 import searchIcon from '../../assets/images/enterprise/company-search.svg';
 import BookmarkIcon from '../../assets/images/map/icon-bookmark.svg';
 import ReviewIcon from '../../assets/images/map/icon-review.svg';
 
 function EnterpriseSearch() {
-    const dispatch = useDispatch();
-    const [isListModalFullView, setIsListModalFullView] = useState(false);    
+    const navigate = useNavigate();
     const [inputValue, setInputValue] = useState('');
     const [isInputFocused, setIsInputFocused] = useState(false);
-    const [isInitialized, setIsInitialized] = useState(false);
+    const [isListModalOpen, setIsListModalOpen] = useState(false);
+    const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
 
-    const { isLoading: visitedBookmarkLoading, error: visitedBookmarkError } = useSelector(
-        state => state.visitedBookmark
-    );
-    const { socialEnterprises, isLoading, error } = useSelector(state => state.enterprise);
-    const { filteredEnterprises } = useSelector(state => state.filteredEnterprise);
+    const { 
+        setSearchQuery, 
+        addToSearchHistory,
+        setActiveMarkerType,
+        updateRegion,
+        selectedRegion,
+        filteredEnterprises,
+        isLoading,
+        error,
+        setDisplayMode
+    } = useEnterprise();
+
+    const { 
+        fetchVisitedLocations,
+        fetchBookmarkLocations,
+        isLoading: bookmarkLoading
+    } = useVisitBookmark();
 
     useEffect(() => {
-        if (isInitialized) return;
-        
-        const loadData = async () => {
-            try {
-                const result = await dispatch(fetchEnterprises()).unwrap();
-                console.log('Enterprises loaded:', result);
-                await Promise.all([
-                    dispatch(fetchVisitedLocations()),
-                    dispatch(fetchBookmarkLocations())
-                ]);
-                setIsInitialized(true);
-            } catch (error) {
-                console.error('Failed to load data:', error);
-            }
-        };
-    
-        loadData();
-    }, [dispatch, isInitialized]);
-    
+        const storedRegion = getFromLocalStorage(STORAGE_KEYS.REGION);
+        if (!storedRegion) {
+            setIsRegionModalOpen(true);
+        }
+    }, [selectedRegion]);
+
     const handleSearch = () => {
         if (inputValue.trim()) {
-            dispatch(setSearchQuery(inputValue));
-            dispatch(addToSearchHistory(inputValue));
-            dispatch(setDisplayMode('search'));
-            dispatch(setActiveMarkerType('search'));
+            setSearchQuery(inputValue);
+            addToSearchHistory(inputValue);
+            setActiveMarkerType('search');
+            setDisplayMode('search');
             setInputValue('');
             setIsInputFocused(false);
         }
@@ -77,24 +62,42 @@ function EnterpriseSearch() {
         }
     };
 
-    const handleInputChange = (event) => {
-        setInputValue(event.target.value);
+    const handleVisitedClick = async () => {
+        setActiveMarkerType('visited');
+        setDisplayMode('visited');
+        await fetchVisitedLocations();
     };
 
-    const closeListModal = () => {
-        setIsListModalFullView(false);
+    const handleBookmarkClick = async () => {
+        setActiveMarkerType('bookmark');
+        setDisplayMode('bookmark');
+        await fetchBookmarkLocations();
     };
 
-    const handleVisitedClick = () => {
-        dispatch(fetchVisitedLocations());
-        dispatch(setActiveMarkerType('visited'));
+    const handleListModalOpen = () => {
+        setIsListModalOpen(true);
+        setActiveMarkerType('enterprises');
+        setDisplayMode('enterprises');
     };
 
-    const handleBookmarkClick = () => {
-        dispatch(fetchBookmarkLocations());
-        dispatch(setActiveMarkerType('bookmark'));
-        dispatch(setDisplayMode('bookmark'));
+    const handleRegionClick = () => {
+        setIsRegionModalOpen(true);
     };
+
+    const handleRegionChange = (newRegion) => {
+        updateRegion(newRegion);
+        setIsRegionModalOpen(false);
+    };
+
+    const handleModalClose = () => {
+        setIsListModalOpen(false);
+        setActiveMarkerType('');
+        setDisplayMode('initial');
+    };
+
+    if (error) {
+        return <div className={styles.error}>데이터를 불러오는데 실패했습니다: {error}</div>;
+    }
 
     return (
         <div className={styles.container}>
@@ -104,7 +107,7 @@ function EnterpriseSearch() {
                     className={`${styles.searchInput} ${isInputFocused ? styles.focused : ''}`}
                     placeholder="사회적 기업으로 검색해보세요!"
                     value={inputValue}
-                    onChange={handleInputChange}
+                    onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     onFocus={() => setIsInputFocused(true)}
                     onBlur={() => setIsInputFocused(false)}
@@ -126,24 +129,55 @@ function EnterpriseSearch() {
                     <KakaoMap />
                     <div className={styles.filterContainer}>
                         <button 
+                            className={styles.regionBtn}
+                            onClick={handleRegionClick}
+                        >
+                            <span className={styles.selectedRegion}>
+                                {selectedRegion || '지역 선택'}
+                            </span>
+                        </button>
+                        <button 
                             className={styles.bookmarkBtn}
                             onClick={handleBookmarkClick}
+                            disabled={bookmarkLoading}
                         >
-                            <img src={BookmarkIcon} alt='bookmark icon' className={styles.bookmarkIcon}/>
+                            <img 
+                                src={BookmarkIcon} 
+                                alt='bookmark icon' 
+                                className={styles.bookmarkIcon}
+                            />
                         </button>
                         <button 
                             className={styles.reviewBtn}
                             onClick={handleVisitedClick}
                         >
-                            <img src={ReviewIcon} alt='review icon' className={styles.reviewIcon}/>
+                            <img 
+                                src={ReviewIcon} 
+                                alt='review icon' 
+                                className={styles.reviewIcon}
+                            />
+                        </button>
+                        <button
+                            className={styles.listBtn}
+                            onClick={handleListModalOpen}
+                        >
+                            <span className={styles.listCount}>
+                                {filteredEnterprises.length}
+                            </span>
                         </button>
                     </div>
                 </div>
             </div>
 
             <ListModal
-                isActive={isListModalFullView}
-                handleClose={closeListModal}
+                isActive={isListModalOpen}
+                handleClose={handleModalClose}
+            />
+            
+            <RegionModal 
+                isOpen={isRegionModalOpen}
+                onClose={() => setIsRegionModalOpen(false)}
+                onRegionChange={handleRegionChange}
             />
         </div>
     );

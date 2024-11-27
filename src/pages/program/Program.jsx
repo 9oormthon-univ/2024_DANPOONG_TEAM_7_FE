@@ -7,6 +7,7 @@ import minus from '../../assets/images/program/minus.svg';
 import plus from '../../assets/images/program/plus.svg';
 import check from '../../assets/images/program/check.svg';
 import leftArrow from '../../assets/images/program/leftArrow.svg';
+import LoadingSpinner from '../../components/layout/LoadingSpinner';
 
 import entNews1 from '../../assets/images/magazine/entNews1.png';
 
@@ -122,7 +123,7 @@ const Program = () => {
 
     // 로딩 상태 처리
     if (loading) {
-        return <div>Loading...</div>;
+        return <div><LoadingSpinner/></div>;
     }
 
     // 데이터가 없을 때 처리
@@ -322,7 +323,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             borderRadius: '27px',
                             padding: '3% 4%',
                             margin: '0 1%',
@@ -365,7 +366,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             borderRadius: '27px',
                             padding: '3% 4%',
                             margin: '0 1%',
@@ -408,7 +409,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             borderRadius: '27px',
                             padding: '3% 4%',
                             margin: '0 1%',
@@ -451,7 +452,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             borderRadius: '27px',
                             padding: '3% 4%',
                             margin: '0 1%',
@@ -677,10 +678,9 @@ const Program = () => {
                             flexDirection: 'column',
                             backgroundColor: 'white',
                             borderRadius: '29px',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             padding: '5%',
                             marginBottom: '5%',
-                            border: 'none',
                             textAlign: 'start',
                             gap: '8px'
                         }}>
@@ -755,10 +755,9 @@ const Program = () => {
                             flexDirection: 'column',
                             backgroundColor: 'white',
                             borderRadius: '29px',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             padding: '5%',
                             marginBottom: '5%',
-                            border: 'none',
                             textAlign: 'start',
                             gap: '8px'
                         }}>
@@ -810,10 +809,9 @@ const Program = () => {
                             flexDirection: 'column',
                             backgroundColor: 'white',
                             borderRadius: '29px',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             padding: '5%',
                             marginBottom: '5%',
-                            border: 'none',
                             textAlign: 'start',
                             gap: '8px'
                         }}>
@@ -835,10 +833,9 @@ const Program = () => {
                             flexDirection: 'column',
                             backgroundColor: 'white',
                             borderRadius: '29px',
-                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #D9D9D9',
                             padding: '5%',
                             marginBottom: '5%',
-                            border: 'none',
                             textAlign: 'start',
                             gap: '8px'
                         }}>
@@ -1043,10 +1040,9 @@ const Program = () => {
                                             <div key={itemIdx} style={{
                                                 backgroundColor: 'white',
                                                 borderRadius: '29px',
-                                                boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)',
+                                                border: '1px solid #D9D9D9',
                                                 padding: '5%',
                                                 marginBottom: '5%',
-                                                border: 'none',
                                                 transition: 'all 0.3s ease-in-out',
                                                 maxHeight: isExpanded ? '2000px' : '200px',
                                                 overflow: 'hidden'

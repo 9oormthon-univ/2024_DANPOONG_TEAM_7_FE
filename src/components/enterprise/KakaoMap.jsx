@@ -26,8 +26,9 @@ const SEARCH_RADIUS = 20000;
 // 사회적 기업 관련 검색어
 const SOCIAL_ENTERPRISE_KEYWORDS = ['사회적 기업', '사회적기업', '사회적', '사회'];
 
-function KakaoMap() {
+function KakaoMap(props) {
     // === State & Ref 관리 ===
+    const { focusOnMyLocation, setFocusOnMyLocation } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [userPosition, setUserPosition] = useState(null);
     const [isMapInitialized, setIsMapInitialized] = useState(false);
@@ -39,9 +40,9 @@ function KakaoMap() {
 
     const { 
       filteredEnterprises,
-      activeMarkerType,
       shouldShowMarkers,
-      searchQuery
+      searchQuery,
+      lastAction
   } = useEnterprise();
 
     const {
@@ -161,6 +162,18 @@ function KakaoMap() {
         });
     }, [clearMarkers, displayMarker, moveMapToLocation, searchQuery]);
 
+    const fitBoundsToMarkers = useCallback((map, locations) => {
+        if (!locations?.length) return;
+    
+        const bounds = new kakao.maps.LatLngBounds();
+        locations.forEach(location => {
+            if (location.latitude && location.longitude) {
+                bounds.extend(new kakao.maps.LatLng(location.latitude, location.longitude));
+            }
+        });
+        map.setBounds(bounds);
+    }, []);
+
     // 방문 장소 마커 표시
     const displayVisitedMarkers = useCallback(async (map, locations) => {
       if (!map || !locations?.length) return;
@@ -186,12 +199,7 @@ function KakaoMap() {
       });
 
       if (locations[0]) {
-          moveMapToLocation(
-              map,
-              locations[0].latitude,
-              locations[0].longitude,
-              3
-          );
+          fitBoundsToMarkers(map, locations);
       }
   }, [clearMarkers, displayMarker, moveMapToLocation]);
 
@@ -220,12 +228,7 @@ function KakaoMap() {
       });
 
       if (locations[0]) {
-          moveMapToLocation(
-              map,
-              locations[0].latitude,
-              locations[0].longitude,
-              3
-          );
+        fitBoundsToMarkers(map, locations);
       }
   }, [clearMarkers, displayMarker, moveMapToLocation]);
 
@@ -263,6 +266,17 @@ function KakaoMap() {
         }
     }, [clearMarkers, displayMarker, moveMapToLocation]);
 
+    useEffect(() => {
+        if (!isMapInitialized || !userPosition || !mapRef.current) return;
+
+        if (focusOnMyLocation) {
+            clearMarkers();
+            displayMarker(mapRef.current, userPosition, '내 위치', currentLocationMarker);
+            moveMapToLocation(mapRef.current, userPosition.getLat(), userPosition.getLng(), 3);
+            setFocusOnMyLocation(false); // 위치 이동 후 상태 초기화
+        }
+    }, [focusOnMyLocation, userPosition, isMapInitialized, clearMarkers, displayMarker, moveMapToLocation]);
+    
       // 지도 초기화 및 마커 표시
       useEffect(() => {
         const initializeMap = async () => {
@@ -338,25 +352,43 @@ function KakaoMap() {
         );
     
         // 활성화된 마커 타입에 따라 마커 표시
-        if (activeMarkerType === 'search' && searchQuery) {
-            displaySearchResults(map, searchQuery, userPosition.getLat(), userPosition.getLng());
-        } else if (activeMarkerType === 'visited' && visitedLocations?.length > 0) {
-            displayVisitedMarkers(map, visitedLocations);
-        } else if (activeMarkerType === 'bookmark' && bookmarkLocations?.length > 0) {
-            displayBookmarkMarkers(map, bookmarkLocations);
-        } else if (activeMarkerType === 'enterprises' && shouldShowMarkers && filteredEnterprises?.length > 0) {
-            displayFilteredMarkers(map, filteredEnterprises);
+        if (lastAction) {
+            switch (lastAction.type) {
+                case 'search':
+                    if (searchQuery) {
+                        displaySearchResults(map, searchQuery, userPosition.getLat(), userPosition.getLng());
+                    }
+                    break;
+                case 'visited':
+                    if (visitedLocations?.length) {
+                        displayVisitedMarkers(map, visitedLocations);
+                    }
+                    break;
+                case 'bookmark':
+                    if (bookmarkLocations?.length) {
+                        displayBookmarkMarkers(map, bookmarkLocations);
+                    }
+                    break;
+                case 'enterprises':
+                    if (shouldShowMarkers && filteredEnterprises?.length) {
+                        displayFilteredMarkers(map, filteredEnterprises);
+                    }
+                    break;
+            }
+        } else {
+            // 초기 상태일 때는 내 위치 마커만 표시
         }
     }, [
         isMapInitialized,
         userPosition,
-        activeMarkerType,
+        lastAction,  // lastAction 의존성 추가
         searchQuery,
         visitedLocations,
         bookmarkLocations,
         shouldShowMarkers,
         filteredEnterprises
     ]);
+
     
     if (isLoading) {
         return (

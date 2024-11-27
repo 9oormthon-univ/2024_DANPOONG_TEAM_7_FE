@@ -14,12 +14,16 @@ const EnterpriseContext = createContext(null);
 export const EnterpriseProvider = ({ children }) => {
   const navigate = useNavigate();
   
-  // 기존 상태들
   const [enterprises, setEnterprises] = useState([]);
   const [filteredEnterprises, setFilteredEnterprises] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState(
     getFromLocalStorage(STORAGE_KEYS.REGION, '')
   );
+
+  const [selectedCities, setSelectedCities] = useState(
+    getFromLocalStorage(STORAGE_KEYS.CITIES, [])
+  );
+  
   const [activeFilters, setActiveFilters] = useState(
     getFromLocalStorage(STORAGE_KEYS.FILTERS, {
       types: [],
@@ -41,6 +45,11 @@ export const EnterpriseProvider = ({ children }) => {
   const [displayMode, setDisplayMode] = useState('initial');
   const [lastUpdated, setLastUpdated] = useState(null);
 
+  const [lastAction, setLastAction] = useState({
+    type: null,
+    timestamp: null
+});
+
   // 인증 상태 확인
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -49,28 +58,32 @@ export const EnterpriseProvider = ({ children }) => {
     }
   }, [navigate]);
 
-  // 기업 데이터 가져오기
   const fetchEnterprises = useCallback(async () => {
+    if (!selectedRegion || !selectedCities?.length) return;
     setIsLoading(true);
     setError(null);
-
+    
     try {
-      const data = await fetchEnterprisesUtil(selectedRegion);
-      if (data && data.length > 0) {
-        setEnterprises(data);
-        saveToLocalStorage(STORAGE_KEYS.ENTERPRISES, data);
-      }
+      const data = await fetchEnterprisesUtil({
+        region: selectedRegion,
+        cities: selectedCities
+      });
+      setEnterprises(data);
+      saveToLocalStorage(STORAGE_KEYS.ENTERPRISES, data);
       return data;
     } catch (error) {
       setError(error.message);
-      if (error.response?.status === 401) {
-        navigate('/');
-      }
+      if (error.response?.status === 401) navigate('/');
       throw error;
     } finally {
       setIsLoading(false);
     }
-  }, [selectedRegion, navigate]);
+  }, [selectedRegion, selectedCities, navigate]);
+ 
+  useEffect(() => {
+    if (!selectedRegion || !selectedCities?.length) return;
+    fetchEnterprises();
+  }, [selectedRegion, selectedCities, fetchEnterprises]);
 
   // 지역 변경 시 API 호출
   useEffect(() => {
@@ -86,19 +99,35 @@ export const EnterpriseProvider = ({ children }) => {
     }
   }, [enterprises, selectedRegion, activeFilters]);
 
+  const updateLastAction = useCallback((actionType) => {
+    setLastAction({
+        type: actionType,
+        timestamp: Date.now()
+    });
+}, []);
+
   // 필터 업데이트
   const updateFilters = useCallback((newFilters) => {
     const updatedFilters = { ...activeFilters, ...newFilters };
     setActiveFilters(updatedFilters);
     saveToLocalStorage(STORAGE_KEYS.FILTERS, updatedFilters);
-  }, [activeFilters]);
+    
+    if (Object.values(updatedFilters).some(filter => 
+        Array.isArray(filter) && filter.length > 0)
+    ) {
+        updateLastAction('enterprises');
+    }
+}, [activeFilters, updateLastAction]);
 
   // 지역 업데이트
-  const updateRegion = useCallback(async (region) => {
+  const updateRegion = useCallback(async ({ region, cities }) => {
     setSelectedRegion(region);
+    setSelectedCities(cities);
     saveToLocalStorage(STORAGE_KEYS.REGION, region);
-  }, []);
-
+    saveToLocalStorage(STORAGE_KEYS.CITIES, cities);
+    await fetchEnterprises();
+  }, [fetchEnterprises]);
+  
   // 검색 히스토리 추가
   const addToSearchHistory = useCallback((query) => {
     const newHistory = [{
@@ -129,6 +158,7 @@ export const EnterpriseProvider = ({ children }) => {
     setSearchQuery(query);
     setLastUpdated(Date.now());
   }, []);
+  
 
   const value = {
     // 기존 상태와 함수들
@@ -147,6 +177,8 @@ export const EnterpriseProvider = ({ children }) => {
     isLoading,
     error,
     fetchEnterprises,
+    lastAction,
+    updateLastAction,
 
     // 검색 관련 상태와 함수들
     searchQuery,

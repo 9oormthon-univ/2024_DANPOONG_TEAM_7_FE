@@ -2,9 +2,10 @@ import axiosInstance from '../api/axiosInstance';
 
 export const STORAGE_KEYS = {
   REGION: 'selectedRegion',
+  CITIES: 'selectedCities',
   ENTERPRISES: 'enterprises',
   FILTERS: 'activeFilters',
-  TOKEN: 'accessToken'  // axiosInstance와 일치하도록 변경
+  TOKEN: 'accessToken'
 };
 
 export const saveToLocalStorage = (key, data) => {
@@ -25,31 +26,21 @@ export const getFromLocalStorage = (key, defaultValue = null) => {
   }
 };
 
-export const fetchEnterprises = async (region) => {
+export const fetchEnterprises = async ({ region, cities }) => {
   try {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      console.warn('No authentication token found, redirecting to login');
-      window.location.href = '/';
-      return [];
-    }
-
-    const response = await axiosInstance.get(`/api/enterprises/${region}`);
+    if (!region || !cities) return [];
     
-    if (response.isSuccess && response.result) {
-      return response.result;
-    } else {
-      throw new Error(response.message || 'Failed to fetch enterprises');
-    }
+    const citiesParam = Array.isArray(cities) ? 
+      `경기도 ${cities[0]}` : 
+      `경기도 ${cities}`;
+      
+    const response = await axiosInstance.get(`/api/enterprises/${region}/${citiesParam}`);
+    return response.result || [];
   } catch (error) {
     console.error('Error fetching enterprises:', error);
-    if (error.response?.status === 401) {
-      // axiosInstance의 인터셉터가 처리할 것입니다
-      return [];
-    }
     throw error;
   }
-};
+ };
 
 export const filterEnterprisesByRegion = (enterprises, region) => {
   if (!region || !enterprises) return [];

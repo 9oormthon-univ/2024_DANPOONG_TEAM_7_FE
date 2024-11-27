@@ -12,6 +12,8 @@ import { getFromLocalStorage, STORAGE_KEYS } from '../../utils/enterpriseStorage
 import searchIcon from '../../assets/images/enterprise/company-search.svg';
 import BookmarkIcon from '../../assets/images/map/icon-bookmark.svg';
 import ReviewIcon from '../../assets/images/map/icon-review.svg';
+import regionIcon from '../../assets/images/enterprise/region-button.svg';
+import mylocationIcon from '../../assets/images/map/icon-mylocation.svg';
 
 function EnterpriseSearch() {
     const navigate = useNavigate();
@@ -19,9 +21,11 @@ function EnterpriseSearch() {
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [isListModalOpen, setIsListModalOpen] = useState(false);
     const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
+    const [focusOnMyLocation, setFocusOnMyLocation] = useState(false);
 
     const { 
-        setSearchQuery, 
+        setSearchQuery,
+        searchQuery, 
         addToSearchHistory,
         setActiveMarkerType,
         updateRegion,
@@ -29,7 +33,9 @@ function EnterpriseSearch() {
         filteredEnterprises,
         isLoading,
         error,
-        setDisplayMode
+        setDisplayMode,
+        updateLastAction,
+        lastAction
     } = useEnterprise();
 
     const { 
@@ -39,19 +45,18 @@ function EnterpriseSearch() {
     } = useVisitBookmark();
 
     useEffect(() => {
-        const storedRegion = getFromLocalStorage(STORAGE_KEYS.REGION);
-        if (!storedRegion) {
-            setIsRegionModalOpen(true);
+        if (lastAction?.type === 'search' && 
+            (!lastAction || Date.now() - lastAction.timestamp <= lastAction.timestamp)) {
+            setInputValue(searchQuery);
         }
-    }, [selectedRegion]);
+    }, [lastAction, searchQuery]);
 
     const handleSearch = () => {
         if (inputValue.trim()) {
             setSearchQuery(inputValue);
             addToSearchHistory(inputValue);
-            setActiveMarkerType('search');
+            updateLastAction('search');
             setDisplayMode('search');
-            setInputValue('');
             setIsInputFocused(false);
         }
     };
@@ -62,22 +67,24 @@ function EnterpriseSearch() {
         }
     };
 
+    const handleMyLocationClick = () => {
+        setFocusOnMyLocation(true);
+    };
+
     const handleVisitedClick = async () => {
-        setActiveMarkerType('visited');
-        setDisplayMode('visited');
+        setFocusOnMyLocation(false);
+        updateLastAction('visited');
         await fetchVisitedLocations();
+        setDisplayMode('visited');
+        setActiveMarkerType('visited');
     };
 
     const handleBookmarkClick = async () => {
-        setActiveMarkerType('bookmark');
-        setDisplayMode('bookmark');
+        setFocusOnMyLocation(false);
+        updateLastAction('bookmark');
         await fetchBookmarkLocations();
-    };
-
-    const handleListModalOpen = () => {
-        setIsListModalOpen(true);
-        setActiveMarkerType('enterprises');
-        setDisplayMode('enterprises');
+        setDisplayMode('bookmark');
+        setActiveMarkerType('bookmark');
     };
 
     const handleRegionClick = () => {
@@ -95,46 +102,62 @@ function EnterpriseSearch() {
         setDisplayMode('initial');
     };
 
+
     if (error) {
         return <div className={styles.error}>데이터를 불러오는데 실패했습니다: {error}</div>;
     }
 
     return (
         <div className={styles.container}>
-            <div className={styles.searchContainer}>
-                <input
-                    type="text"
-                    className={`${styles.searchInput} ${isInputFocused ? styles.focused : ''}`}
-                    placeholder="사회적 기업으로 검색해보세요!"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    onFocus={() => setIsInputFocused(true)}
-                    onBlur={() => setIsInputFocused(false)}
-                />
+            <div className={styles.header}>
                 <button 
-                    className={styles.searchBtn}
-                    onClick={handleSearch}
+                    className={styles.regionBtn}
+                    onClick={handleRegionClick}
                 >
-                    <img 
-                        src={searchIcon} 
-                        alt="search icon" 
-                        className={styles.searchIcon} 
+                    <img
+                        src={regionIcon}
+                        alt='region icon'
+                        className={styles.region}
                     />
-                </button> 
+                </button>
+                <div className={styles.searchContainer}>
+                    <input
+                        type="text"
+                        className={`${styles.searchInput} ${isInputFocused ? styles.focused : ''}`}
+                        placeholder="사회적 기업으로 검색해보세요!"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        onFocus={() => setIsInputFocused(true)}
+                        onBlur={() => setIsInputFocused(false)}
+                    />
+                    <button 
+                        className={styles.searchBtn}
+                        onClick={handleSearch}
+                    >
+                        <img 
+                            src={searchIcon} 
+                            alt="search icon" 
+                            className={styles.searchIcon} 
+                        />
+                    </button> 
+                </div>
             </div>
+            
 
             <div className={styles.map}>
                 <div className={styles.mapView}>
-                    <KakaoMap />
+                    <KakaoMap focusOnMyLocation={focusOnMyLocation} setFocusOnMyLocation={setFocusOnMyLocation}/>
                     <div className={styles.filterContainer}>
                         <button 
-                            className={styles.regionBtn}
-                            onClick={handleRegionClick}
+                            className={styles.mylocationBtn}
+                            onClick={() => setFocusOnMyLocation(true)}
                         >
-                            <span className={styles.selectedRegion}>
-                                {selectedRegion || '지역 선택'}
-                            </span>
+                        <img
+                            src={mylocationIcon}
+                            alt='mylocation icon' 
+                            className={styles.mylocationIcon}
+                        />
                         </button>
                         <button 
                             className={styles.bookmarkBtn}
@@ -156,14 +179,6 @@ function EnterpriseSearch() {
                                 alt='review icon' 
                                 className={styles.reviewIcon}
                             />
-                        </button>
-                        <button
-                            className={styles.listBtn}
-                            onClick={handleListModalOpen}
-                        >
-                            <span className={styles.listCount}>
-                                {filteredEnterprises.length}
-                            </span>
                         </button>
                     </div>
                 </div>

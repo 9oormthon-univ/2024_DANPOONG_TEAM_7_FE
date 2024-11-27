@@ -14,7 +14,6 @@ function SelectAge() {
     });
     const [isValid, setIsValid] = useState(false);
 
-    // 유효성 검사
     useEffect(() => {
         const { year, month, day } = birthDate;
         if (year && month && day) {
@@ -25,7 +24,6 @@ function SelectAge() {
             const isYearValid = yearNum >= 1900 && yearNum <= new Date().getFullYear();
             const isMonthValid = monthNum >= 1 && monthNum <= 12;
             
-            // 각 월의 마지막 날짜 계산
             const lastDay = new Date(yearNum, monthNum, 0).getDate();
             const isDayValid = dayNum >= 1 && dayNum <= lastDay;
 

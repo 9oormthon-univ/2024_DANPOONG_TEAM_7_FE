@@ -22,9 +22,41 @@ import closeBtn from '../../assets/images/enterprise/detailed-addressclose.svg';
 import bookmarkOn from '../../assets/images/enterprise/bookmark-on.svg';
 import bookmarkOff from '../../assets/images/enterprise/bookmark-off.svg';
 
+const FilterButton = ({ label, selectedValues, onClick }) => {
+    const formatSelectedText = (values) => {
+      if (!values || values.length === 0) return label;
+      
+      // 선택값들을 쉼표로 연결
+      const combinedText = values.join(', ');
+      
+      // 전체 텍스트가 4글자 초과시 자르기 (쉼표와 공백 포함)
+      if (combinedText.length > 6) {
+        return `${combinedText.slice(0, 5)}..`;
+      }
+      
+      return combinedText;
+    };
+  
+    const displayText = formatSelectedText(selectedValues);
+    const hasSelection = selectedValues && selectedValues.length > 0;
+  
+    return (
+      <button 
+        className={`${styles.alignmentBtn} ${hasSelection ? styles.selected : ''}`} 
+        onClick={onClick}
+      >
+        <p style={{ color: hasSelection ? '#2DDDC3' : 'inherit' }}>
+          {displayText}
+        </p>
+        <img src={alignmentIcon} alt="alignment-icon" />
+      </button>
+    );
+  };
+
 function ListModal({ isActive, handleClose }) {
     const navigate = useNavigate();
     const [selectedSorting, setSelectedSorting] = useState('');
+    const [sortedEnterprises, setSortedEnterprises] = useState([]);
     const [isSocialPurposeModalOpen, setIsSocialPurposeModalOpen] = useState(false);
     const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
     const [isOnoffModalOpen, setIsOnoffModalOpen] = useState(false);
@@ -44,6 +76,34 @@ function ListModal({ isActive, handleClose }) {
         isLoading: bookmarkLoading,
         fetchBookmarkLocations
     } = useVisitBookmark();
+
+    const getSelectedTypes = () => {
+        return activeFilters.types || [];
+    };
+    
+    const getSelectedPurposes = () => {
+        return activeFilters.socialPurpose || [];
+    };
+    
+    const getSelectedOnOffs = () => {
+        return activeFilters.onoffStore || [];
+    };
+
+    useEffect(() => {
+        let sorted = [...filteredEnterprises];
+        
+        if (selectedSorting === '높은 추천 순') {
+          sorted.sort((a, b) => b.reviewCount - a.reviewCount);
+        } else if (selectedSorting === '즐겨찾기 순') {
+          sorted.sort((a, b) => {
+            const aBookmarked = isBookmarked(a.enterpriseId);
+            const bBookmarked = isBookmarked(b.enterpriseId); 
+            return bBookmarked - aBookmarked;
+          });
+        }
+        
+        setSortedEnterprises(sorted);
+       }, [selectedSorting, filteredEnterprises, bookmarkLocations]);
 
     useEffect(() => {
         if (isActive) {
@@ -120,40 +180,43 @@ function ListModal({ isActive, handleClose }) {
 
                 {/* 헤더 영역 */}
                 <div className={styles.listModalHeader}>
-                    <button className={styles.alignmentBtn} onClick={() => setIsTypeModalOpen(true)}>
-                        <p>카테고리별</p>
-                        <img src={alignmentIcon} alt="alignment-icon" />
-                    </button>
-                    <button className={styles.alignmentBtn} onClick={() => setIsSocialPurposeModalOpen(true)}>
-                        <p>유형별</p>
-                        <img src={alignmentIcon} alt="alignment-icon" />
-                    </button>
-                    <button className={styles.alignmentBtn} onClick={() => setIsOnoffModalOpen(true)}>
-                        <p>온/오프라인</p>
-                        <img src={alignmentIcon} alt="alignment-icon" />
-                    </button>
+                    <FilterButton
+                        label="카테고리별"
+                        selectedValues={getSelectedTypes()}
+                        onClick={() => setIsTypeModalOpen(true)}
+                    />
+                    <FilterButton
+                        label="유형별"
+                        selectedValues={getSelectedPurposes()}
+                        onClick={() => setIsSocialPurposeModalOpen(true)}
+                    />
+                    <FilterButton
+                        label="온/오프라인"
+                        selectedValues={getSelectedOnOffs()}
+                        onClick={() => setIsOnoffModalOpen(true)}
+                    />
                 </div>
 
                 {/* 정렬 옵션 */}
                 <div className={styles.companySorting}>
                     <button
-                        className={`${styles.sortingReviewBtn} ${selectedSorting === '리뷰 순' ? styles.selectedSorting : ''}`}
-                        onClick={() => handleSortingSelect('리뷰 순')}
-                    >
-                        리뷰 순
-                    </button>
-                    <button
-                        className={`${styles.sortingRecommendationBtn} ${selectedSorting === '높은 추천 순' ? styles.selectedSorting : ''}`}
+                        className={`${styles.sortingReviewBtn} ${selectedSorting === '높은 추천 순' ? styles.selectedSorting : ''}`}
                         onClick={() => handleSortingSelect('높은 추천 순')}
                     >
                         높은 추천 순
+                    </button>
+                    <button
+                        className={`${styles.sortingRecommendationBtn} ${selectedSorting === '즐겨찾기 순' ? styles.selectedSorting : ''}`}
+                        onClick={() => handleSortingSelect('즐겨찾기 순')}
+                    >
+                        즐겨찾기 순
                     </button>
                 </div>
 
                 {/* 기업 목록 */}
                 <div className={styles.companyList}>
-                    {filteredEnterprises.length > 0 ? (
-                        filteredEnterprises.map(enterprise => (
+                    {sortedEnterprises.length > 0 ? (
+                        sortedEnterprises.map(enterprise => (
                             <div key={enterprise.enterpriseId} className={styles.socialEnterprise}>
                                 <div className={styles.averageRecommendation}>
                                     <div className={styles.graph}>

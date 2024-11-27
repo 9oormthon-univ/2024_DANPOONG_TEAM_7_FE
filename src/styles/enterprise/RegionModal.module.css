@@ -14,7 +14,24 @@
   }
 
   .regionModalHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
     margin: 62px 0 0 0;
+    width: 100%;
+  }
+
+  .backBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 25px;
+    height: 30px;
+    background-color: transparent;
   }
 
   .modalName{
@@ -71,7 +88,7 @@
     justify-content: flex-start;
     align-items: center;
     width: 185px;
-    height: 500px; /* 고정된 높이 설정 */
+    height: 550px; /* 고정된 높이 설정 */
     overflow-y: auto; /* 세로 스크롤만 허용 */
     overflow-x: hidden; /* 가로 스크롤 방지 */
     -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */

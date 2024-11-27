@@ -19,6 +19,10 @@ export const EnterpriseProvider = ({ children }) => {
   const [selectedRegion, setSelectedRegion] = useState(
     getFromLocalStorage(STORAGE_KEYS.REGION, '')
   );
+
+  const [selectedCities, setSelectedCities] = useState(
+    getFromLocalStorage(STORAGE_KEYS.CITIES, [])
+  );
   
   const [activeFilters, setActiveFilters] = useState(
     getFromLocalStorage(STORAGE_KEYS.FILTERS, {
@@ -54,28 +58,32 @@ export const EnterpriseProvider = ({ children }) => {
     }
   }, [navigate]);
 
-  // 기업 데이터 가져오기
   const fetchEnterprises = useCallback(async () => {
+    if (!selectedRegion || !selectedCities?.length) return;
     setIsLoading(true);
     setError(null);
-
+    
     try {
-      const data = await fetchEnterprisesUtil(selectedRegion);
-      if (data && data.length > 0) {
-        setEnterprises(data);
-        saveToLocalStorage(STORAGE_KEYS.ENTERPRISES, data);
-      }
+      const data = await fetchEnterprisesUtil({
+        region: selectedRegion,
+        cities: selectedCities
+      });
+      setEnterprises(data);
+      saveToLocalStorage(STORAGE_KEYS.ENTERPRISES, data);
       return data;
     } catch (error) {
       setError(error.message);
-      if (error.response?.status === 401) {
-        navigate('/');
-      }
+      if (error.response?.status === 401) navigate('/');
       throw error;
     } finally {
       setIsLoading(false);
     }
-  }, [selectedRegion, navigate]);
+  }, [selectedRegion, selectedCities, navigate]);
+ 
+  useEffect(() => {
+    if (!selectedRegion || !selectedCities?.length) return;
+    fetchEnterprises();
+  }, [selectedRegion, selectedCities, fetchEnterprises]);
 
   // 지역 변경 시 API 호출
   useEffect(() => {
@@ -112,11 +120,14 @@ export const EnterpriseProvider = ({ children }) => {
 }, [activeFilters, updateLastAction]);
 
   // 지역 업데이트
-  const updateRegion = useCallback(async (region) => {
+  const updateRegion = useCallback(async ({ region, cities }) => {
     setSelectedRegion(region);
+    setSelectedCities(cities);
     saveToLocalStorage(STORAGE_KEYS.REGION, region);
-  }, []);
-
+    saveToLocalStorage(STORAGE_KEYS.CITIES, cities);
+    await fetchEnterprises();
+  }, [fetchEnterprises]);
+  
   // 검색 히스토리 추가
   const addToSearchHistory = useCallback((query) => {
     const newHistory = [{

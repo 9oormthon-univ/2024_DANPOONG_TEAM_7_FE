@@ -130,43 +130,6 @@ const Program = () => {
         return <div>No data available</div>;
     }
 
-    // const handleTouchStart = (e) => {
-    //     setStartX(e.touches[0].clientX);
-    //     setIsDragging(true);
-    // };
-
-    // const handleMouseDown = (e) => {
-    //     setStartX(e.clientX);
-    //     setIsDragging(true);
-    // };
-
-    // const handleTouchMove = (e) => {
-    //     if (!isDragging) return;
-    //     const currentX = e.touches[0].clientX;
-    //     const diff = currentX - startX;
-    //     setDragOffset(diff);
-    // };
-
-    // const handleMouseMove = (e) => {
-    //     if (!isDragging) return;
-    //     e.preventDefault();
-    //     const currentX = e.clientX;
-    //     const diff = currentX - startX;
-    //     setDragOffset(diff);
-    // };
-
-    // const handleEnd = () => {
-    //     if (Math.abs(dragOffset) > 100) {
-    //         if (dragOffset > 0 && currentIndex > 0) {
-    //             setCurrentIndex(currentIndex - 1);
-    //         } else if (dragOffset < 0 && currentIndex < pages.length - 1) {
-    //             setCurrentIndex(currentIndex + 1);
-    //         }
-    //     }
-    //     setIsDragging(false);
-    //     setDragOffset(0);
-    // };
-
     const handleTabClick = (index) => {
         setCurrentIndex(index);
     };
@@ -1060,14 +1023,7 @@ const Program = () => {
                     <div
                         style={{
                             height: '100%',
-                        }}
-                    // onTouchStart={handleTouchStart}
-                    // onTouchMove={handleTouchMove}
-                    // onTouchEnd={handleEnd}
-                    // onMouseDown={handleMouseDown}
-                    // onMouseMove={handleMouseMove}
-                    // onMouseUp={handleEnd}
-                    // onMouseLeave={handleEnd}
+                        }}                    
                     >
                         <div style={{
                             display: 'flex',
@@ -1323,10 +1279,7 @@ const Program = () => {
                                                             <div style={{
                                                                 display: 'flex',
                                                                 justifyContent: 'space-between',
-                                                                alignItems: 'center',
-                                                                // transition: 'all 0.5s ease-in-out',
-                                                                // opacity: isExpanded ? 0 : 1,
-                                                                // height: isExpanded ? 0 : 'auto',
+                                                                alignItems: 'center',                                                                
                                                                 overflow: 'hidden',
                                                             }}>
                                                                 <div>

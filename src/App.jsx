@@ -29,6 +29,7 @@ import ReviewKeyword from './pages/mypage/review/ReviewKeyword';
 import ReviewWrite from './pages/mypage/review/ReviewWrite';
 import EditKeyword from './pages/mypage/review/EditKeyword';
 import EditWrite from './pages/mypage/review/EditWrite';
+import AdminManagement from './pages/mypage/admin/AdminManagement';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
                     <Route path="/enterprise" element={<EnterpriseSearch />}/>
                     <Route path="/program" element={<Program />}/>
                     <Route path="/mypage" element={<Mypage />}/>
+                    <Route path="/admin/management" element={<AdminManagement />} />
                     <Route path="/enterprise/info/:enterpriseId" element={<EnterpriseInfo />} />
                     <Route path="*" element={<div>페이지를 찾을 수 없습니다.</div>} />
                   </Route>

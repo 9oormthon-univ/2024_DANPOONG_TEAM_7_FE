@@ -26,6 +26,7 @@ import { calculateAge } from '../../utils/calculateAge';
 import logout from '../../assets/images/mypage/logout.svg';
 import profile20 from '../../assets/images/mypage/profile-20.svg';
 import profile30 from '../../assets/images/mypage/profile-30.svg';
+import AdminComponent from '../../components/mypage/admin/AdminComponent';
 
 function Mypage() {
     const dispatch = useDispatch(); //즐겨찾기
@@ -133,6 +134,8 @@ function Mypage() {
                     />
                 </div>
             </div>
+            {/* todo: user 권한 받기 */}
+            <AdminComponent isAdmin={true} />            
             <EnterpriseReviewModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

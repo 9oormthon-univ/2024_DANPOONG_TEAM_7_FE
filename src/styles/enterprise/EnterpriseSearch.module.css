@@ -119,15 +119,6 @@
     border: none;
 }
 
-/*button 외곽선 없애는 설정부분*/
-button:focus 
-, button:active
-, button:hover{
-    outline: none !important; /* 포커스 시 외곽선 강제로 제거 */
-    border: none !important; 
-    box-shadow: none !important; /* 포커스 시 그림자 강제로 제거 */
-}
-
 button{
     -webkit-tap-highlight-color: transparent;
 }

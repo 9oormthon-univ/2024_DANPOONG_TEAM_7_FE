@@ -19,6 +19,7 @@ export const EnterpriseProvider = ({ children }) => {
   const [selectedRegion, setSelectedRegion] = useState(
     getFromLocalStorage(STORAGE_KEYS.REGION, '')
   );
+  
   const [activeFilters, setActiveFilters] = useState(
     getFromLocalStorage(STORAGE_KEYS.FILTERS, {
       types: [],

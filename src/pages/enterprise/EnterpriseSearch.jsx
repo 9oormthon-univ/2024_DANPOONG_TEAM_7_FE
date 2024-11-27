@@ -49,13 +49,6 @@ function EnterpriseSearch() {
         }
     }, [lastAction, searchQuery]);
 
-    useEffect(() => {
-        const storedRegion = getFromLocalStorage(STORAGE_KEYS.REGION);
-        if (!storedRegion) {
-            setIsRegionModalOpen(true);
-        }
-    }, [selectedRegion]);
-
     const handleSearch = () => {
         if (inputValue.trim()) {
             setSearchQuery(inputValue);

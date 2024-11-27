@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/login/SelectRegion.module.css';
 import { saveToLocalStorage, STORAGE_KEYS } from '../../utils/enterpriseStorage';
+import { useEnterprise } from '../../contexts/EnterpriseContext';
 import TopBar from '../../components/layout/TopBar';
 
 //img
@@ -29,6 +30,7 @@ function SelectRegion() {
     const navigate = useNavigate();
     const [selectedRegion, setSelectedRegion] = useState('경기');
     const [selectedCities, setSelectedCities] = useState(new Set());
+    const { updateRegion, fetchEnterprises } = useEnterprise();
 
     const handleRegionSelect = (region) => {
         setSelectedRegion(region);
@@ -90,21 +92,20 @@ function SelectRegion() {
             </div>
             <div className={styles.content}>
                 <div className={styles.regionContainer}>
-                    {REGIONS.map(region => (
-                        <button
-                            key={region}
-                            style={{
-                                backgroundImage: selectedRegion === region ? `url(${activeBtn})` : 'none',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                color: selectedRegion === region ? '#000000' : 'inherit',
-                            }}
-                            className={styles.regionButton}
-                            onClick={() => handleRegionSelect(region)}
-                        >
-                            {region}
-                        </button>
-                    ))}
+                {REGIONS.map(region => (
+                    <button
+                        key={region}
+                        style={{
+                            backgroundImage: selectedRegion === region ? `url(${activeBtn})` : 'none',
+                            color: selectedRegion === region ? '#000000' : 'inherit',
+                            paddingLeft: '20px'
+                        }}
+                        className={styles.regionButton}
+                        onClick={() => handleRegionSelect(region)}
+                    >
+                        {region}
+                    </button>
+                ))}
                 </div>
 
                 {selectedRegion && (
@@ -114,10 +115,12 @@ function SelectRegion() {
                                 <button
                                     className={styles.cityButton}
                                     style={{
-                                        backgroundColor: selectedCities.has('업데이트 예정') ? '#2DDDC3' : 'transparent',
-                                        color: selectedCities.has('업데이트 예정') ? '#fff' : 'inherit'
+                                        backgroundColor: 'transparent',
+                                        color: '#D9D9D9',  // 회색으로 변경
+                                        cursor: 'not-allowed'  // 커서 스타일 변경
                                     }}
                                     onClick={() => handleCitySelect('업데이트 예정')}
+                                    disabled={true}  // 버튼 비활성화
                                 >
                                     업데이트 예정
                                 </button>

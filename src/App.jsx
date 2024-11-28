@@ -33,6 +33,10 @@ import ReviewWrite from './pages/mypage/review/ReviewWrite';
 import EditKeyword from './pages/mypage/review/EditKeyword';
 import EditWrite from './pages/mypage/review/EditWrite';
 
+//ocr
+import BusinessRegistrationOCR from './components/BusinessRegistrationOCR';
+import ReceiptOCR from './components/ReciptOcr';
+
 function App() {
   return (
     <BrowserRouter>
@@ -66,7 +70,9 @@ function App() {
                         <Route path='/mypage/review/write' element={<ReviewWrite/>}/>  
                         <Route path='/mypage/review/editwrite' element={<EditWrite/>}/>  
                       </Route>
-                      
+
+                      <Route path="/receiptocr" element={<ReceiptOCR/>}/>
+                      <Route path="/businessocr" element={<BusinessRegistrationOCR/>}/>
                       <Route path="/mypage/review" element={<Review />}/>
                       <Route path='/mypage/review/editkeyword' element={<EditKeyword/>}/> 
                       <Route path='/mypage/review/keyword' element={<ReviewKeyword/>}/> 

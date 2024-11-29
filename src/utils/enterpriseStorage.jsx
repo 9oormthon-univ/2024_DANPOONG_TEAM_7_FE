@@ -28,8 +28,15 @@ export const getFromLocalStorage = (key, defaultValue = null) => {
 
 export const fetchEnterprises = async ({ region, cities }) => {
   try {
-    if (!region || !cities) return [];
+    if (!region) return [];
     
+    // 전체 선택 시 (cities가 ['전체'] 또는 빈 배열인 경우)
+    if (!cities?.length || (cities.length === 1 && cities[0] === '전체')) {
+      const response = await axiosInstance.get(`/api/enterprises/${region}`);
+      return response.result || [];
+    }
+    
+    // 특정 도시 선택 시
     const citiesParam = Array.isArray(cities) ? 
       `경기도 ${cities[0]}` : 
       `경기도 ${cities}`;
@@ -40,7 +47,7 @@ export const fetchEnterprises = async ({ region, cities }) => {
     console.error('Error fetching enterprises:', error);
     throw error;
   }
- };
+};
 
 export const filterEnterprisesByRegion = (enterprises, region) => {
   if (!region || !enterprises) return [];

@@ -58,7 +58,12 @@ function Mypage() {
 
     const handleReviewClick = async () => {
         setIsModalOpen(true);
-        fetchEnterprises();
+        // 경기 전체 기업 목록 가져오기
+        await fetchEnterprises({
+            region: '경기',
+            cities: ['전체'],
+            isReviewMode: true
+        });
     };
 
     // 로딩 상태 처리

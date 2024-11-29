@@ -56,6 +56,8 @@ export const EnterpriseProvider = ({ children }) => {
     timestamp: null
 });
 
+  const [reviewEnterprises, setReviewEnterprises] = useState([]);
+
   // 인증 상태 확인
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -66,21 +68,42 @@ export const EnterpriseProvider = ({ children }) => {
   
   useEffect(() => {
     const initializeData = async () => {
-      if (selectedRegion && selectedCities?.length) {
-        await fetchEnterprises({ region: selectedRegion, cities: selectedCities });
+      const savedRegion = getFromLocalStorage(STORAGE_KEYS.REGION);
+      const savedCities = getFromLocalStorage(STORAGE_KEYS.CITIES);
+        
+      if (savedRegion && savedCities?.length) {
+        try {
+          await fetchEnterprises({
+            region: savedRegion,
+            cities: savedCities
+          });
+        } catch (error) {
+          console.error('Failed to initialize data:', error);
+        }
       }
     };
-
+  
     initializeData();
   }, []);
 
-  const fetchEnterprises = useCallback(async ({ region, cities }) => {
-    if (!region || !cities?.length) return;
+  const fetchEnterprises = useCallback(async ({ region, cities, isReviewMode = false }) => {
+    if (!region) return;
     
     setIsLoading(true);
     setError(null);
     
     try {
+      // 리뷰 모드일 경우
+      if (isReviewMode) {
+        const data = await fetchEnterprisesUtil({
+          region: '경기',
+          cities: ['전체']
+        });
+        setReviewEnterprises(data); // 리뷰용 상태 업데이트
+        return data;
+      }
+      
+      // 일반 모드일 경우
       const data = await fetchEnterprisesUtil({
         region,
         cities
@@ -199,7 +222,8 @@ export const EnterpriseProvider = ({ children }) => {
     removeFromHistory,
     clearSearchQuery,
     setSelectedLocation,
-    setDisplayMode
+    setDisplayMode,
+    reviewEnterprises
   };
 
   return (

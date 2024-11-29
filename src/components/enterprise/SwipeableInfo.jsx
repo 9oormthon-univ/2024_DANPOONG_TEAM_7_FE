@@ -4,6 +4,7 @@ import styles from '../../styles/enterprise/SwipeableInfo.module.css';
 import useEnterpriseDetailReviews from '../../hooks/useEnterpriseDetailReviews';
 
 //utils
+import { formatCompanyName } from '../../utils/companyNameUtils';
 import { formatDateWithDots } from '../../utils/formatDate';
 import { convertTagNumbersToKeywords } from '../../utils/tagUtils';
 
@@ -161,8 +162,22 @@ const SwipeableInfo = ({ enterpriseData }) => {
                     <div className={styles.enterpriseInfoContainer}>
                         <div className={styles.section}>
                             <div className={styles.comment}>
-                                <p>{getDisplayValue(enterpriseData.name)}은</p>
-                                <span>{getDisplayValue(transformedType)} 분야의 {getDisplayValue(transformedPurpose)}</span>
+                                <div className={styles.commentName}>
+                                    <span>
+                                    {formatCompanyName(enterpriseData.name).front}
+                                    {!formatCompanyName(enterpriseData.name).middle && !formatCompanyName(enterpriseData.name).back ? '은' : <br/>}
+                                    </span>
+                                    {formatCompanyName(enterpriseData.name).middle && 
+                                    <span>
+                                        {formatCompanyName(enterpriseData.name).middle}
+                                        {!formatCompanyName(enterpriseData.name).back ? '은' : <br/>}
+                                    </span>
+                                    }
+                                    {formatCompanyName(enterpriseData.name).back && 
+                                    <span>{formatCompanyName(enterpriseData.name).back}은</span>
+                                    }
+                                </div>
+                                <span className={styles.commentType}>{getDisplayValue(transformedType)} 분야의 {getDisplayValue(transformedPurpose)}</span>
                                 <span>를 제공합니다</span>
                             </div>
                             <div className={styles.infoBox}>

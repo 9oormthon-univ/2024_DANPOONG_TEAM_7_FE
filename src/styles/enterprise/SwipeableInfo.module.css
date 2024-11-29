@@ -74,7 +74,7 @@
     flex-shrink: 0;
 }
 
-.comment p{
+.commentName{
     margin: 0 0 9px 0;
     color: #000;
     font-size: 20px;
@@ -83,7 +83,7 @@
     line-height: 130%; /* 26px */
 }
 
-.comment span:nth-of-type(1){
+.commentType{
     margin: 0 0 0 0;
     color: #000;
     font-size: 20px;

@@ -17,7 +17,7 @@ const JobCard = ({ enterpriseName, title, field, date, img, detail }) => {
             }}>
                 <div style={{
                     display: 'flex',
-                    justifyContent: 'start',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                     gap: '20px'
                 }}>

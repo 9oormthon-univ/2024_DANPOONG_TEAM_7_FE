@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import TopBar from '../../../components/layout/TopBar';
-import MagazineCard from '../../../components/mypage/admin/MagazineCard';
 import JobCard from '../../../components/mypage/admin/JobCard';
 import ProgramCard from '../../../components/mypage/admin/ProgramCard';
-import MagazineRegisterForm from './MagazineRegisterForm';
 import ProgramRegisterForm from './ProgramRegisterForm';
 import JobRegisterForm from './JobRegisterForm';
 
 const AdminManagement = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [programs, setPrograms] = useState([]);
-    const [magazines, setMagazines] = useState([]);
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [showMagazineRegisterForm, setShowMagazineRegisterForm] = useState(false);
     const [showJobRegisterForm, setShowJobRegisterForm] = useState(false);
     const [showProgramRegisterForm, setShowProgramRegisterForm] = useState(false);
 
@@ -23,9 +19,6 @@ const AdminManagement = () => {
         switch (type) {
             case 'program':
                 setShowProgramRegisterForm(true);
-                break;
-            case 'magazine':
-                setShowMagazineRegisterForm(true);
                 break;
             case 'job':
                 setShowJobRegisterForm(true);
@@ -37,7 +30,6 @@ const AdminManagement = () => {
 
     const pages = [
         { title: '프로그램 관리', type: 'program' },
-        { title: '매거진 관리', type: 'magazine' },
         { title: '일자리 관리', type: 'job' }
     ];
 
@@ -52,16 +44,6 @@ const AdminManagement = () => {
             }
         };
 
-        const fetchMagazines = async () => {
-            try {
-                const response = await fetch('/api/admin/magazines');
-                const data = await response.json();
-                setMagazines(data);
-            } catch (error) {
-                console.error('매거진 데이터 로딩 실패:', error);
-            }
-        };
-
         const fetchJobs = async () => {
             try {
                 const response = await fetch('/api/admin/jobs');
@@ -72,13 +54,13 @@ const AdminManagement = () => {
             }
         };
 
-        Promise.all([fetchPrograms(), fetchMagazines(), fetchJobs()])
+        Promise.all([fetchPrograms(), fetchJobs()])
             .finally(() => setLoading(false));
     }, []);
 
     return (
         <>
-            {!showMagazineRegisterForm && !showJobRegisterForm && !showProgramRegisterForm &&
+            {!showJobRegisterForm && !showProgramRegisterForm &&
                 <div style={{
                     height: '100vh',
                 }}>
@@ -182,59 +164,6 @@ const AdminManagement = () => {
                                     )}
                                     {currentIndex === 1 && (
                                         <div style={{ marginBottom: '80px' }}>
-                                            {magazines.map((magazine, index) => (
-                                                <div key={index} style={{
-                                                    backgroundColor: 'white',
-                                                    borderRadius: '16px',
-                                                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
-                                                    padding: '16px',
-                                                    marginBottom: '16px'
-                                                }}>
-                                                    <h3 style={{
-                                                        fontSize: '20px',
-                                                        fontWeight: 'bold'
-                                                    }}>{magazine.title}</h3>
-                                                    <p style={{
-                                                        color: '#666',
-                                                        marginTop: '8px'
-                                                    }}>{magazine.category}</p>
-                                                    <div style={{
-                                                        height: '160px',
-                                                        backgroundColor: '#eee',
-                                                        borderRadius: '8px',
-                                                        marginTop: '8px',
-                                                        backgroundImage: `url(${magazine.thumbnail})`,
-                                                        backgroundSize: 'cover',
-                                                        backgroundPosition: 'center'
-                                                    }} />
-                                                </div>
-                                            ))}
-                                            <MagazineCard
-                                                enterpriseName={"기업 이름"}
-                                                title={"title"}
-                                                field={"분야"}
-                                                date={"2020.20.02"}
-                                                img={"url"}
-                                                detail={"내용내용내용내용내용내용내용내용내용내용"} 
-                                                region={"경기도 고양시"}/>
-                                            <button
-                                                onClick={() => handleRegisterClick('magazine')}
-                                                style={{
-                                                    width: '100%',
-                                                    backgroundColor: '#2DDDC3',
-                                                    color: 'white',
-                                                    padding: '16px',
-                                                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
-                                                    border: 'none',
-                                                    cursor: 'pointer'
-                                                }}
-                                            >
-                                                매거진 등록
-                                            </button>
-                                        </div>
-                                    )}
-                                    {currentIndex === 2 && (
-                                        <div style={{ marginBottom: '80px' }}>
                                             {jobs.map((job, index) => (
                                                 <div key={index} style={{
                                                     backgroundColor: 'white',
@@ -289,15 +218,8 @@ const AdminManagement = () => {
                             )}
                         </div>
                     </div>
-
                 </div>
             }
-
-            {showMagazineRegisterForm && (
-                <MagazineRegisterForm
-                    onClose={() => setShowMagazineRegisterForm(false)}
-                />
-            )}
 
             {showJobRegisterForm && (
                 <JobRegisterForm

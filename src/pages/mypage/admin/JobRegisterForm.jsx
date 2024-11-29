@@ -2,17 +2,73 @@ import React, { useState } from 'react';
 import leftArrow from '../../../assets/images/mypage/leftArrow.svg'
 import TopBar from '../../../components/layout/TopBar';
 
+const InputField = ({ label, value, onChange, placeholder }) => {
+    return (
+        <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingTop: '10px'
+        }}>
+            <span style={{
+                width: '20%',
+                fontSize: '15px',
+                color: '#5C5C5C',
+                textAlign: 'start',
+                marginRight: '20px'
+            }}>{label}</span>
+            <input
+                type="text"
+                placeholder={placeholder || label}
+                value={value}
+                onChange={onChange}
+                style={{
+                    width: '70%',
+                    padding: '12px',
+                    border: '1px solid #BEBEBE',
+                    borderRadius: '13px',
+                    fontSize: '15px'
+                }}
+            />
+        </div>
+    );
+};
+
 const JobRegisterForm = ({ onClose }) => {
     const [previewUrl, setPreviewUrl] = useState(null);
 
     const [formData, setFormData] = useState({
-        title: '',
-        enterpriseName: '',
-        field: '',
-        time: '',
-        region: '',
-        image: null,
-        content: ''
+        // 기본 정보
+        title: '',              // 제목
+        enterpriseName: '',     // 기업이름
+        field: '',             // 분야
+        duty: '',              // 직무
+        region: '',            // 지역
+        image: null,           // 사진
+
+        // 근무조건
+        salary: '',            // 급여
+        workPeriod: '',        // 근무기간
+        workDays: '',          // 근무요일
+        workHours: '',         // 근무시간
+        jobType: '',           // 업직종
+        employmentType: '',    // 고용형태
+        benefits: '',          // 복리후생
+
+        // 모집조건
+        deadline: '',          // 모집마감
+        requiredPeriod: '',    // 근무기간
+        education: '',         // 학력
+        preference: '',        // 우대사항
+
+        // 근무지역
+        detailAddress: '',     // 상세주소
+
+        // 채용담당자 정보
+        manager: '',           // 담당자
+        phone: '',            // 전화번호
+        email: '',            // 이메일
+        website: ''           // 홈페이지
     });
 
     const handleSubmit = (e) => {
@@ -104,7 +160,7 @@ const JobRegisterForm = ({ onClose }) => {
                             padding: '12px',
                             border: '1px solid #BEBEBE',
                             borderRadius: '13px',
-                            fontSize: '16px'
+                            fontSize: '15px'
                         }} />
                 </div>
                 <div style={{
@@ -127,7 +183,7 @@ const JobRegisterForm = ({ onClose }) => {
                             padding: '12px',
                             border: '1px solid #BEBEBE',
                             borderRadius: '13px',
-                            fontSize: '16px'
+                            fontSize: '15px'
                         }} />
                 </div>
                 <div style={{
@@ -140,17 +196,17 @@ const JobRegisterForm = ({ onClose }) => {
                         width: '20%',
                         fontSize: '15px',
                         color: '#5C5C5C',
-                    }}>시간</span>
+                    }}>직무</span>
                     <input type="text"
-                        placeholder="시간"
-                        value={formData.time}
-                        onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                        placeholder="직무"
+                        value={formData.duty}
+                        onChange={(e) => setFormData({ ...formData, duty: e.target.value })}
                         style={{
                             width: '60%',
                             padding: '12px',
                             border: '1px solid #BEBEBE',
                             borderRadius: '13px',
-                            fontSize: '16px'
+                            fontSize: '15px'
                         }} />
                 </div>
                 <div style={{
@@ -173,7 +229,7 @@ const JobRegisterForm = ({ onClose }) => {
                             padding: '12px',
                             border: '1px solid #BEBEBE',
                             borderRadius: '13px',
-                            fontSize: '16px'
+                            fontSize: '15px'
                         }} />
                 </div>
 
@@ -181,20 +237,21 @@ const JobRegisterForm = ({ onClose }) => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    width: '100%'
+                    width: '100%',
+                    margin: '20px 0 10px 0'
                 }}>
                     <div style={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
                         border: '1px solid #BEBEBE',
-                        borderRadius: '13px',
+                        borderRadius: '16px',
                         height: '200px',
                         width: '85%',
                         position: 'relative',
                         overflow: 'hidden'
                     }}>
-                        {previewUrl ? (                            
+                        {previewUrl ? (
                             <img
                                 src={previewUrl}
                                 alt="미리보기"
@@ -204,7 +261,7 @@ const JobRegisterForm = ({ onClose }) => {
                                     objectFit: 'cover'
                                 }}
                             />
-                        ) : (                            
+                        ) : (
                             <>
                                 <input
                                     type="file"
@@ -237,24 +294,190 @@ const JobRegisterForm = ({ onClose }) => {
                 <div style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    margin: '15px 0'
+                    alignItems: 'center',
+                    width: '100%',
+                    margin: '10px 0 10px 0',
                 }}>
-                    <textarea
-                        placeholder="내용을 입력하세요"
-                        value={formData.content}
-                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                        style={{
-                            width: '80%',
-                            height: '500px',
-                            padding: '12px',
-                            border: '1px solid #BEBEBE',
-                            borderRadius: '13px',
-                            fontSize: '16px',
-                            resize: 'none',
-                            wordBreak: 'break-all',
-                            whiteSpace: 'pre-wrap'
-                        }}
-                    />
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        border: '1px solid #BEBEBE',
+                        borderRadius: '13px',
+                        width: '85%',
+                        position: 'relative',
+                        overflow: 'hidden',
+                    }}>
+                        <div style={{ margin: '5%' }}>
+                            <span style={{ fontSize: '15px', fontWeight: 'bold' }}>근무 조건</span>
+                            <InputField
+                                label="급여"
+                                value={formData.salary}
+                                onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                            />
+                            <InputField
+                                label="근무기간"
+                                value={formData.workPeriod}
+                                onChange={(e) => setFormData({ ...formData, workPeriod: e.target.value })}
+                            />
+                            <InputField
+                                label="근무요일"
+                                value={formData.workDays}
+                                onChange={(e) => setFormData({ ...formData, workDays: e.target.value })}
+                            />
+                            <InputField
+                                label="근무시간"
+                                value={formData.workHours}
+                                onChange={(e) => setFormData({ ...formData, workHours: e.target.value })}
+                            />
+                            <InputField
+                                label="업직종"
+                                value={formData.jobType}
+                                onChange={(e) => setFormData({ ...formData, jobType: e.target.value })}
+                            />
+                            <InputField
+                                label="고용형태"
+                                value={formData.employmentType}
+                                onChange={(e) => setFormData({ ...formData, employmentType: e.target.value })}
+                            />
+                            <InputField
+                                label="복리후생"
+                                value={formData.benefits}
+                                onChange={(e) => setFormData({ ...formData, benefits: e.target.value })}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    margin: '10px 0 10px 0',
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        border: '1px solid #BEBEBE',
+                        borderRadius: '13px',
+                        width: '85%',
+                        position: 'relative',
+                        overflow: 'hidden',
+                    }}>
+                        <div style={{ margin: '5%' }}>
+                            <span style={{ fontSize: '15px', fontWeight: 'bold' }}>모집 조건</span>
+                            <InputField
+                                label="모집마감"
+                                value={formData.deadline}
+                                onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
+                            />
+                            <InputField
+                                label="근무기간"
+                                value={formData.requiredPeriod}
+                                onChange={(e) => setFormData({ ...formData, requiredPeriod: e.target.value })}
+                            />
+                            <InputField
+                                label="학력"
+                                value={formData.education}
+                                onChange={(e) => setFormData({ ...formData, education: e.target.value })}
+                            />
+                            <InputField
+                                label="우대사항"
+                                value={formData.preference}
+                                onChange={(e) => setFormData({ ...formData, preference: e.target.value })}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    margin: '10px 0 10px 0',
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        border: '1px solid #BEBEBE',
+                        borderRadius: '13px',
+                        width: '85%',
+                        position: 'relative',
+                        overflow: 'hidden',
+                    }}>
+                        <div style={{ margin: '5%' }}>
+                            <span style={{ fontSize: '15px', fontWeight: 'bold' }}>근무 지역</span>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', paddingTop: '10px' }}>
+                                <span style={{
+                                    width: '20%',
+                                    fontSize: '15px',
+                                    color: '#5C5C5C',
+                                    textAlign: 'start',
+                                    paddingTop: '12px',
+                                    marginRight: '20px'
+                                }}>상세주소</span>
+                                <textarea
+                                    placeholder="상세주소"
+                                    value={formData.detailAddress}
+                                    onChange={(e) => setFormData({ ...formData, detailAddress: e.target.value })}
+                                    style={{
+                                        width: '70%',
+                                        height: '80px',
+                                        padding: '12px',
+                                        border: '1px solid #BEBEBE',
+                                        borderRadius: '13px',
+                                        fontSize: '15px',
+                                        resize: 'none',
+                                        fontFamily: 'inherit'
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    margin: '10px 0 20px 0',
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        border: '1px solid #BEBEBE',
+                        borderRadius: '13px',
+                        width: '85%',
+                        position: 'relative',
+                        overflow: 'hidden',
+                    }}>
+                        <div style={{ margin: '5%' }}>
+                            <span style={{ fontSize: '15px', fontWeight: 'bold' }}>채용담당자 정보</span>
+                            <InputField
+                                label="담당자"
+                                value={formData.manager}
+                                onChange={(e) => setFormData({ ...formData, manager: e.target.value })}
+                            />
+                            <InputField
+                                label="전화번호"
+                                value={formData.phone}
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            />
+                            <InputField
+                                label="이메일"
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            />
+                            <InputField
+                                label="홈페이지"
+                                value={formData.website}
+                                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div style={{
                     display: 'flex',

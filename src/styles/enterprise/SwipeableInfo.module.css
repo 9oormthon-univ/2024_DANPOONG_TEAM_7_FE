@@ -19,16 +19,16 @@
     text-align: center;
     transition: color 0.2s;
     background-color: #E2E4E7;
-    color: #113C35;
+    color: #BEBEBE;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .activeTab {
     background-color: #113C35;  /* text-emerald-900 */
     color: #113C35;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .contentContainer {
@@ -210,7 +210,7 @@
     flex-direction: column;
     margin: 0 0 0 15px;
 }
-
+ 
 .label {
     margin: 0 0 4px 0;
     color: #BEBEBE;
@@ -284,17 +284,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 71px;
+    width: 76px;
     height: 23px;
     margin: 0 0 0 20px;
     flex-shrink: 0;
     border-radius: 14px;
     border: 1px solid #BEBEBE;
+    background-color: #FFFFFF;
     color: #000;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+}
+
+.alignment:active, .alignment:focus{
+    border: 1px solid #BEBEBE;
+    outline: none;
+    background-color: #FFFFFF;
 }
 
 .reviewCardList{
@@ -305,7 +312,7 @@
     gap: 20px;
     width: 100%;
     height: auto;
-    margin: 40px 0 20px 0;
+    margin: 20px 0 2px 0;
 }
 
 .reviewCard{
@@ -450,7 +457,7 @@
     gap: 35px;
     width: 100%;
     height: auto;
-    margin: 40px 0 20px 0;
+    margin: 10px 0 20px 0;
 }
   
 .magazineCard {

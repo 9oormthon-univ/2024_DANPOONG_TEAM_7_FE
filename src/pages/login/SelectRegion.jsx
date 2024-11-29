@@ -11,7 +11,7 @@ import activeBtn from '../../assets/images/login/region-active.svg';
 const REGIONS = ['서울', '경기', '강원', '충북', '충남', '전북', '전남', '광주', '경북', '경남', '제주'];
 
 const CITY = [
-   {'경기': ['수원시','성남시','고양시','용인시','부천시','안산시','안양시','남양주시','화성시','평택시','의정부시',
+   {'경기': ['전체','수원시','성남시','고양시','용인시','부천시','안산시','안양시','남양주시','화성시','평택시','의정부시',
        '파주시','시흥시','김포시','광명시','광주시','군포시','하남시','오산시','양주시','구리시','안성시','포천시',
        '의왕시','여주시','양평군','동두천시','과천시','가평군','연천군']},
    {'서울': ['업데이트 예정']},
@@ -33,15 +33,20 @@ function SelectRegion() {
    const { updateRegion, fetchEnterprises } = useEnterprise();
 
    const handleRegionSelect = (region) => {
-       setSelectedRegion(region);
-       setSelectedCities(new Set());
-       saveToLocalStorage(STORAGE_KEYS.REGION, region);
-   };
+    setSelectedRegion(region);
+    setSelectedCities(new Set()); // 도시 선택 초기화
+};
 
-   const handleCitySelect = (city) => {
-       setSelectedCities(new Set([city]));
-       saveToLocalStorage(STORAGE_KEYS.CITIES, [city]);
-   };
+const handleCitySelect = (city) => {
+    if (city === '전체') {
+        setSelectedCities(new Set(['전체']));
+    } else {
+        const newSelectedCities = new Set([city]);
+        setSelectedCities(newSelectedCities);
+    }
+    // localStorage 저장을 여기서 하지 않고 버튼 클릭 시에만 저장
+};
+
 
    const getCitiesForRegion = (region) => {
        const regionData = CITY.find(item => Object.keys(item)[0] === region);
@@ -58,17 +63,16 @@ function SelectRegion() {
    };
 
    const handleStartClick = async () => {
-       if (isStartButtonEnabled()) {
-           const selectedCitiesArray = Array.from(selectedCities);
-           await updateRegion({
-               region: selectedRegion,
-               cities: selectedCitiesArray
-           });
-           await fetchEnterprises();
-           navigate('/home');
-       }
-   };
-
+    if (isStartButtonEnabled()) {
+        const selectedCitiesArray = Array.from(selectedCities);
+        
+        await updateRegion({
+            region: selectedRegion,
+            cities: selectedCitiesArray
+        });
+        navigate('/home');
+    }
+};
    return (
        <div className={styles.container}>
            <TopBar/>

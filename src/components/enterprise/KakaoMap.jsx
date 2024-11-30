@@ -259,7 +259,7 @@ function KakaoMap(props) {
             if (status === kakao.maps.services.Status.OK) {
                 clearMarkers();
                 
-                // 검색어에 사회적 기업 키워드가 포함되어 있는지 미리 체크
+                // 검색어에 사회적 기업 키워드가 포함되어 있는지 체크
                 const isSocialEnterprise = SOCIAL_ENTERPRISE_KEYWORDS.some(
                     keyword => searchQuery.toLowerCase().includes(keyword)
                 );
@@ -271,13 +271,76 @@ function KakaoMap(props) {
                         parseFloat(place.y),
                         parseFloat(place.x)
                     );
-    
+
                     if (distance <= SEARCH_RADIUS) {
-                        const markerType = isSocialEnterprise ? 'enterprises' : 'search';
-                        displayMarker(map, placePosition, place, markerType);
+                        // 사회적 기업 키워드가 있으면 enterprises 마커 이미지 사용
+                        const markerImage = isSocialEnterprise ? 'enterprises' : 'search';
+                        
+                        // 마커 이미지와 데이터 매핑
+                        const markerImageMap = {
+                            'search': searchMarker,
+                            'visited': visitedMarker,
+                            'bookmark': bookMarker,
+                            'enterprises': listMarker
+                        };
+                        
+                        const imageSize = new kakao.maps.Size(35, 35);
+                        const imageOption = { offset: new kakao.maps.Point(17, 35) };
+                        const customMarkerImage = new kakao.maps.MarkerImage(
+                            markerImageMap[markerImage],
+                            imageSize,
+                            imageOption
+                        );
+                        
+                        // 마커 생성
+                        const marker = new kakao.maps.Marker({
+                            position: placePosition,
+                            image: customMarkerImage,
+                            map: map
+                        });
+                        
+                        // search 스타일의 오버레이 생성 (border 색상 조건부 적용)
+                        const overlay = new kakao.maps.CustomOverlay({
+                            position: placePosition,
+                            content: `
+                                <div style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    justify-content: center;
+                                    align-items: center;
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, 0%);
+                                    background: white;
+                                    padding: 8px;
+                                    border-radius: 8px;
+                                    border: 1px solid ${isSocialEnterprise ? '#2DDDC3' : '#007AFF'};
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                    font-size: 12px;
+                                    white-space: nowrap;
+                                ">
+                                    <div style="font-weight: bold">${place.place_name}</div>
+                                </div>
+                            `,
+                            map: null,
+                            clickable: true,
+                        });
+                        
+                        // 클릭 이벤트 추가
+                        kakao.maps.event.addListener(marker, 'click', () => {
+                            console.log("Marker clicked!");
+                            infowindowsRef.current.forEach(iw => {
+                                if (iw.setMap) iw.setMap(null);
+                            });
+                            overlay.setMap(map);
+                        });
+                        
+                        markersRef.current.push(marker);
+                        infowindowsRef.current.push(overlay);
                     }
                 });
-    
+
                 moveMapToLocation(map, data[0].y, data[0].x, 3);
             }
         }, {
@@ -285,7 +348,7 @@ function KakaoMap(props) {
             radius: SEARCH_RADIUS,
             sort: kakao.maps.services.SortBy.DISTANCE
         });
-    }, [clearMarkers, displayMarker, moveMapToLocation, searchQuery]);
+    }, [clearMarkers, moveMapToLocation, searchQuery]);
 
     const fitBoundsToMarkers = useCallback((map, locations) => {
         if (!locations?.length) return;

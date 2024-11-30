@@ -266,8 +266,8 @@ function ListModal({ isActive, handleClose }) {
 
                                     {/* 기업 정보 */}
                                     <div className={styles.listRow2}>
-                                        <span>{enterprise.socialPurpose}</span>
-                                        <span>{enterprise.type}</span>
+                                        <span>{enterprise.socialPurpose || '-'}</span>
+                                        <span>{enterprise.type || '-'}</span>
                                     </div>
 
                                     {/* 주소 정보 */}

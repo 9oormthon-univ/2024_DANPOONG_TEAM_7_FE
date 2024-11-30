@@ -112,12 +112,34 @@
     z-index: 2;
 }
 
-.mylocationBtn, .bookmarkBtn, .reviewBtn{
+ .bookmarkBtn, .reviewBtn{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     width: 60px;
     height: 55px;
+    padding: 0 0 0 0;
+    background-color: transparent;
+    border: none;
+}
+
+
+.mylocationContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: absolute;
+    bottom: 163px;
+    left: 2.6%;
+    z-index: 2;
+}
+.mylocationBtn{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 60px;
+    height: 55px;
+    padding: 0 0 0 0;
     background-color: transparent;
     border: none;
 }

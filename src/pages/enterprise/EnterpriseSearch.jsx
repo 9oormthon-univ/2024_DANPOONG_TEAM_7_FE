@@ -150,16 +150,6 @@ function EnterpriseSearch() {
                     <KakaoMap focusOnMyLocation={focusOnMyLocation} setFocusOnMyLocation={setFocusOnMyLocation}/>
                     <div className={styles.filterContainer}>
                         <button 
-                            className={styles.mylocationBtn}
-                            onClick={() => setFocusOnMyLocation(true)}
-                        >
-                        <img
-                            src={mylocationIcon}
-                            alt='mylocation icon' 
-                            className={styles.mylocationIcon}
-                        />
-                        </button>
-                        <button 
                             className={styles.bookmarkBtn}
                             onClick={handleBookmarkClick}
                             disabled={bookmarkLoading}
@@ -178,6 +168,18 @@ function EnterpriseSearch() {
                                 src={ReviewIcon} 
                                 alt='review icon' 
                                 className={styles.reviewIcon}
+                            />
+                        </button>
+                    </div>
+                    <div className={styles.mylocationContainer}>
+                        <button 
+                                className={styles.mylocationBtn}
+                                onClick={() => setFocusOnMyLocation(true)}
+                        >
+                            <img
+                                src={mylocationIcon}
+                                alt='mylocation icon' 
+                                className={styles.mylocationIcon}
                             />
                         </button>
                     </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/enterprise/KakaoMap.module.css';
 import { useEnterprise } from '../../contexts/EnterpriseContext';
 import { useVisitBookmark } from '../../contexts/VisitBookmarkContext';
@@ -6,6 +7,7 @@ import { getFromLocalStorage, STORAGE_KEYS } from '../../utils/enterpriseStorage
 
 //utils
 import { calculateDistance } from '../../utils/distanceUtils';
+import { formatCompanyName } from '../../utils/companyNameUtils';
 
 //marker img
 import currentLocationMarker from '../../assets/images/map/mylocation.svg';
@@ -27,6 +29,7 @@ const SEARCH_RADIUS = 20000;
 const SOCIAL_ENTERPRISE_KEYWORDS = ['사회적 기업', '사회적기업', '사회적', '사회'];
 
 function KakaoMap(props) {
+    const navigate = useNavigate();
     // === State & Ref 관리 ===
     const { focusOnMyLocation, setFocusOnMyLocation } = props;
     const [isLoading, setIsLoading] = useState(true);
@@ -73,12 +76,12 @@ function KakaoMap(props) {
     }, []);
 
     // 마커 표시 함수
-    const displayMarker = useCallback((map, position, content, imageSrc) => {
-        if (imageSrc === currentLocationMarker) {
+    const displayMarker = useCallback((map, position, data, markerType) => {
+        if (markerType === currentLocationMarker) {
             if (myLocationMarkerRef.current) {
                 myLocationMarkerRef.current.setMap(null);
             }
-
+     
             const customOverlay = new kakao.maps.CustomOverlay({
                 position: position,
                 content: `
@@ -87,38 +90,166 @@ function KakaoMap(props) {
                             <div class="${styles.marker}"></div>
                             <div class="${styles.ping}"></div>
                         </div>
-                        <div class="${styles.message}">${content}</div>
                     </div>
                 `,
-                map: map
+                map: map,
             });
-
+     
             myLocationMarkerRef.current = customOverlay;
         } else {
+            // 마커 이미지 매핑
+            const markerImageMap = {
+                'search': searchMarker,
+                'visited': visitedMarker,
+                'bookmark': bookMarker,
+                'enterprises': listMarker
+            };
+     
+            // 오버레이 스타일 매핑
+            const overlayContents = {
+                'search': (data) => `
+                    <div style="
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, 0%);
+                        background: white;
+                        padding: 8px;
+                        border-radius: 8px;
+                        border: 1px solid #007AFF;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        font-size: 12px;
+                        white-space: nowrap;
+                    ">
+                        <div style="font-weight: bold">${data.place_name}</div>
+                    </div>
+                `,
+                'visited': (data) => `
+                    <div style="
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, 0%);
+                        background: white;
+                        padding: 8px;
+                        border-radius: 8px;
+                        border: 1px solid #6E4AFF;
+                        font-size: 12px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    ">
+                        <div style="font-weight: 500">
+                            <p style="margin:0;">${formatCompanyName(data.enterpriseName).front}</p>
+                            ${formatCompanyName(data.enterpriseName).middle ? `<p style="margin:0;">${formatCompanyName(data.enterpriseName).middle}</p>` : ''}
+                            ${formatCompanyName(data.enterpriseName).back ? `<p style="margin:0;">${formatCompanyName(data.enterpriseName).back}</p>` : ''}
+                        </div>
+                    </div>
+                `,
+                'bookmark': (data) => `
+                    <div style="
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, 0%);
+                        background: white;
+                        padding: 8px;
+                        border-radius: 8px;
+                        border: 1px solid #FF6C6A;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        font-size: 12px;
+                        white-space: nowrap;
+                    ">
+                        <div style="font-weight: 500">
+                            <p style="margin:0;">${formatCompanyName(data.enterpriseName).front}</p>
+                            ${formatCompanyName(data.enterpriseName).middle ? `<p style="margin:0;">${formatCompanyName(data.enterpriseName).middle}</p>` : ''}
+                            ${formatCompanyName(data.enterpriseName).back ? `<p style="margin:0;">${formatCompanyName(data.enterpriseName).back}</p>` : ''}
+                        </div>
+                    </div>
+                `,
+
+                'enterprises': (data) => `
+                    <div style="
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, 0%);
+                        background: white;
+                        padding: 8px;
+                        border-radius: 8px;
+                        border: 1px solid #2DDDC3;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        font-size: 12px;
+                        white-space: nowrap;
+                        cursor: pointer;
+                        " onclick="window.location.href='/enterprise/info/${data.enterpriseId}'"
+                    >
+                        <div style="font-weight: 500">
+                            <p style="margin:0;">${formatCompanyName(data.name).front}</p>
+                            ${formatCompanyName(data.name).middle ? `<p style="margin:0;">${formatCompanyName(data.name).middle}</p>` : ''}
+                            ${formatCompanyName(data.name).back ? `<p style="margin:0;">${formatCompanyName(data.name).back}</p>` : ''}
+                        </div>
+                    </div>
+                `,
+                
+             };
+     
             const imageSize = new kakao.maps.Size(35, 35);
             const imageOption = { offset: new kakao.maps.Point(17, 35) };
-            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+            const markerImage = new kakao.maps.MarkerImage(
+                markerImageMap[markerType] || markerType,
+                imageSize,
+                imageOption
+            );
             
             const marker = new kakao.maps.Marker({
                 position: position,
                 image: markerImage,
                 map: map
             });
-
-            const infowindow = new kakao.maps.InfoWindow({
-                content: content,
-                removable: true
+     
+            const overlay = new kakao.maps.CustomOverlay({
+                position: position,
+                content: overlayContents[markerType](data),
+                map: null,
+                clickable: true,
             });
-
+     
             kakao.maps.event.addListener(marker, 'click', () => {
-                infowindowsRef.current.forEach(iw => iw.close());
-                infowindow.open(map, marker);
+                console.log("Marker clicked!");
+                infowindowsRef.current.forEach(iw => {
+                    if (iw.setMap) iw.setMap(null);
+                });
+                overlay.setMap(map);
             });
 
+            kakao.maps.event.addListener(map, 'click', () => {
+                infowindowsRef.current.forEach(iw => {
+                    if (iw.setMap) iw.setMap(null);
+                });
+            });
+            
             markersRef.current.push(marker);
-            infowindowsRef.current.push(infowindow);
+            infowindowsRef.current.push(overlay);
+     
+            markersRef.current.push(marker);
+            infowindowsRef.current.push(overlay);
         }
-    }, []);
+     }, [navigate]);
 
     // 검색 결과 표시
     const displaySearchResults = useCallback((map, keyword, userLat, userLng) => {
@@ -127,6 +258,11 @@ function KakaoMap(props) {
         ps.keywordSearch(keyword, (data, status) => {
             if (status === kakao.maps.services.Status.OK) {
                 clearMarkers();
+                
+                // 검색어에 사회적 기업 키워드가 포함되어 있는지 체크
+                const isSocialEnterprise = SOCIAL_ENTERPRISE_KEYWORDS.some(
+                    keyword => searchQuery.toLowerCase().includes(keyword)
+                );
                 
                 data.forEach(place => {
                     const placePosition = new kakao.maps.LatLng(place.y, place.x);
@@ -137,19 +273,71 @@ function KakaoMap(props) {
                     );
 
                     if (distance <= SEARCH_RADIUS) {
-                        const markerToUse = SOCIAL_ENTERPRISE_KEYWORDS.some(
-                            keyword => searchQuery.includes(keyword)
-                        ) ? listMarker : searchMarker;
-
-                        displayMarker(
-                            map,
-                            placePosition,
-                            `<div style="padding:5px;font-size:12px;">
-                                ${place.place_name}<br>
-                                ${place.address_name}
-                            </div>`,
-                            markerToUse
+                        // 사회적 기업 키워드가 있으면 enterprises 마커 이미지 사용
+                        const markerImage = isSocialEnterprise ? 'enterprises' : 'search';
+                        
+                        // 마커 이미지와 데이터 매핑
+                        const markerImageMap = {
+                            'search': searchMarker,
+                            'visited': visitedMarker,
+                            'bookmark': bookMarker,
+                            'enterprises': listMarker
+                        };
+                        
+                        const imageSize = new kakao.maps.Size(35, 35);
+                        const imageOption = { offset: new kakao.maps.Point(17, 35) };
+                        const customMarkerImage = new kakao.maps.MarkerImage(
+                            markerImageMap[markerImage],
+                            imageSize,
+                            imageOption
                         );
+                        
+                        // 마커 생성
+                        const marker = new kakao.maps.Marker({
+                            position: placePosition,
+                            image: customMarkerImage,
+                            map: map
+                        });
+                        
+                        // search 스타일의 오버레이 생성 (border 색상 조건부 적용)
+                        const overlay = new kakao.maps.CustomOverlay({
+                            position: placePosition,
+                            content: `
+                                <div style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    justify-content: center;
+                                    align-items: center;
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, 0%);
+                                    background: white;
+                                    padding: 8px;
+                                    border-radius: 8px;
+                                    border: 1px solid ${isSocialEnterprise ? '#2DDDC3' : '#007AFF'};
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                    font-size: 12px;
+                                    white-space: nowrap;
+                                ">
+                                    <div style="font-weight: bold">${place.place_name}</div>
+                                </div>
+                            `,
+                            map: null,
+                            clickable: true,
+                        });
+                        
+                        // 클릭 이벤트 추가
+                        kakao.maps.event.addListener(marker, 'click', () => {
+                            console.log("Marker clicked!");
+                            infowindowsRef.current.forEach(iw => {
+                                if (iw.setMap) iw.setMap(null);
+                            });
+                            overlay.setMap(map);
+                        });
+                        
+                        markersRef.current.push(marker);
+                        infowindowsRef.current.push(overlay);
                     }
                 });
 
@@ -160,7 +348,7 @@ function KakaoMap(props) {
             radius: SEARCH_RADIUS,
             sort: kakao.maps.services.SortBy.DISTANCE
         });
-    }, [clearMarkers, displayMarker, moveMapToLocation, searchQuery]);
+    }, [clearMarkers, moveMapToLocation, searchQuery]);
 
     const fitBoundsToMarkers = useCallback((map, locations) => {
         if (!locations?.length) return;
@@ -176,61 +364,45 @@ function KakaoMap(props) {
 
     // 방문 장소 마커 표시
     const displayVisitedMarkers = useCallback(async (map, locations) => {
-      if (!map || !locations?.length) return;
-      
-      clearMarkers();
-      locations.forEach(location => {
-          if (location.latitude && location.longitude) {
-              const position = new kakao.maps.LatLng(
-                  location.latitude,
-                  location.longitude
-              );
+        if (!map || !locations?.length) return;
+        
+        clearMarkers();
+        locations.forEach(location => {
+            if (location.latitude && location.longitude) {
+                const position = new kakao.maps.LatLng(
+                    location.latitude,
+                    location.longitude
+                );
 
-              displayMarker(
-                  map,
-                  position,
-                  `<div style="padding:5px;font-size:12px;">
-                      ${location.enterpriseName || location.name}<br>
-                      ${location.district}
-                  </div>`,
-                  visitedMarker
-              );
-          }
-      });
+                displayMarker(map, position, location, 'visited');
+            }
+        });
 
-      if (locations[0]) {
-          fitBoundsToMarkers(map, locations);
-      }
-  }, [clearMarkers, displayMarker, moveMapToLocation]);
+        if (locations[0]) {
+            fitBoundsToMarkers(map, locations);
+        }
+    }, [clearMarkers, displayMarker, moveMapToLocation]);
 
     // 북마크 마커 표시
     const displayBookmarkMarkers = useCallback(async (map, locations) => {
-      if (!map || !locations?.length) return;
-      
-      clearMarkers();
-      locations.forEach(location => {
-          if (location.latitude && location.longitude) {
-              const position = new kakao.maps.LatLng(
-                  location.latitude,
-                  location.longitude
-              );
+        if (!map || !locations?.length) return;
+        
+        clearMarkers();
+        locations.forEach(location => {
+            if (location.latitude && location.longitude) {
+                const position = new kakao.maps.LatLng(
+                    location.latitude,
+                    location.longitude
+                );
 
-              displayMarker(
-                  map,
-                  position,
-                  `<div style="padding:5px;font-size:12px;">
-                      ${location.enterpriseName || location.name}<br>
-                      ${location.district}
-                  </div>`,
-                  bookMarker
-              );
-          }
-      });
+                displayMarker(map, position, location, 'bookmark');
+            }
+        });
 
-      if (locations[0]) {
-        fitBoundsToMarkers(map, locations);
-      }
-  }, [clearMarkers, displayMarker, moveMapToLocation]);
+        if (locations[0]) {
+            fitBoundsToMarkers(map, locations);
+        }
+    }, [clearMarkers, displayMarker, moveMapToLocation]);
 
     // 필터링된 기업 마커 표시
     const displayFilteredMarkers = useCallback(async (map, enterprises) => {
@@ -244,15 +416,7 @@ function KakaoMap(props) {
                     enterprise.longitude
                 );
 
-                displayMarker(
-                    map,
-                    position,
-                    `<div style="padding:5px;font-size:12px;">
-                        ${enterprise.name}<br>
-                        ${enterprise.district}
-                    </div>`,
-                    listMarker
-                );
+                displayMarker(map, position, enterprise, 'enterprises');
             }
         });
 
@@ -341,6 +505,12 @@ function KakaoMap(props) {
         if (!isMapInitialized || !mapRef.current || !userPosition) return;
     
         const map = mapRef.current;
+        infowindowsRef.current.forEach(overlay => {
+            if (overlay && overlay.setMap) {
+                overlay.setMap(null);
+            }
+        });
+        infowindowsRef.current = [];
         clearMarkers();
     
         // 내 위치 마커 다시 표시

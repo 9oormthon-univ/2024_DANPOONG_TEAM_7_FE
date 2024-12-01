@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from '../../styles/mypage/RewardsCard.module.css';
 
 //utils
@@ -29,8 +29,7 @@ import serviceBadge from '../../assets/images/mypage/badge/service-badge.svg';
 
 const RewardsCard = ({ profile, reviews = []}) => {
   const [isFlipped, setIsFlipped] = useState(false);
-  
-  if (!profile) return null;
+  const contentRef = useRef(null);
 
   const getBadgeImage = (reviewType) => {
     switch (reviewType) {
@@ -47,19 +46,31 @@ const RewardsCard = ({ profile, reviews = []}) => {
     }
   };
 
+  useEffect(() => {
+    const content = contentRef.current;
+    if (!content) return;
+
+    const handleWheel = (e) => {
+      e.stopPropagation();
+      content.scrollTop += e.deltaY;
+    };
+
+    content.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      content.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   const handleCardClick = () => {
     setIsFlipped(!isFlipped);
   };
 
-  const handleContentInteraction = (e) => {
+  const handleContentClick = (e) => {
     e.stopPropagation();
-    if (e.type === 'wheel') {
-      e.preventDefault();
-      const content = e.currentTarget;
-      content.scrollTop += e.deltaY;
-    }
   };
-
+  
+  if (!profile) return null;
 
   return (
     <div className={styles.container}>
@@ -180,8 +191,7 @@ const RewardsCard = ({ profile, reviews = []}) => {
                     </div>
                     <div 
                         className={styles.cardFBackContent}
-                        onClick={handleContentInteraction}
-                        onWheel={handleContentInteraction}
+                        onClick={handleContentClick}
                     >
                         <div className={styles.badgeGrid}>
                             {[...reviews]

@@ -290,7 +290,8 @@
     align-items: center;
     position: relative;
     height: 100%;
-    overflow: hidden;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .backLayout{
@@ -306,7 +307,7 @@
 }
 
 .cardBackHeader{
-    margin: 100px 0 0 0;
+    margin: 77px 0 0 0;
     width: 100%;
     flex-shrink: 0;
     gap: 10px;
@@ -365,43 +366,6 @@
     border-radius: 3px;
   }
 
-  .badgeGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 10px;
-  }
-  
-  .badgeItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .badge {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-  }
-  
-  .badgeDate {
-    font-size: 12px;
-    color: #666;
-  }
-
-  /* cardBackContainer 수정 */
-.cardBackContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* cardFBackContent 수정 */
 .cardFBackContent {
     position: relative;
     margin: 20px 0 0 0;
@@ -428,6 +392,7 @@
     margin: 0 0 0 0;
     padding: 0 0 0 0;
     row-gap: 0px;
+    column-gap: 20px;
 }
 
 .badgeItem {

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from '../../styles/mypage/RewardsCard.module.css';
 
 //utils
-import { formatDateToMMYY } from '../../utils/formatDate';
+import { formatDateToMMDD } from '../../utils/formatDate';
 
 //rewards img
 import goBadge from '../../assets/images/layout/next-icon.svg';
@@ -204,7 +204,7 @@ const RewardsCard = ({ profile, reviews = []}) => {
                                     className={styles.badge}
                                     />
                                     <p className={styles.badgeDate}>
-                                    {formatDateToMMYY(review.createAt)}
+                                    {formatDateToMMDD(review.createAt)}
                                     </p>
                                 </div>
                             ))}

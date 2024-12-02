@@ -10,9 +10,8 @@ export const formatDateWithShortDots = (dateString) => {
     return `${shortYear}.${month}.${day}`;
 };
 
-export const formatDateToMMYY = (dateString) => {
+export const formatDateToMMDD = (dateString) => {
     if (!dateString) return '';
-    const [year, month] = dateString.split('-');
-    const shortYear = year.slice(2);
-    return `${month}/${shortYear}`;
+    const [year, month, day] = dateString.split('-');
+    return `${month}/${day}`;
 };

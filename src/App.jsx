@@ -33,6 +33,7 @@ import ReviewWrite from './pages/mypage/review/ReviewWrite';
 import EditKeyword from './pages/mypage/review/EditKeyword';
 import EditWrite from './pages/mypage/review/EditWrite';
 import AdminManagement from './pages/mypage/admin/AdminManagement';
+import Rewards from './pages/mypage/Rewards';
 
 function App() {
   return (
@@ -69,6 +70,7 @@ function App() {
                         <Route path='/mypage/review/editwrite' element={<EditWrite/>}/>  
                       </Route>
                       
+                      <Route path="/mypage/rewards" element={<Rewards />}/>
                       <Route path="/mypage/review" element={<Review />}/>
                       <Route path='/mypage/review/editkeyword' element={<EditKeyword/>}/> 
                       <Route path='/mypage/review/keyword' element={<ReviewKeyword/>}/> 

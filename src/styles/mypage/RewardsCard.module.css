@@ -1,0 +1,434 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+  
+.flipContainer {
+    width: 328px;
+    height: 673px;
+    flex-shrink: 0;
+    cursor: pointer;
+    perspective: 1000px;
+}
+  
+.cardWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.9, 1.8);
+}
+  
+.flipped {
+    transform: rotateY(180deg);
+}
+  
+.card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: #FFF;
+    box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.15);
+    backface-visibility: hidden;
+    overflow: hidden;
+
+}
+  
+.cardBack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotateY(180deg);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    background: #FFFFFF;
+    border-radius: 30px;
+    box-shadow: 0px 4px 5.5px 1px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+  }
+  
+.cardFrontContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 100%;
+}
+
+.cardFrontHeader{
+    margin: 40px 0 0 0;
+    width: 100%;
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+.cardFrontHeader p{
+    margin: 0 0 0 0;
+    color: #747474;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+}
+
+.cardFrontHeader span{
+    color: #747474;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.badgeBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 10px;
+    width: 150px;
+    margin: 35px 0 0 0;
+    flex-shrink: 0;
+    background-color: transparent;
+}
+
+.badgeBtn p{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 130px;
+    margin: 0 0 0 0;
+    color: #747474;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 19.5px */
+}
+
+.goBadge{
+    position: absolute;
+    right: 0px;
+}
+
+.cardFrontContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 400px;
+    flex-shrink: 0;
+    margin: 35px 0 0 0;
+}
+
+.rewardsBoard{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+.rewardStep1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 77px;
+    bottom: 5px;
+    width: 55px;
+    height: 55px;
+    border-radius: 10px 0 10px 10px;
+    background-color: #D9D9D9;
+}
+
+.rewardStep2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 217.5px;
+    bottom: 23px;
+    width: 23px;
+    height: 18px;
+    border-radius: 0 14px 14px 0;
+    background-color: #D9D9D9;
+}
+
+.rewardStep3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 262.5px;
+    bottom: 105px;
+    width: 18px;
+    height: 18px;
+    border-radius: 14px 14px 0 0;
+    background-color: #D9D9D9;
+}
+
+.rewardStep4{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 137px;
+    bottom: 96px;
+    width: 23px;
+    height: 18px;
+    border-radius: 0 14px 14px 0;
+    background-color: #D9D9D9;
+}
+
+.rewardStep5{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 234px;
+    bottom: 135px;
+    width: 55px;
+    height: 55px;
+    border-radius: 10px 10px 10px 0;
+    background-color: #D9D9D9;
+}
+
+.rewardStep6{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 237.5px;
+    bottom: 217px;
+    width: 23px;
+    height: 18px;
+    border-radius: 14px 0 0 14px;
+    background-color: #D9D9D9;
+}
+
+.rewardStep7{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 60px;
+    bottom: 186px;
+    width: 55px;
+    height: 55px;
+    border-radius: 10px 10px 0 10px;
+    background-color: #D9D9D9;
+}
+
+.rewardStep8{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 71.5px;
+    bottom: 326px;
+    width: 18px;
+    height: 23px;
+    border-radius: 14px 14px 0 0;
+    background-color: #D9D9D9;
+}
+
+.rewardStep9{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 143.5px;
+    bottom: 377px;
+    width: 21px;
+    height: 18px;
+    border-radius: 0 14px 14px 0;
+    background-color: #D9D9D9;
+}
+
+.rewardStep10{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 197px;
+    bottom: 300px;
+    width: 93px;
+    height: 100px;
+    border-radius:  0 18px 18px 18px;
+    background-color: #D9D9D9;
+    box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.bottomText{
+    margin: 33px 0 0 0;
+    flex-shrink: 0;
+}
+  
+.bottomText p{
+    margin: 0 0 0 0;
+    color: #747474;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 19.5px */
+}
+
+.cardBackContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.backLayout{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 316px;
+    height: 661px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    border: 1px solid #2DDDC3;
+}
+
+.cardBackHeader{
+    margin: 77px 0 0 0;
+    width: 100%;
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+.cardBackHeader p{
+    color: #747474;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+}
+
+.cardBackText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    margin: 83px 0 55px 0;
+}
+
+.cardBackText p {
+    height: 28px;
+    margin: 0 0 0 0;
+    flex-shrink: 0;
+    color: #747474;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 26px */
+}
+
+.cardFBackContent{
+    margin: 20px 0 0 0;
+    background-color: #D9D9D9;
+    width: 255px;
+    height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+.cardFBackContent::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .cardFBackContent::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .cardFBackContent::-webkit-scrollbar-thumb {
+    background-color: rgba(155, 155, 155, 0.5);
+    border-radius: 3px;
+  }
+
+.cardFBackContent {
+    position: relative;
+    margin: 20px 0 0 0;
+    background-color: #FFFFFF;
+    width: 300px;
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;  /* Firefox에서 스크롤바 숨기기 */
+    -ms-overflow-style: none;  /* IE와 Edge에서 스크롤바 숨기기 */
+    box-sizing: border-box;
+}
+
+/* Webkit(크롬, 사파리 등) 브라우저에서 스크롤바 숨기기 */
+.cardFBackContent::-webkit-scrollbar {
+    display: none;
+}
+
+.badgeGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 85.5px);
+    width: 100%;  /* 너비 지정 */
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    row-gap: 0px;
+    column-gap: 20px;
+}
+
+.badgeItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.badge {
+    width: 83.45px;
+    height: 83.45px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.badgeDate {
+    color: #747474;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 19.5px */
+}
+
+/* backLayout 수정 */
+.backLayout {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 316px;
+    height: 661px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    border: 1px solid #2DDDC3;
+    pointer-events: none;  /* 추가 */
+    z-index: 1;  /* 추가 */
+}

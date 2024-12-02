@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import styles from '../../styles/login/SwipeableCards.module.css';
 import fox20 from '../../assets/images/fox/age-20fox.svg';
-import fox30 from '../../assets/images/fox/age-20fox.svg';
+import fox30 from '../../assets/images/fox/age-30fox.svg';
 
 const SwipeableCards = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

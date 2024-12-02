@@ -7,6 +7,7 @@ import { formatDateToMMDD } from '../../utils/formatDate';
 //rewards img
 import goBadge from '../../assets/images/layout/next-icon.svg';
 import rewardsBoard from '../../assets/images/mypage/rewards/rewards-board.svg';
+import rewardsBoardActive from '../../assets/images/mypage/rewards/rewards-board-active.svg';
 import step1 from '../../assets/images/mypage/rewards/step-1.svg';
 import step2 from '../../assets/images/mypage/rewards/step-2.svg';
 import step3 from '../../assets/images/mypage/rewards/step-3.svg';
@@ -93,6 +94,8 @@ const RewardsCard = ({ profile, reviews = []}) => {
         }
         return steps;
     };
+
+    const isCompleteSet = reviews.length > 0 && reviews.length % 10 === 0;
       
     const visibleSteps = getVisibleSteps();
     
@@ -118,7 +121,7 @@ const RewardsCard = ({ profile, reviews = []}) => {
                             </div>
                             <div className={styles.cardFrontContent}>
                                 <img
-                                    src={rewardsBoard}
+                                    src={isCompleteSet ? rewardsBoardActive : rewardsBoard}
                                     alt='rewards-board'
                                     className={styles.rewardsBoard}
                                 />

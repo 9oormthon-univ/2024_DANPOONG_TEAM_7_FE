@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from '../../styles/mypage/RewardsCard.module.css';
 
 //utils
-import { calculateAge } from '../../utils/calculateAge';
+import { formatDateToMMYY } from '../../utils/formatDate';
 
 //rewards img
 import goBadge from '../../assets/images/layout/next-icon.svg';
@@ -31,16 +31,18 @@ const RewardsCard = ({ profile, reviews = []}) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const contentRef = useRef(null);
 
-  const getBadgeImage = (reviewType) => {
-    switch (reviewType) {
-      case 'employ':
+  const getBadgeImage = (socialPurpose) => {
+    switch (socialPurpose) {
+      case '일자리제공형':
         return employBadge;
-      case 'community':
+      case '지역사회공헌형':
         return communityBadge;
-      case 'mixed':
+      case '혼합형':
         return mixedBadge;
-      case 'service':
+      case '사회서비스제공형':
         return serviceBadge;
+      case '기타(창의ㆍ혁신)형':
+        return otherBadge;
       default:
         return otherBadge;
     }
@@ -70,6 +72,31 @@ const RewardsCard = ({ profile, reviews = []}) => {
     e.stopPropagation();
   };
   
+  const getVisibleSteps = () => {
+    const reviewCount = reviews.length;
+    let stepCount;
+    
+    if (reviewCount === 0) {
+      return Array(10).fill(false);
+    }
+    
+    if (reviewCount % 10 === 0) {
+      // 10, 20, 30 등의 경우 모든 단계 표시
+      stepCount = 10;
+    } else {
+      // 그 외의 경우 나머지 값으로 계산
+      stepCount = reviewCount % 10;
+    }
+    
+    const steps = Array(10).fill(false);
+    for (let i = 0; i < stepCount; i++) {
+      steps[i] = true;
+    }
+    return steps;
+  };
+  
+  const visibleSteps = getVisibleSteps();
+
   if (!profile) return null;
 
   return (
@@ -87,7 +114,7 @@ const RewardsCard = ({ profile, reviews = []}) => {
                     <span>가 제공됩니다!</span>
                 </div>
                 <div className={styles.badgeBtn}>
-                    <p>획득한 뱃지 10개</p>
+                    <p>획득한 뱃지 {reviews.length}개</p>
                     <img src={goBadge} alt='go badge' className={styles.goBadge}/>
                 </div>
                 <div className={styles.cardFrontContent}>
@@ -96,83 +123,56 @@ const RewardsCard = ({ profile, reviews = []}) => {
                         alt='rewards-board'
                         className={styles.rewardsBoard}
                     />
-                    <div className={styles.rewardStep1}>
-                        <img
-                            src={step1}
-                            alt='rewards-step1'
-                            className={styles.step1}
-                        />
-                    </div>
-
-                    <div className={styles.rewardStep2}>
-                        <img
-                            src={step2}
-                            alt='rewards-step2'
-                            className={styles.step2}
-                        />
-                    </div>
-                    <div className={styles.rewardStep3}>
-                        <img
-                            src={step3}
-                            alt='rewards-step3'
-                            className={styles.step3}
-                        />
-                    </div>
-                    <div className={styles.rewardStep4}>
-                        <img
-                            src={step4}
-                            alt='rewards-step4'
-                            className={styles.step4}
-                        />
-                    </div>
-                    
-                    <div className={styles.rewardStep5}>
-                        <img
-                            src={step5}
-                            alt='rewards-step5'
-                            className={styles.step5}
-                        />
-                    </div>
-                    <div className={styles.rewardStep6}>
-                        <img
-                            src={step6}
-                            alt='rewards-step6'
-                            className={styles.step6}
-                        />
-                    </div>
-
-                    
-                    <div className={styles.rewardStep7}>
-                        <img
-                            src={step7}
-                            alt='rewards-step7'
-                            className={styles.step7}
-                        />
-                    </div>
-
-                    
-                    <div className={styles.rewardStep8}> 
-                        <img
-                            src={step8}
-                            alt='rewards-step8'
-                            className={styles.step8}
-                        />
-                    </div>
-
-                    <div className={styles.rewardStep9}>
-                        <img
-                            src={step9}
-                            alt='rewards-step9'
-                            className={styles.step9}
-                        />
-                    </div>
-                    <div className={styles.rewardStep10}>
-                        <img
-                            src={step10}
-                            alt='rewards-step10'
-                            className={styles.step10}
-                        />
-                    </div>
+                    {visibleSteps[0] && (
+                      <div className={styles.rewardStep1} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step1} alt='rewards-step1' className={styles.step1} />
+                      </div>
+                    )}
+                    {visibleSteps[1] && (
+                      <div className={styles.rewardStep2} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step2} alt='rewards-step2' className={styles.step2} />
+                      </div>
+                    )}
+                    {visibleSteps[2] && (
+                      <div className={styles.rewardStep3} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step3} alt='rewards-step3' className={styles.step3} />
+                      </div>
+                    )}
+                    {visibleSteps[3] && (
+                      <div className={styles.rewardStep4} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step4} alt='rewards-step4' className={styles.step4} />
+                      </div>
+                    )}
+                    {visibleSteps[4] && (
+                      <div className={styles.rewardStep5} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step5} alt='rewards-step5' className={styles.step5} />
+                      </div>
+                    )}
+                    {visibleSteps[5] && (
+                      <div className={styles.rewardStep6} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step6} alt='rewards-step6' className={styles.step6} />
+                      </div>
+                    )}
+                    {visibleSteps[6] && (
+                      <div className={styles.rewardStep7} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step7} alt='rewards-step7' className={styles.step7} />
+                      </div>
+                    )}
+                    {visibleSteps[7] && (
+                      <div className={styles.rewardStep8} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step8} alt='rewards-step8' className={styles.step8} />
+                      </div>
+                    )}
+                    {visibleSteps[8] && (
+                      <div className={styles.rewardStep9} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step9} alt='rewards-step9' className={styles.step9} />
+                      </div>
+                    )}
+                    {visibleSteps[9] && (
+                      <div className={styles.rewardStep10} style={{ backgroundColor: 'transparent' }}>
+                        <img src={step10} alt='rewards-step10' className={styles.step10} />
+                      </div>
+                    )}
                 </div>
                 <div className={styles.bottomText}>
                     <p>10개를 모으면 리워드 포인트</p>
@@ -187,7 +187,7 @@ const RewardsCard = ({ profile, reviews = []}) => {
                         <img src={badgeFlag} alt='badge flag' className={styles.badgeFlag}/>
                     </div>
                     <div className={styles.cardBackHeader}>
-                        <p>지금까지 모은 배지 9개</p>
+                        <p>지금까지 모은 배지 {reviews.length}개</p>
                     </div>
                     <div 
                         className={styles.cardFBackContent}
@@ -199,12 +199,12 @@ const RewardsCard = ({ profile, reviews = []}) => {
                                 .map((review, index) => (
                                 <div key={index} className={styles.badgeItem}>
                                     <img 
-                                    src={getBadgeImage(review.type)} 
+                                    src={getBadgeImage(review.socialPurpose)} 
                                     alt={`배지 ${index + 1}`} 
                                     className={styles.badge}
                                     />
                                     <p className={styles.badgeDate}>
-                                    {new Date(review.createdAt).toLocaleDateString()}
+                                    {formatDateToMMYY(review.createAt)}
                                     </p>
                                 </div>
                             ))}

@@ -84,9 +84,8 @@ const ProgramCard = ({ enterpriseName, title, field, date, img, detail }) => {
             >
                 <div style={{
                     width: '100%',
-                    height: '200px',
-                    background: 'gray',
-                    // backgroundImage: `url(${program.image})`,
+                    height: '200px',                    
+                    backgroundImage: `url(${img})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }} />

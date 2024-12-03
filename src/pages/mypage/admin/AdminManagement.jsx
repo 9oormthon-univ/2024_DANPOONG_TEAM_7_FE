@@ -4,6 +4,7 @@ import JobCard from '../../../components/mypage/admin/JobCard';
 import ProgramCard from '../../../components/mypage/admin/ProgramCard';
 import ProgramRegisterForm from './ProgramRegisterForm';
 import JobRegisterForm from './JobRegisterForm';
+import axiosInstance from '../../../api/axiosInstance';
 
 const AdminManagement = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -36,9 +37,9 @@ const AdminManagement = () => {
     useEffect(() => {
         const fetchPrograms = async () => {
             try {
-                const response = await fetch('/api/admin/programs');
-                const data = await response.json();
-                setPrograms(data);
+                const response = await axiosInstance.get('/api/programs/admin')                                
+                console.log(response.result.programs);
+                setPrograms(response.result.programs);
             } catch (error) {
                 console.error('프로그램 데이터 로딩 실패:', error);
             }
@@ -117,35 +118,35 @@ const AdminManagement = () => {
                                     {currentIndex === 0 && (
                                         <div style={{ marginBottom: '80px' }}>
                                             {programs.map((program, index) => (
-                                                <div key={index} style={{
-                                                    backgroundColor: 'white',
-                                                    borderRadius: '16px',
-                                                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
-                                                    padding: '16px',
-                                                    marginBottom: '16px'
-                                                }}>
-                                                    <h3 style={{
-                                                        fontSize: '20px',
-                                                        fontWeight: 'bold'
-                                                    }}>{program.programTitle}</h3>
-                                                    <p style={{
-                                                        color: '#666',
-                                                        marginTop: '8px'
-                                                    }}>{program.enterpriseName}</p>
-                                                    <p style={{
-                                                        fontSize: '14px',
-                                                        color: '#888',
-                                                        marginTop: '4px'
-                                                    }}>{program.place}</p>
-                                                </div>
-                                            ))}
-                                            <ProgramCard
-                                                enterpriseName={"기업 이름"}
-                                                title={"title"}
-                                                field={"분야"}
-                                                date={"2020.20.02"}
-                                                img={"url"}
-                                                detail={"내용내용내용내용내용내용내용내용내용내용"} />
+                                                // <div key={index} style={{
+                                                //     backgroundColor: 'white',
+                                                //     borderRadius: '16px',
+                                                //     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+                                                //     padding: '16px',
+                                                //     marginBottom: '16px'
+                                                // }}>
+                                                //     <h3 style={{
+                                                //         fontSize: '20px',
+                                                //         fontWeight: 'bold'
+                                                //     }}>{program.programTitle}</h3>
+                                                //     <p style={{
+                                                //         color: '#666',
+                                                //         marginTop: '8px'
+                                                //     }}>{program.enterpriseName}</p>
+                                                //     <p style={{
+                                                //         fontSize: '14px',
+                                                //         color: '#888',
+                                                //         marginTop: '4px'
+                                                //     }}>{program.place}</p>
+                                                // </div>
+                                                <ProgramCard
+                                                enterpriseName={program.enterpriseName}
+                                                title={program.title}
+                                                field={program.field}
+                                                date={program.time}
+                                                img={program.image}
+                                                detail={program.content} />
+                                            ))}                                        
                                             <button
                                                 onClick={() => handleRegisterClick('program')}
                                                 style={{

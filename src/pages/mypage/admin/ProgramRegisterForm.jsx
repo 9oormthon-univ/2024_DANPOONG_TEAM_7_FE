@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import leftArrow from '../../../assets/images/mypage/leftArrow.svg'
 import TopBar from '../../../components/layout/TopBar';
+import axiosInstance from '../../../api/axiosInstance';
 
 const ProgramRegisterForm = ({ onClose }) => {
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [showCompletionModal, setShowCompletionModal] = useState(false);
 
     const [formData, setFormData] = useState({
         title: '',
-        enterpriseName: '',
         field: '',
         time: '',
         region: '',
@@ -15,18 +16,46 @@ const ProgramRegisterForm = ({ onClose }) => {
         content: ''
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // API 호출 로직
-        console.log(formData);
+    
+        const formDataToSend = new FormData();
+        formDataToSend.append('title', formData.title);
+        formDataToSend.append('field', formData.field);
+        formDataToSend.append('time', formData.time);
+        formDataToSend.append('region', formData.region);
+        formDataToSend.append('content', formData.content);
+        
+        if (formData.image) {  // image가 있을 때만 append
+            formDataToSend.append('image', formData.image);
+        }
+    
+        try {
+            const response = await axiosInstance.post('/api/programs/admin', formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log(response)
+            
+            setShowCompletionModal(true);
+    
+            setTimeout(() => {
+                setShowCompletionModal(false);
+                window.location.href = '/mypage/management';
+            }, 1500);
+        } catch (err) {
+            console.log('프로그램 등록 실패:', err)
+        }
     };
 
     // 이미지 업로드 핸들러
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
+            console.log("Selected file:", file);  // 파일 로그 확인
             setFormData({ ...formData, image: file });
-            // 이미지 미리보기 URL 생성
+
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPreviewUrl(reader.result);
@@ -78,29 +107,6 @@ const ProgramRegisterForm = ({ onClose }) => {
                         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                         style={{
                             width: '80%',
-                            padding: '12px',
-                            border: '1px solid #BEBEBE',
-                            borderRadius: '13px',
-                            fontSize: '16px'
-                        }} />
-                </div>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    margin: '0 0 15px 10px'
-                }}>
-                    <span style={{
-                        width: '20%',
-                        fontSize: '15px',
-                        color: '#5C5C5C',
-                    }}>기업 이름</span>
-                    <input type="text"
-                        placeholder="기업"
-                        value={formData.enterpriseName}
-                        onChange={(e) => setFormData({ ...formData, enterpriseName: e.target.value })}
-                        style={{
-                            width: '60%',
                             padding: '12px',
                             border: '1px solid #BEBEBE',
                             borderRadius: '13px',
@@ -194,7 +200,7 @@ const ProgramRegisterForm = ({ onClose }) => {
                         position: 'relative',
                         overflow: 'hidden'
                     }}>
-                        {previewUrl ? (                            
+                        {previewUrl ? (
                             <img
                                 src={previewUrl}
                                 alt="미리보기"
@@ -204,7 +210,7 @@ const ProgramRegisterForm = ({ onClose }) => {
                                     objectFit: 'cover'
                                 }}
                             />
-                        ) : (                            
+                        ) : (
                             <>
                                 <input
                                     type="file"
@@ -256,10 +262,12 @@ const ProgramRegisterForm = ({ onClose }) => {
                         }}
                     />
                 </div>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}>
+                <div
+                    onClick={handleSubmit}
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}>
                     <div style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -276,6 +284,57 @@ const ProgramRegisterForm = ({ onClose }) => {
                     </div>
                 </div>
             </div>
+
+            {showCompletionModal &&
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 2000,
+                    }}
+                >
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '18px',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'white',
+                            padding: '40px 60px',
+                            borderRadius: '31px',
+                            textAlign: 'center',
+                            // boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                        }}
+                    >
+                        {/* <img src={modalHeart} alt='modalHeart' style={{ width: '26px' }} /> */}
+                        <div
+                            style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            프로그램이 등록되었어요!
+                        </div>
+                        {/* <div
+                            style={{
+                                fontSize: '15px',
+                                color: '#5C5C5C',
+                                whiteSpace: 'pre-line'
+                            }}
+                        >
+                            {"서현님의 소중한 리뷰는 이웃들의 결정에\n많은 도움이 될 거에요!"}
+                        </div> */}
+                    </div>
+                </div>
+            }
         </>
     );
 };

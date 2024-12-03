@@ -169,7 +169,11 @@ const FlipCard = ({ profile, reviews = []}) => {
                                 </div>
                                 <div className={styles.triangleSection}>
                                     <img src={triangle} alt='triangle frame' className={styles.triangleFrame}/>
-                                    <TriangleRadarChart/>
+                                    <TriangleRadarChart
+                                        reviews={reviews.length}
+                                        program={program}
+                                        total={reviews.length + program}
+                                    />
                                 </div>
                             </div>
                             <div className={styles.cardBackBottom}>

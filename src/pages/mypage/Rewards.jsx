@@ -1,18 +1,13 @@
 import React, { useEffect }from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/mypage/Rewards.module.css';
-import KakaoMap from '../../components/enterprise/KakaoMap';
 import RewardsCard from '../../components/mypage/RewardsCard';
-import TopBar from '../../components/layout/TopBar';
 import LoadingSpinner from '../../components/layout/LoadingSpinner';
 import Back from '../../components/layout/Back';
 
 //hooks
 import { useProfile } from '../../hooks/useProfile';
 import { useMyReviews } from '../../hooks/useMyReviews';
-
-//img
-import Logo from '../../assets/images/home/soenter-logo.svg';
 
 function Rewards() {
     const navigate = useNavigate();

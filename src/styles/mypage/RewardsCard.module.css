@@ -89,23 +89,21 @@
 }
 
 .badgeBtn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
-    gap: 10px;
-    width: 150px;
-    margin: 35px 0 0 0;
+    gap: 5px;
+    width: 140px;
+    height: 18px;
+    margin: 25px 0 0 0;
     flex-shrink: 0;
     background-color: transparent;
 }
 
-.badgeBtn p{
+.badgeBtnLabel{
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 130px;
+    left: 0;
+    transform: translate(0, -50%);
+    width: 100px;
     margin: 0 0 0 0;
     color: #747474;
     text-align: center;
@@ -115,9 +113,25 @@
     line-height: 130%; /* 19.5px */
 }
 
+.badgeBtnCountText{
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    transform: translate(0, -50%);
+    width: 40px;
+    margin: 0 10px 0 0;
+    text-align: left;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 19.5px */
+}
+
 .goBadge{
     position: absolute;
+    top: 50%;
     right: 0px;
+    transform: translate(0, -50%);
 }
 
 .cardFrontContent{
@@ -128,7 +142,7 @@
     width: 100%;
     height: 400px;
     flex-shrink: 0;
-    margin: 35px 0 0 0;
+    margin: 25px 0 0 0;
 }
 
 .rewardsBoard{
@@ -148,7 +162,6 @@
     width: 55px;
     height: 55px;
     border-radius: 10px 0 10px 10px;
-    background-color: #D9D9D9;
 }
 
 .rewardStep2{
@@ -161,7 +174,6 @@
     width: 23px;
     height: 18px;
     border-radius: 0 14px 14px 0;
-    background-color: #D9D9D9;
 }
 
 .rewardStep3{
@@ -174,7 +186,6 @@
     width: 18px;
     height: 18px;
     border-radius: 14px 14px 0 0;
-    background-color: #D9D9D9;
 }
 
 .rewardStep4{
@@ -187,7 +198,6 @@
     width: 23px;
     height: 18px;
     border-radius: 0 14px 14px 0;
-    background-color: #D9D9D9;
 }
 
 .rewardStep5{
@@ -200,7 +210,6 @@
     width: 55px;
     height: 55px;
     border-radius: 10px 10px 10px 0;
-    background-color: #D9D9D9;
 }
 
 .rewardStep6{
@@ -213,7 +222,6 @@
     width: 23px;
     height: 18px;
     border-radius: 14px 0 0 14px;
-    background-color: #D9D9D9;
 }
 
 .rewardStep7{
@@ -226,7 +234,6 @@
     width: 55px;
     height: 55px;
     border-radius: 10px 10px 0 10px;
-    background-color: #D9D9D9;
 }
 
 .rewardStep8{
@@ -239,7 +246,6 @@
     width: 18px;
     height: 23px;
     border-radius: 14px 14px 0 0;
-    background-color: #D9D9D9;
 }
 
 .rewardStep9{
@@ -252,7 +258,6 @@
     width: 21px;
     height: 18px;
     border-radius: 0 14px 14px 0;
-    background-color: #D9D9D9;
 }
 
 .rewardStep10{
@@ -265,8 +270,6 @@
     width: 93px;
     height: 100px;
     border-radius:  0 18px 18px 18px;
-    background-color: #D9D9D9;
-    box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.25);
 }
 
 .bottomText{

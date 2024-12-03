@@ -3,13 +3,10 @@
     flex-direction: column;
     align-items: center;
     width: 100vw;
-    min-height: 100vh;
-    height: auto;
-    padding: 0 0 60px 0;
+    height: 100vh;
+
     text-align: center;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-behavior: smooth; 
+
     position: relative;
 }
 
@@ -36,6 +33,7 @@
     display: flex;
     flex-direction: column;
     justify-content:center;
+    position: relative;
     align-items: flex-start;
     width: 328px;
     margin: 37px 0 0 0;
@@ -55,6 +53,18 @@
     line-height: 130%; /* 26px */
 }
 
+.selectedRegion {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 8px;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 20.8px */
+}
+
 .content{
     display: flex;
     flex-direction: column;
@@ -64,39 +74,17 @@
     width: 100%;
 }
 
-.mapSection{
+.content{
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     width: 100%;
-    height: 217px;
     flex-shrink: 0;
     border-radius: 27px;
     margin: -73px 0 0 0;
     background-color: #FFFFFF;
     
-}
-
-.mapView{
-    position: absolute;
-    bottom: 0;
-    width: 328px;
-    height: 174px;
-    flex-shrink: 0;
-    border-radius: 17px;
-}
-
-.map{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 174px;
-    flex-shrink: 0;
-    border-radius: 17px;
-    transform: translate(-50%, -50%);
-    overflow: hidden;
 }
 
 .card{
@@ -105,6 +93,6 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    margin: 20px 0 49px 0;
+    margin: 30px 0 49px 0;
 }
 

@@ -57,8 +57,8 @@ const FlipCard = ({ profile, reviews = []}) => {
             if (program < reviews.length) {
                 if (reviews.length >= 20) {
                     return {
-                        line1: '오늘은 뭐할까 ? 내일은 뭐하지?',
-                        line2: `${profile.name}님은 서초 2동의 인싸!`
+                        line1: '어디서 뭐할까? 주변 사회적 기업 투어!',
+                        line2: `${profile.name}님은 지역 기업 탐방 중!`
                     };
                 }
                 return {

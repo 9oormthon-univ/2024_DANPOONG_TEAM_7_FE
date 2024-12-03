@@ -199,6 +199,7 @@ export const EnterpriseProvider = ({ children }) => {
     setFilteredEnterprises,
     selectedRegion,
     updateRegion,
+    selectedCities,
     activeFilters,
     updateFilters,
     shouldShowMarkers,

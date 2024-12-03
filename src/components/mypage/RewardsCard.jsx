@@ -116,7 +116,13 @@ const RewardsCard = ({ profile, reviews = []}) => {
                                 <span>가 제공됩니다!</span>
                             </div>
                             <div className={styles.badgeBtn}>
-                                <p>획득한 뱃지 {reviews.length}개</p>
+                                <span className={styles.badgeBtnLabel}>획득한 뱃지</span>
+                                <span 
+                                    className={styles.badgeBtnCountText} 
+                                    style={{ color: isCompleteSet ? '#2DDDC3' : '#747474' }}
+                                >
+                                    {reviews.length}개
+                                </span>
                                 <img src={goBadge} alt='go badge' className={styles.goBadge}/>
                             </div>
                             <div className={styles.cardFrontContent}>
@@ -125,56 +131,42 @@ const RewardsCard = ({ profile, reviews = []}) => {
                                     alt='rewards-board'
                                     className={styles.rewardsBoard}
                                 />
-                                {visibleSteps[0] && (
-                                <div className={styles.rewardStep1} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step1} alt='rewards-step1' className={styles.step1} />
+                                <div className={styles.rewardStep1} style={{ backgroundColor: visibleSteps[0] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[0] && <img src={step1} alt='rewards-step1' className={styles.step1} />}
                                 </div>
-                                )}
-                                {visibleSteps[1] && (
-                                <div className={styles.rewardStep2} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step2} alt='rewards-step2' className={styles.step2} />
+                                <div className={styles.rewardStep2} style={{ backgroundColor: visibleSteps[1] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[1] && <img src={step2} alt='rewards-step2' className={styles.step2} />}
                                 </div>
-                                )}
-                                {visibleSteps[2] && (
-                                <div className={styles.rewardStep3} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step3} alt='rewards-step3' className={styles.step3} />
+                                <div className={styles.rewardStep3} style={{ backgroundColor: visibleSteps[2] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[2] && <img src={step3} alt='rewards-step3' className={styles.step3} />}
                                 </div>
-                                )}
-                                {visibleSteps[3] && (
-                                <div className={styles.rewardStep4} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step4} alt='rewards-step4' className={styles.step4} />
+                                <div className={styles.rewardStep4} style={{ backgroundColor: visibleSteps[3] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[3] && <img src={step4} alt='rewards-step4' className={styles.step4} />}
                                 </div>
-                                )}
-                                {visibleSteps[4] && (
-                                <div className={styles.rewardStep5} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step5} alt='rewards-step5' className={styles.step5} />
+                                <div className={styles.rewardStep5} style={{ backgroundColor: visibleSteps[4] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[4] && <img src={step5} alt='rewards-step5' className={styles.step5} />}
                                 </div>
-                                )}
-                                {visibleSteps[5] && (
-                                <div className={styles.rewardStep6} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step6} alt='rewards-step6' className={styles.step6} />
+                                <div className={styles.rewardStep6} style={{ backgroundColor: visibleSteps[5] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[5] && <img src={step6} alt='rewards-step6' className={styles.step6} />}
                                 </div>
-                                )}
-                                {visibleSteps[6] && (
-                                <div className={styles.rewardStep7} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step7} alt='rewards-step7' className={styles.step7} />
+                                <div className={styles.rewardStep7} style={{ backgroundColor: visibleSteps[6] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[6] && <img src={step7} alt='rewards-step7' className={styles.step7} />}
                                 </div>
-                                )}
-                                {visibleSteps[7] && (
-                                <div className={styles.rewardStep8} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step8} alt='rewards-step8' className={styles.step8} />
+                                <div className={styles.rewardStep8} style={{ backgroundColor: visibleSteps[7] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[7] && <img src={step8} alt='rewards-step8' className={styles.step8} />}
                                 </div>
-                                )}
-                                {visibleSteps[8] && (
-                                <div className={styles.rewardStep9} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step9} alt='rewards-step9' className={styles.step9} />
+                                <div className={styles.rewardStep9} style={{ backgroundColor: visibleSteps[8] ? 'transparent' : '#D9D9D9' }}>
+                                    {visibleSteps[8] && <img src={step9} alt='rewards-step9' className={styles.step9} />}
                                 </div>
-                                )}
-                                {visibleSteps[9] && (
-                                <div className={styles.rewardStep10} style={{ backgroundColor: 'transparent' }}>
-                                    <img src={step10} alt='rewards-step10' className={styles.step10} />
+                                <div 
+                                    className={styles.rewardStep10} 
+                                    style={{ 
+                                        backgroundColor: visibleSteps[9] ? 'transparent' : '#D9D9D9' ,
+                                        boxShadow: visibleSteps[9] ? '0px 3px 5px 1px rgba(0, 0, 0, 0.25)' : 'none'
+                                    }}
+                                >
+                                    {visibleSteps[9] && <img src={step10} alt='rewards-step10' className={styles.step10} />}
                                 </div>
-                                )}
                             </div>
                             <div className={styles.bottomText}>
                                 <p>10개를 모으면 리워드 포인트</p>

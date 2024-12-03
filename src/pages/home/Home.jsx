@@ -1,6 +1,7 @@
 import React, { useEffect }from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/home/Home.module.css';
+import { useEnterprise } from '../../contexts/EnterpriseContext';
 import KakaoMap from '../../components/enterprise/KakaoMap';
 import FlipCard from '../../components/home/FlipCard';
 import TopBar from '../../components/layout/TopBar';
@@ -15,6 +16,7 @@ import Logo from '../../assets/images/home/soenter-logo.svg';
 
 function Home() {
     const navigate = useNavigate();
+    const { selectedRegion, selectedCities } = useEnterprise();
     const { 
         profile, 
         loading: profileLoading, 
@@ -43,7 +45,23 @@ function Home() {
           console.log('토큰이 없어 로그인 페이지로 이동');
           navigate('/', { replace: true });
         }
-      }, [navigate]);
+    }, [navigate]);
+
+    const renderSelectedRegion = () => {
+        // selectedCities가 undefined여도 selectedRegion만 있으면 표시되도록 수정
+        if (!selectedRegion) {
+            return null;
+        }
+    
+        // selectedCities가 있을 때만 city 정보 표시
+        const city = selectedCities?.[0] === '전체' ? '' : selectedCities?.[0];
+        console.log('city value:', city);
+        return (
+            <div className={styles.selectedRegion}>
+                {selectedRegion} {city}
+            </div>
+        );
+    };
 
     if (profileLoading || reviewLoading) {
         return <div className={styles.loading}><LoadingSpinner/></div>;
@@ -61,6 +79,7 @@ function Home() {
                     <img src={Logo} alt='soenter logo' className={styles.Logo}/>
                     <p className={styles.comment}>{profile?.name}님!</p>
                     <p className={styles.comment}>오늘은 어떤 기업을 방문하시겠어요?</p>
+                    {renderSelectedRegion()}
                 </div>
             </div>
             <div className={styles.mapSection}>

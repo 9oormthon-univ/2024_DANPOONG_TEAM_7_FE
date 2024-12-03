@@ -64,14 +64,7 @@ function Home() {
                 </div>
             </div>
             <div className={styles.mapSection}>
-                <button 
-                    className={styles.mapView}
-                    onClick={handleMapClick}
-                >
-                    <div className={styles.map}>
-                        <KakaoMap/>
-                    </div>
-                </button>
+
             </div>
             <div className={styles.content}>
                 <div className={styles.card}>

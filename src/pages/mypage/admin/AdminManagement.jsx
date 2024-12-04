@@ -247,8 +247,7 @@ const AdminManagement = () => {
     useEffect(() => {
         const fetchPrograms = async () => {
             try {
-                const response = await axiosInstance.get('/api/programs/admin')
-                console.log(response.result.programs);
+                const response = await axiosInstance.get('/api/programs/admin')                
                 setPrograms(response.result.programs);
             } catch (error) {
                 console.error('프로그램 데이터 로딩 실패:', error);

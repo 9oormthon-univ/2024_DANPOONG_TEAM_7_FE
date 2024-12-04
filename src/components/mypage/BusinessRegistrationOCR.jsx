@@ -1,14 +1,21 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/mypage/BusinessRegistrationOCR.module.css';
 import * as pdfjs from 'pdfjs-dist';
 
+import plus from '../../assets/images/mypage/file-plus.svg';
+import enterpriseCertificationMark from '../../assets/images/mypage/enterpriseCertificationMark.svg';
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-const BusinessRegistrationOCR = () => {
+const BusinessRegistrationOCR = ({ onResultChange }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
-  const [editedResult, setEditedResult] = useState(null);
+  const [editedResult, setEditedResult] = useState({
+    businessNumber: '',
+    companyName: '',
+    representative: ''
+  });
   const [error, setError] = useState(null);
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
@@ -159,16 +166,44 @@ const BusinessRegistrationOCR = () => {
   };
 
   const handleResultChange = (field, value) => {
-    setEditedResult(prev => ({
-      ...prev,
+    const newResult = {
+      ...editedResult,
       [field]: value
-    }));
+    };
+    setEditedResult(newResult);
+    onResultChange?.(newResult);
   };
+
+  const handleManualInput = (field, value) => {
+    const newResult = {
+      ...editedResult,
+      [field]: value
+    };
+    setEditedResult(newResult);
+    onResultChange?.(newResult);
+  };
+
+  // input이 직접 입력될 때
+  const handleInputChange = (field, value) => {
+    const newResult = {
+      ...editedResult,
+      [field]: value
+    };
+    setEditedResult(newResult);
+    onResultChange(newResult);
+  };
+
+  useEffect(() => {
+    if (result) {
+      onResultChange?.(result);
+    }
+  }, [result, onResultChange]);
 
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.previewBox} onClick={handlePreviewClick}>
+        <div className={styles.content}>
+          <div className={styles.previewBox} onClick={handlePreviewClick}>
           <input
             ref={fileInputRef}
             type="file"
@@ -180,27 +215,27 @@ const BusinessRegistrationOCR = () => {
             <img src={preview} alt="미리보기" className={styles.previewImage} />
           ) : (
             <div className={styles.uploadPrompt}>
-              <p>+</p>
+              <img src={plus} alt='plus' className={styles.plus}/>
               <span>파일 선택</span>
             </div>
           )}
-        </div>
+          </div>
 
+          <button 
+            type="submit" 
+            disabled={!file || loading}
+            className={styles.submitButton}
+          >
+            {loading ? '처리중...' : '인식하기'}
+          </button>
+        </div>
+        
+        
         {file && (
             <div className={styles.fileName}>
               {file.name}
             </div>
           )}
-
-
-        
-        <button 
-          type="submit" 
-          disabled={!file || loading}
-          className={styles.submitButton}
-        >
-          {loading ? '처리중...' : '인식하기'}
-        </button>
       </form>
 
       {error && (
@@ -209,37 +244,44 @@ const BusinessRegistrationOCR = () => {
         </div>
       )}
 
-      {result && (
-        <div className={styles.result}>
-          <p className={styles.resultLabel}>사업자등록번호</p>
-          <input
-            type="text"
-            className={styles.resultInput}
-            value={editedResult?.businessNumber || ''}
-            onChange={(e) => handleResultChange('businessNumber', e.target.value)}
-            placeholder="사업자등록번호"
-          />
-          <p className={styles.resultLabel}>상호</p>
-          <input
-            type="text"
-            className={styles.resultInput}
-            value={editedResult?.companyName || ''}
-            onChange={(e) => handleResultChange('companyName', e.target.value)}
-            placeholder="상호"
-          />
-          <p className={styles.resultLabel}>대표자</p>
-          <input
-            type="text"
-            className={styles.resultInput}
-            value={editedResult?.representative || ''}
-            onChange={(e) => handleResultChange('representative', e.target.value)}
-            placeholder="대표자"
-          />
-        </div>
-      )}
-      
+      <div className={styles.result}>
+        <img 
+          src={enterpriseCertificationMark}
+          alt='enterenterprise-certification-mark'
+          className={styles.enterpriseCertificationMark}
+        />
+        <p className={styles.resultLabel}>사업자등록번호</p>
+        <input
+          type="text"
+          className={styles.resultInput}
+          value={editedResult.businessNumber}
+          onChange={(e) => handleInputChange('businessNumber', e.target.value)}
+          placeholder="사업자등록번호"
+        />
+        <p className={styles.resultLabel}>법인명</p>
+        <input
+          type="text"
+          className={styles.resultInput}
+          value={editedResult.companyName}
+          onChange={(e) => handleInputChange('companyName', e.target.value)}
+          placeholder="법인명"
+        />
+        <p className={styles.resultLabel}>대표자</p>
+        <input
+          type="text"
+          className={styles.resultInput}
+          value={editedResult.representative}
+          onChange={(e) => handleInputChange('representative', e.target.value)}
+          placeholder="대표자"
+        />
+      </div>
     </div>
   );
 };
+
+BusinessRegistrationOCR.defaultProps = {
+  onResultChange: () => {} // 기본 props 설정
+};
+
 
 export default BusinessRegistrationOCR;

@@ -12,12 +12,22 @@
   align-items: center;
 }
 
-.previewBox {
-  width: 252px;
+.content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 332px;
   height: 297px;
   flex-shrink: 0;
   border-radius: 27px;
-  border: 1px solid #BEBEBE;
+  border: 1px solid #5C5C5C;
+}
+
+.previewBox {
+  width: 304px;
+  height: 230px;
+  flex-shrink: 0;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -41,7 +51,11 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  color: #666;
+  color: #5C5C5C;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .uploadPrompt span {
@@ -51,7 +65,7 @@
 .previewImage {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 25px;
 }
 
@@ -111,21 +125,28 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  position: relative;
   gap: 20px;
-  width: 331px;
-  height: 314px;
+  width: 332px;
+  height: 298px;
   flex-shrink: 0;
   margin: 20px 0 0 0;
   padding: 10px 0 30px 0;
-  border-radius: 25px;
+  border-radius: 27px;
+  border: 1px solid #5C5C5C;
   background: #FFF;
-  box-shadow: 0px 4px 12.6px 0px rgba(0, 0, 0, 0.1);
+}
+
+.enterpriseCertificationMark{
+  position: absolute;
+  top: 18px;
+  right: 15px;
 }
 
 .resultLabel{
   margin: 20px 0 0 25px;
   color: #000;
-  font-size: 20px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 500;
   line-height: 130%; /* 26px */
@@ -134,7 +155,7 @@
 .resultText{
   margin: 0 0 0 25px;
   color: #5C5C5C;
-  font-size: 20px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 500;
   line-height: 130%; /* 26px */
@@ -144,9 +165,9 @@
   margin: 0 0 0 25px;
   width: calc(100% - 50px);
   border: none;
-  border-bottom: 1px solid #BEBEBE;
+  border-bottom: 1px solid #D9D9D9;
   color: #5C5C5C;
-  font-size: 20px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 500;
   line-height: 130%;
@@ -155,9 +176,9 @@
 
 .resultInput:focus {
   outline: none;
-  border-bottom: 2px solid #2DDDC3;
+  border-bottom: 1px solid #2DDDC3;
 }
 
 .resultInput::placeholder {
-  color: #BEBEBE;
+  color: #D9D9D9;
 }

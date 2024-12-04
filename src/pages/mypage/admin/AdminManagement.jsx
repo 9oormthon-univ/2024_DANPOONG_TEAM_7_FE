@@ -6,6 +6,8 @@ import ProgramRegisterForm from './ProgramRegisterForm';
 import JobRegisterForm from './JobRegisterForm';
 import axiosInstance from '../../../api/axiosInstance';
 
+import leftArrow from '../../../assets/images/program/leftArrow.svg'
+
 const AdminManagement = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [programs, setPrograms] = useState([]);
@@ -14,6 +16,214 @@ const AdminManagement = () => {
 
     const [showJobRegisterForm, setShowJobRegisterForm] = useState(false);
     const [showProgramRegisterForm, setShowProgramRegisterForm] = useState(false);
+
+    const [showJobComponent, setShowJobComponent] = useState(false);
+    const [selectedJob, setSelectedJob] = useState(null);
+
+    const JobComponent = ({ job }) => {
+        return (
+            <div style={{paddingBottom: '50px'}}>
+                <TopBar />
+                <div style={{
+                    width: '100%',
+                    height: '250px',
+                    backgroundImage: `url(${job.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}>
+                    <div
+                        onClick={() => setShowJobComponent(false)}
+                        style={{
+                            position: 'relative',
+                            top: '20px',
+                            left: '-135px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            gap: '15px'
+                        }}>
+                        <img src={leftArrow} alt='leftArrow' />
+                        <span style={{ color: 'white', fontSize: '15px' }}>일자리 리스트</span>
+                    </div>
+                </div>
+                <div style={{
+                    width: '90%',
+                    margin: '20px 5% 0 5%',
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '10px'
+                    }}>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            textAlign: 'start',
+                            gap: '5px',
+                            marginBottom: '5%',
+                        }}>
+                            <span style={{
+                                fontSize: '24px',
+                                fontWeight: 'bold',
+                                paddingBottom: '9px',
+                            }}>{job.title}</span>
+                            <span>{job.field}</span>
+                            <span>{job.duty}</span>
+                            <span>{job.workPeriod}</span>
+                            <span>{job.region}</span>
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: 'white',
+                            borderRadius: '29px',
+                            border: '1px solid #D9D9D9',
+                            padding: '5%',
+                            marginBottom: '5%',
+                            textAlign: 'start',
+                            gap: '8px'
+                        }}>
+                            <span style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                                paddingBottom: '9px'
+                            }}>근무조건</span>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>급여</span>
+                                <span>{job.salary}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>근무기간</span>
+                                <span>{job.workPeriod}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>근무요일</span>
+                                <span>{job.workDays}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>근무시간</span>
+                                <span>{job.workHours}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>업직종</span>
+                                <span>{job.jobType}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>고용형태</span>
+                                <span style={{ width: '70%' }}>{job.employmentType}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>복리후생</span>
+                                <span style={{ width: '70%' }}>{job.benefits}</span>
+                            </div>
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: 'white',
+                            borderRadius: '29px',
+                            border: '1px solid #D9D9D9',
+                            padding: '5%',
+                            marginBottom: '5%',
+                            textAlign: 'start',
+                            gap: '8px'
+                        }}>
+                            <span style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                                paddingBottom: '9px'
+                            }}>모집조건</span>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>모집마감</span>
+                                <span>{job.deadline}</span>
+                                <span style={{
+                                    marginLeft: '10%',
+                                    color: '#FF6C6A'
+                                }}>{job.day}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>근무기간</span>
+                                <span>{job.requiredPeriod}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>학력</span>
+                                <span>{job.education}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{
+                                    width: '30%',
+                                    textAlign: 'start'
+                                }}>우대사항</span>
+                                <span>{job.preference}</span>
+                            </div>
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: 'white',
+                            borderRadius: '29px',
+                            border: '1px solid #D9D9D9',
+                            padding: '5%',
+                            marginBottom: '5%',
+                            textAlign: 'start',
+                            gap: '8px'
+                        }}>
+                            <span style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                                paddingBottom: '9.3px'
+                            }}>근무지역</span>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '70%' }}>{job.detailAddress}</span>
+                            </div>
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: 'white',
+                            borderRadius: '29px',
+                            border: '1px solid #D9D9D9',
+                            padding: '5%',
+                            marginBottom: '5%',
+                            textAlign: 'start',
+                            gap: '8px'
+                        }}>
+                            <span style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                                paddingBottom: '9px'
+                            }}>채용담당자 정보</span>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>담당자</span>
+                                <span>{job.manager}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>전화번호</span>
+                                <span>{job.phone}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{ width: '30%' }}>이메일</span>
+                                <span>{job.email}</span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <span style={{
+                                    width: '30%',
+                                    textAlign: 'start'
+                                }}>홈페이지</span>
+                                <span>{job.website}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '20px',
+                        margin: '5% 0'
+                    }}>                        
+                    </div>
+                </div>
+            </div>
+        );
+    };
 
     // 버튼 핸들러 수정
     const handleRegisterClick = (type) => {
@@ -37,7 +247,7 @@ const AdminManagement = () => {
     useEffect(() => {
         const fetchPrograms = async () => {
             try {
-                const response = await axiosInstance.get('/api/programs/admin')                                
+                const response = await axiosInstance.get('/api/programs/admin')
                 console.log(response.result.programs);
                 setPrograms(response.result.programs);
             } catch (error) {
@@ -47,9 +257,9 @@ const AdminManagement = () => {
 
         const fetchJobs = async () => {
             try {
-                const response = await fetch('/api/admin/jobs');
-                const data = await response.json();
-                setJobs(data);
+                const response = await axiosInstance.get('/api/jobs/admin');
+                console.log(response.result.jobs);
+                setJobs(response.result.jobs);
             } catch (error) {
                 console.error('일자리 데이터 로딩 실패:', error);
             }
@@ -61,7 +271,7 @@ const AdminManagement = () => {
 
     return (
         <>
-            {!showJobRegisterForm && !showProgramRegisterForm &&
+            {!showJobRegisterForm && !showProgramRegisterForm && !showJobComponent &&
                 <div style={{
                     height: '100vh',
                 }}>
@@ -118,35 +328,14 @@ const AdminManagement = () => {
                                     {currentIndex === 0 && (
                                         <div style={{ marginBottom: '80px' }}>
                                             {programs.map((program, index) => (
-                                                // <div key={index} style={{
-                                                //     backgroundColor: 'white',
-                                                //     borderRadius: '16px',
-                                                //     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
-                                                //     padding: '16px',
-                                                //     marginBottom: '16px'
-                                                // }}>
-                                                //     <h3 style={{
-                                                //         fontSize: '20px',
-                                                //         fontWeight: 'bold'
-                                                //     }}>{program.programTitle}</h3>
-                                                //     <p style={{
-                                                //         color: '#666',
-                                                //         marginTop: '8px'
-                                                //     }}>{program.enterpriseName}</p>
-                                                //     <p style={{
-                                                //         fontSize: '14px',
-                                                //         color: '#888',
-                                                //         marginTop: '4px'
-                                                //     }}>{program.place}</p>
-                                                // </div>
                                                 <ProgramCard
-                                                enterpriseName={program.enterpriseName}
-                                                title={program.title}
-                                                field={program.field}
-                                                date={program.time}
-                                                img={program.image}
-                                                detail={program.content} />
-                                            ))}                                        
+                                                    enterpriseName={program.enterpriseName}
+                                                    title={program.title}
+                                                    field={program.field}
+                                                    date={program.time}
+                                                    img={program.image}
+                                                    detail={program.content} />
+                                            ))}
                                             <button
                                                 onClick={() => handleRegisterClick('program')}
                                                 style={{
@@ -166,39 +355,15 @@ const AdminManagement = () => {
                                     {currentIndex === 1 && (
                                         <div style={{ marginBottom: '80px' }}>
                                             {jobs.map((job, index) => (
-                                                <div key={index} style={{
-                                                    backgroundColor: 'white',
-                                                    borderRadius: '16px',
-                                                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
-                                                    padding: '16px',
-                                                    marginBottom: '16px'
-                                                }}>
-                                                    <h3 style={{
-                                                        fontSize: '20px',
-                                                        fontWeight: 'bold'
-                                                    }}>{job.jobName}</h3>
-                                                    <p style={{
-                                                        color: '#666',
-                                                        marginTop: '8px'
-                                                    }}>{job.enterpriseName}</p>
-                                                    <p style={{
-                                                        fontSize: '14px',
-                                                        color: '#888',
-                                                        marginTop: '4px'
-                                                    }}>{job.place}</p>
-                                                    <p style={{
-                                                        color: '#FF6C6A',
-                                                        marginTop: '8px'
-                                                    }}>{job.day}</p>
-                                                </div>
+                                                <JobCard
+                                                    key={index}
+                                                    job={job}
+                                                    onClick={() => {
+                                                        setSelectedJob(job);
+                                                        setShowJobComponent(true);
+                                                    }}
+                                                />
                                             ))}
-                                            <JobCard
-                                                enterpriseName={"기업 이름"}
-                                                title={"title"}
-                                                field={"분야"}
-                                                date={"2020.20.02"}
-                                                img={"url"}
-                                                detail={"내용내용내용내용내용내용내용내용내용내용"} />
                                             <button
                                                 onClick={() => handleRegisterClick('job')}
                                                 style={{
@@ -233,6 +398,14 @@ const AdminManagement = () => {
                     onClose={() => setShowProgramRegisterForm(false)}
                 />
             )}
+
+            {showJobComponent && (
+                <JobComponent
+                    job={selectedJob}
+                    onClose={() => setShowJobComponent(false)}
+                />
+            )}
+
         </>
     );
 };

@@ -170,7 +170,7 @@ function Mypage() {
                 </div>
             </div>
             
-            <AdminComponent enterpriseProfile={enterpriseProfile} />
+            <AdminComponent enterpriseProfile={enterpriseProfile} profile={profile} />
             <EnterpriseReviewModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

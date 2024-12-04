@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import rightArrow from "../../../assets/images/mypage/rightArrow.svg"
 
-const AdminComponent = ({ enterpriseProfile }) => {
+const AdminComponent = ({ enterpriseProfile, profile }) => {
 
     const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const AdminComponent = ({ enterpriseProfile }) => {
 
     return (
         <>
-            {(enterpriseProfile.userRole == 'ENTERPRISE') &&
+            {(enterpriseProfile) && (enterpriseProfile.userRole == 'ENTERPRISE') &&
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -61,8 +61,7 @@ const AdminComponent = ({ enterpriseProfile }) => {
                     </div>
                 </div >
             }
-            {
-                (enterpriseProfile.userRole != 'ENTERPRISE') &&
+            {(profile.userRole != 'ENTERPRISE') &&
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -77,8 +76,7 @@ const AdminComponent = ({ enterpriseProfile }) => {
                         fontSize: '15px',
                         gap: '20px',
                         height: '76px'
-                    }}>
-                        <span style={{ color: '#113C35' }}>내 자산</span>
+                    }}>                        
                         <span style={{ color: '#5C5C5C' }}>기업 인증 후 사용 가능합니다.</span>
                         <img src={rightArrow} alt="rightArrow" />
                     </div>

@@ -13,6 +13,13 @@ export const formatCompanyName = (name, maxLength = 14) => {
             return { front: withPrefix + text, middle: '', back: '' };
         }
 
+        const prefixMatch = text.match(/^\([주사]\)/);
+        if (prefixMatch) {
+            const prefix = prefixMatch[0];
+            const remaining = text.substring(prefix.length);
+            return splitText(remaining, prefix);
+        }
+
         // 특정 키워드로 분리
         const keywords = ['사회적협동조합', '협동조합'];
         for (const keyword of keywords) {

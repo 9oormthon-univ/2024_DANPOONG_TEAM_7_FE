@@ -14,23 +14,29 @@ const EnterpriseContext = createContext(null);
 export const EnterpriseProvider = ({ children }) => {
   const navigate = useNavigate();
   
-  const [enterprises, setEnterprises] = useState([]);
   const [filteredEnterprises, setFilteredEnterprises] = useState([]);
-  const [selectedRegion, setSelectedRegion] = useState(
-    getFromLocalStorage(STORAGE_KEYS.REGION, '')
-  );
+  const [selectedRegion, setSelectedRegion] = useState(() => {
+    const savedRegion = getFromLocalStorage(STORAGE_KEYS.REGION);
+    return savedRegion || '';
+  });
 
-  const [selectedCities, setSelectedCities] = useState(
-    getFromLocalStorage(STORAGE_KEYS.CITIES, [])
-  );
-  
-  const [activeFilters, setActiveFilters] = useState(
-    getFromLocalStorage(STORAGE_KEYS.FILTERS, {
+  const [selectedCities, setSelectedCities] = useState(() => {
+    const savedCities = getFromLocalStorage(STORAGE_KEYS.CITIES);
+    return savedCities || [];
+  });
+
+  const [enterprises, setEnterprises] = useState(() => {
+    return getFromLocalStorage(STORAGE_KEYS.ENTERPRISES, []);
+  });
+
+  const [activeFilters, setActiveFilters] = useState(() => {
+    return getFromLocalStorage(STORAGE_KEYS.FILTERS, {
       types: [],
       socialPurpose: [],
       onoffStore: []
-    })
-  );
+    });
+  });
+
   const [shouldShowMarkers, setShouldShowMarkers] = useState(true);
   const [activeMarkerType, setActiveMarkerType] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -50,6 +56,8 @@ export const EnterpriseProvider = ({ children }) => {
     timestamp: null
 });
 
+  const [reviewEnterprises, setReviewEnterprises] = useState([]);
+
   // 인증 상태 확인
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -57,16 +65,48 @@ export const EnterpriseProvider = ({ children }) => {
       navigate('/');
     }
   }, [navigate]);
+  
+  useEffect(() => {
+    const initializeData = async () => {
+      const savedRegion = getFromLocalStorage(STORAGE_KEYS.REGION);
+      const savedCities = getFromLocalStorage(STORAGE_KEYS.CITIES);
+        
+      if (savedRegion && savedCities?.length) {
+        try {
+          await fetchEnterprises({
+            region: savedRegion,
+            cities: savedCities
+          });
+        } catch (error) {
+          console.error('Failed to initialize data:', error);
+        }
+      }
+    };
+  
+    initializeData();
+  }, []);
 
-  const fetchEnterprises = useCallback(async () => {
-    if (!selectedRegion || !selectedCities?.length) return;
+  const fetchEnterprises = useCallback(async ({ region, cities, isReviewMode = false }) => {
+    if (!region) return;
+    
     setIsLoading(true);
     setError(null);
     
     try {
+      // 리뷰 모드일 경우
+      if (isReviewMode) {
+        const data = await fetchEnterprisesUtil({
+          region: '경기',
+          cities: ['전체']
+        });
+        setReviewEnterprises(data); // 리뷰용 상태 업데이트
+        return data;
+      }
+      
+      // 일반 모드일 경우
       const data = await fetchEnterprisesUtil({
-        region: selectedRegion,
-        cities: selectedCities
+        region,
+        cities
       });
       setEnterprises(data);
       saveToLocalStorage(STORAGE_KEYS.ENTERPRISES, data);
@@ -78,18 +118,7 @@ export const EnterpriseProvider = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedRegion, selectedCities, navigate]);
- 
-  useEffect(() => {
-    if (!selectedRegion || !selectedCities?.length) return;
-    fetchEnterprises();
-  }, [selectedRegion, selectedCities, fetchEnterprises]);
-
-  // 지역 변경 시 API 호출
-  useEffect(() => {
-    if (!selectedRegion) return;
-    fetchEnterprises();
-  }, [selectedRegion, fetchEnterprises]);
+  }, [navigate]);
 
   // 필터링 로직
   useEffect(() => {
@@ -125,7 +154,9 @@ export const EnterpriseProvider = ({ children }) => {
     setSelectedCities(cities);
     saveToLocalStorage(STORAGE_KEYS.REGION, region);
     saveToLocalStorage(STORAGE_KEYS.CITIES, cities);
-    await fetchEnterprises();
+    
+    // 동일한 값으로 API 호출
+    return await fetchEnterprises({ region, cities });
   }, [fetchEnterprises]);
   
   // 검색 히스토리 추가
@@ -168,6 +199,7 @@ export const EnterpriseProvider = ({ children }) => {
     setFilteredEnterprises,
     selectedRegion,
     updateRegion,
+    selectedCities,
     activeFilters,
     updateFilters,
     shouldShowMarkers,
@@ -191,7 +223,8 @@ export const EnterpriseProvider = ({ children }) => {
     removeFromHistory,
     clearSearchQuery,
     setSelectedLocation,
-    setDisplayMode
+    setDisplayMode,
+    reviewEnterprises
   };
 
   return (

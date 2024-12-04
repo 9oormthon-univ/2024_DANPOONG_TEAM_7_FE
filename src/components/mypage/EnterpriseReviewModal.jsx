@@ -18,7 +18,7 @@ const EnterpriseReviewModal = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
     const { setCurrentEnterprise } = useReview();
     const { 
-        filteredEnterprises,
+        reviewEnterprises, 
         isLoading, 
         error 
     } = useEnterprise();
@@ -57,7 +57,7 @@ const EnterpriseReviewModal = ({ isOpen, onClose }) => {
         }
     };
 
-    const searchedEnterprises = filteredEnterprises?.filter(enterprise =>
+    const searchedEnterprises = reviewEnterprises?.filter(enterprise =>
         enterprise.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -93,7 +93,7 @@ const EnterpriseReviewModal = ({ isOpen, onClose }) => {
                     </button> 
                 </form>
                 <div className={styles.enterpriseList}>
-                    {filteredEnterprises?.map((enterprise) => {
+                    {reviewEnterprises?.map((enterprise) => {
                         const { front, back } = formatCompanyName(enterprise.name);
                         const isOverflow = isCompanyNameOverflow(enterprise.name);
 

@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '../../styles/enterprise/SwipeableInfo.module.css';
+import { useNavigate } from 'react-router-dom';
 
 import useEnterpriseDetailReviews from '../../hooks/useEnterpriseDetailReviews';
 
 //utils
+import { formatCompanyName } from '../../utils/companyNameUtils';
 import { formatDateWithDots } from '../../utils/formatDate';
 import { convertTagNumbersToKeywords } from '../../utils/tagUtils';
 
@@ -31,12 +33,14 @@ const imageMap = {
 
 
 const SwipeableInfo = ({ enterpriseData }) => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('company');
     const [startX, setStartX] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState(0);
     const containerRef = useRef(null);
     const [magazineData, setMagazineData] = useState([]);
+    const [sortOrder, setSortOrder] = useState('newest');
 
     const { reviews, isLoading } = useEnterpriseDetailReviews(enterpriseData.enterpriseId);
 
@@ -103,6 +107,32 @@ const SwipeableInfo = ({ enterpriseData }) => {
         setDragOffset(0);
     };
 
+    const sortReviews = (reviews) => {
+        if (!reviews) return [];
+        return [...reviews].sort((a, b) => {
+          const dateA = new Date(a.createAt);
+          const dateB = new Date(b.createAt);
+          return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+        });
+    };
+
+    const sortMagazines = (magazines) => {
+        if (!magazines) return [];
+        return [...magazines].sort((a, b) => {
+          const dateA = new Date(a.createdAt.replace(/\./g, '-'));
+          const dateB = new Date(b.createdAt.replace(/\./g, '-'));
+          return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+        });
+      };
+
+    const handleSort = () => {
+        setSortOrder(prev => prev === 'newest' ? 'oldest' : 'newest');
+    };
+
+    const handleMagazineClick = (id) => {
+        navigate(`/magazine/${id}`);
+    };
+    
     const transformSocialPurpose = (purpose) => {
         const purposeMap = {
             '사회서비스제공형': '사회 서비스',
@@ -161,8 +191,22 @@ const SwipeableInfo = ({ enterpriseData }) => {
                     <div className={styles.enterpriseInfoContainer}>
                         <div className={styles.section}>
                             <div className={styles.comment}>
-                                <p>{getDisplayValue(enterpriseData.name)}은</p>
-                                <span>{getDisplayValue(transformedType)} 분야의 {getDisplayValue(transformedPurpose)}</span>
+                                <div className={styles.commentName}>
+                                    <span>
+                                    {formatCompanyName(enterpriseData.name).front}
+                                    {!formatCompanyName(enterpriseData.name).middle && !formatCompanyName(enterpriseData.name).back ? '은' : <br/>}
+                                    </span>
+                                    {formatCompanyName(enterpriseData.name).middle && 
+                                    <span>
+                                        {formatCompanyName(enterpriseData.name).middle}
+                                        {!formatCompanyName(enterpriseData.name).back ? '은' : <br/>}
+                                    </span>
+                                    }
+                                    {formatCompanyName(enterpriseData.name).back && 
+                                    <span>{formatCompanyName(enterpriseData.name).back}은</span>
+                                    }
+                                </div>
+                                <span className={styles.commentType}>{getDisplayValue(transformedType)} 분야의 {getDisplayValue(transformedPurpose)}</span>
                                 <span>를 제공합니다</span>
                             </div>
                             <div className={styles.infoBox}>
@@ -233,13 +277,18 @@ const SwipeableInfo = ({ enterpriseData }) => {
                     <div className={styles.reviewContainter}>
                         <div className={styles.reviewHeader}>
                             <div className={styles.reviewTitle}>
-                                <button className={styles.alignment}>최신 순</button>
+                                <button 
+                                    className={styles.alignment} 
+                                    onClick={handleSort}
+                                >
+                                    {sortOrder === 'newest' ? '최신 순' : '오래된 순'}
+                                </button>
                                 <p>{reviews?.length || 0}개</p>
                             </div>
                         </div>
                         <div className={styles.reviewCardList}>
                         {reviews && reviews.length > 0 ? (
-                                reviews.map((review) => (
+                                sortReviews(reviews).map((review) => (
                                     <div key={review.reviewId} className={styles.reviewCard}>
                                         <div className={styles.reviewCardInfo}>
                                             <div className={styles.reviewCardProfile}>
@@ -282,13 +331,22 @@ const SwipeableInfo = ({ enterpriseData }) => {
                     <div className={styles.magazineContainter}>
                         <div className={styles.magazineHeader}>
                             <div className={styles.magazineTitle}>
-                                <button className={styles.alignment}>최신 순</button>
+                                <button 
+                                    className={styles.alignment} 
+                                    onClick={handleSort}
+                                >
+                                    {sortOrder === 'newest' ? '최신 순' : '오래된 순'}
+                                </button>
                                 <p>{magazineData.length}개</p>
                             </div>
                         </div>
                         <div className={styles.magazineCardList}>
-                            {magazineData.map((magazine) => (
-                            <button key={magazine.id} className={styles.magazineCard}>
+                            {sortMagazines(magazineData).map((magazine) => (
+                            <button 
+                                key={magazine.id} 
+                                className={styles.magazineCard}
+                                onClick={() => handleMagazineClick(magazine.id)}
+                            >
                                 <div className={styles.magazineCardImage}>
                                     <img 
                                         src={magazine.image} 

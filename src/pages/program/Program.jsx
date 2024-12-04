@@ -14,9 +14,10 @@ import entNews1 from '../../assets/images/magazine/entNews1.png';
 const Program = () => {
     const contentRefs = useRef({});
     const [showModal, setShowModal] = useState(false);
-    const [pages, setPages] = useState([]);
+    const [programItems, setProgramItems] = useState([]);
+    const [jobItems, setJobItems] = useState([]);
     const [showJobComponent, setShowJobComponent] = useState(false);
-    const [loading, setLoading] = useState(true); // 로딩 상태 추가
+    const [loading, setLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [startX, setStartX] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
@@ -25,6 +26,11 @@ const Program = () => {
     const [selectedCard, setSelectedCard] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredItems, setFilteredItems] = useState([]);
+
+    const tabs = [
+        { title: "프로그램 참여", searchPlaceholder: "장소 또는 프로그램 유형" },
+        { title: "일자리 소개", searchPlaceholder: "일자리 유형이나 장소" }
+    ];
 
     const programImageMap = {
         entNews1,
@@ -41,52 +47,50 @@ const Program = () => {
         entNews1,
     };
 
-    // 데이터 가져오기
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/dummyData/ProgramJobData.json');
-                const jsonData = await response.json();
+                const programResponse = await fetch('/dummyData/program.json');
+                const programData = await programResponse.json();
 
-                // 이미지 매핑 추가
-                const mappedData = jsonData.map((category) => ({
-                    ...category,
-                    items: category.items.map((item) => ({
-                        ...item,
-                        image:
-                            item.type === "program"
-                                ? programImageMap[item.image]
-                                : jobImageMap[item.image],
-                    })),
+                const jobResponse = await fetch('/dummyData/job.json');
+                const jobData = await jobResponse.json();
+
+                const mappedProgramData = programData.map(item => ({
+                    ...item,
+                    image: programImageMap[item.image]
                 }));
-                setPages(mappedData);
+
+                const mappedJobData = jobData.map(item => ({
+                    ...item,
+                    image: jobImageMap[item.image]
+                }));
+
+                setProgramItems(mappedProgramData);
+                setJobItems(mappedJobData);
+                setFilteredItems(currentIndex === 0 ? mappedProgramData : mappedJobData);
             } catch (error) {
                 console.error('Fetch error:', error);
-                setPages([]); // 에러 발생 시 빈 배열 설정
+                setProgramItems([]);
+                setJobItems([]);
+                setFilteredItems([]);
             } finally {
-                setLoading(false); // 로딩 상태 해제
+                setLoading(false);
             }
         };
         fetchData();
     }, []);
 
-    // 검색 함수
-    const handleSearch = (searchTerm, pageIndex) => {
-        const currentPage = pages[pageIndex];
-
-        if (!currentPage || !currentPage.items) {
-            setFilteredItems([]);
-            return;
-        }
+    const handleSearch = (searchTerm) => {
+        const currentItems = currentIndex === 0 ? programItems : jobItems;
 
         if (!searchTerm.trim()) {
-            setFilteredItems(currentPage.items);
+            setFilteredItems(currentItems);
             return;
         }
 
         const searchLower = searchTerm.toLowerCase();
-
-        const filtered = currentPage.items.filter(item => {
+        const filtered = currentItems.filter(item => {
             if (item.type === "program") {
                 return (
                     item.programTitle.toLowerCase().includes(searchLower) ||
@@ -106,70 +110,33 @@ const Program = () => {
         setFilteredItems(filtered);
     };
 
-    // 페이지 변경 시 검색어 초기화 및 필터링
+    // 탭 변경 시 필터링된 아이템 업데이트
     useEffect(() => {
-        if (pages.length > 0 && currentIndex < pages.length && pages[currentIndex]) {
-            setSearchTerm('');
-            setFilteredItems(pages[currentIndex].items || []);
-        } else {
-            setFilteredItems([]); 
-        }
-    }, [currentIndex, pages]);
+        console.log('Tab changed to:', currentIndex); // 여기 추가
+        setSearchTerm('');
+        const newItems = currentIndex === 0 ? programItems : jobItems;
+        console.log('New filtered items:', newItems); // 여기 추가
+        setFilteredItems(newItems);
+    }, [currentIndex, programItems, jobItems]);
 
     // 검색어 변경 시 필터링 실행
     useEffect(() => {
-        handleSearch(searchTerm, currentIndex);
-    }, [searchTerm, currentIndex]);
+        handleSearch(searchTerm);
+    }, [searchTerm]);
 
     // 로딩 상태 처리
     if (loading) {
-        return <div><LoadingSpinner/></div>;
+        return <div><LoadingSpinner /></div>;
     }
 
-    // 데이터가 없을 때 처리
-    if (!pages || pages.length === 0) {
+    // 데이터 체크
+    if ((!programItems || programItems.length === 0) && (!jobItems || jobItems.length === 0)) {
         return <div>No data available</div>;
     }
 
-    // const handleTouchStart = (e) => {
-    //     setStartX(e.touches[0].clientX);
-    //     setIsDragging(true);
-    // };
-
-    // const handleMouseDown = (e) => {
-    //     setStartX(e.clientX);
-    //     setIsDragging(true);
-    // };
-
-    // const handleTouchMove = (e) => {
-    //     if (!isDragging) return;
-    //     const currentX = e.touches[0].clientX;
-    //     const diff = currentX - startX;
-    //     setDragOffset(diff);
-    // };
-
-    // const handleMouseMove = (e) => {
-    //     if (!isDragging) return;
-    //     e.preventDefault();
-    //     const currentX = e.clientX;
-    //     const diff = currentX - startX;
-    //     setDragOffset(diff);
-    // };
-
-    // const handleEnd = () => {
-    //     if (Math.abs(dragOffset) > 100) {
-    //         if (dragOffset > 0 && currentIndex > 0) {
-    //             setCurrentIndex(currentIndex - 1);
-    //         } else if (dragOffset < 0 && currentIndex < pages.length - 1) {
-    //             setCurrentIndex(currentIndex + 1);
-    //         }
-    //     }
-    //     setIsDragging(false);
-    //     setDragOffset(0);
-    // };
-
     const handleTabClick = (index) => {
         setCurrentIndex(index);
+        setShowJobComponent(false);
     };
 
     const handleApplyClick = (card) => {
@@ -192,8 +159,8 @@ const Program = () => {
         transition: isDragging ? 'none' : 'transform 0.3s ease-out',
     };
 
-    const toggleCard = (pageIdx, itemIdx) => {
-        const cardId = `${pageIdx}-${itemIdx}`;
+    const toggleCard = (itemIdx) => {
+        const cardId = `${currentIndex}-${itemIdx}`;
         setExpandedCards(prev => ({
             ...prev,
             [cardId]: !prev[cardId]
@@ -960,6 +927,7 @@ const Program = () => {
                 <div style={{
                     backgroundColor: 'white'
                 }}>
+                    {/* 탭 인디케이터 */}
                     <div style={{
                         width: '100%',
                         height: '3px',
@@ -969,17 +937,18 @@ const Program = () => {
                         <div style={{
                             position: 'absolute',
                             height: '3px',
-                            width: `${100 / pages.length}%`,
+                            width: `${100 / tabs.length}%`,
                             backgroundColor: '#113C35',
                             bottom: 0,
                             ...indicatorStyle
                         }} />
                     </div>
 
+                    {/* 탭 버튼들 */}
                     <div style={{
                         display: 'flex'
                     }}>
-                        {pages.map((page, idx) => (
+                        {tabs.map((tab, idx) => (
                             <div
                                 key={idx}
                                 style={{
@@ -996,158 +965,206 @@ const Program = () => {
                                     fontSize: '20px',
                                     fontWeight: currentIndex === idx ? 600 : 400,
                                 }}>
-                                    {page.title}
+                                    {tab.title}
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    <div style={{ overflow: 'hidden' }}>
+                    {/* 검색창 */}
+                    {!showJobComponent && (
                         <div style={{
                             display: 'flex',
-                            ...containerStyle
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            padding: '10px'
                         }}>
-                            {pages.map((page, idx) => (
-                                <div key={idx} style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    width: '100%',
-                                    flexShrink: 0,
-                                }}>
-                                    {!showJobComponent &&
-                                        <div style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            width: '90%',
-                                            height: '43px',
-                                            borderRadius: '21.5px',
-                                            border: '1px solid #d1d5db',
-                                            margin: '10px'
-                                        }}>
-                                            <input
-                                                type="text"
-                                                placeholder={page.searchPlaceholder}
-                                                value={currentIndex === idx ? searchTerm : ''}
-                                                onChange={(e) => setSearchTerm(e.target.value)}
-                                                style={{
-                                                    width: '100%',
-                                                    border: 'none',
-                                                    margin: '1% 0 1% 3%',
-                                                }}
-                                                onFocus={(e) => {
-                                                    e.target.style.outline = 'none';
-                                                    e.target.style.boxShadow = 'none';
-                                                }}
-                                                onBlur={(e) => {
-                                                    e.target.style.outline = 'none';
-                                                    e.target.style.boxShadow = 'none';
-                                                }}
-                                            />
-                                            <img src={search} alt='search' style={{ width: '24px', marginRight: '3%' }} />
-                                        </div>
-                                    }
-                                </div>
-                            ))}
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '90%',
+                                height: '43px',
+                                borderRadius: '21.5px',
+                                border: '1px solid #d1d5db',
+                            }}>
+                                <input
+                                    type="text"
+                                    placeholder={tabs[currentIndex].searchPlaceholder}
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    style={{
+                                        width: '100%',
+                                        border: 'none',
+                                        margin: '1% 0 1% 3%',
+                                    }}
+                                    onFocus={(e) => {
+                                        e.target.style.outline = 'none';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.outline = 'none';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
+                                />
+                                <img src={search} alt='search' style={{ width: '24px', marginRight: '3%' }} />
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    )}
 
-                {!showJobComponent &&
-                    <div
-                        style={{
-                            height: '100%',
-                        }}
-                    // onTouchStart={handleTouchStart}
-                    // onTouchMove={handleTouchMove}
-                    // onTouchEnd={handleEnd}
-                    // onMouseDown={handleMouseDown}
-                    // onMouseMove={handleMouseMove}
-                    // onMouseUp={handleEnd}
-                    // onMouseLeave={handleEnd}
-                    >
+                    {/* 컨텐츠 영역 */}
+                    {!showJobComponent ? (
                         <div style={{
-                            display: 'flex',
-                            ...containerStyle
+                            width: '90%',
+                            margin: '2% 5%',
                         }}>
-                            {pages.map((page, pageIdx) => (
-                                <div key={pageIdx} style={{
-                                    width: '90%',
-                                    margin: '2% 5%',
-                                    flexShrink: 0,
-                                }}>
-                                    {(pageIdx === currentIndex ? filteredItems : page.items).map((item, itemIdx) => {
-                                        const cardId = `${pageIdx}-${itemIdx}`;
-                                        const isExpanded = expandedCards[cardId];
+                            {filteredItems.map((item, itemIdx) => {
+                                const cardId = `${currentIndex}-${itemIdx}`;
+                                const isExpanded = expandedCards[cardId];
 
-                                        return (
-                                            <div key={itemIdx} style={{
-                                                backgroundColor: 'white',
-                                                borderRadius: '29px',
-                                                border: '1px solid #D9D9D9',
-                                                padding: '5%',
-                                                marginBottom: '5%',
-                                                transition: 'all 0.3s ease-in-out',
-                                                maxHeight: isExpanded ? '2000px' : '200px',
-                                                overflow: 'hidden'
-                                            }}>
-                                                {item.type === "program" &&
-                                                    <>
+                                return (
+                                    <div key={itemIdx} style={{
+                                        backgroundColor: 'white',
+                                        borderRadius: '29px',
+                                        border: '1px solid #D9D9D9',
+                                        padding: '5%',
+                                        marginBottom: '5%',
+                                        transition: 'all 0.3s ease-in-out',
+                                        maxHeight: isExpanded ? '2000px' : '200px',
+                                        overflow: 'hidden'
+                                    }}>
+                                        {item.type === "program" &&
+                                            <>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    gap: '4px',
+                                                    margin: '3%'
+                                                }}>
+                                                    <span style={{
+                                                        width: '100%',
+                                                        textAlign: 'start',
+                                                        fontSize: '20px',
+                                                        fontWeight: 'bold',
+                                                    }}>{item.programTitle}</span>
+                                                    <span style={{
+                                                        width: '100%',
+                                                        margin: '12px 0 0 0',
+                                                        textAlign: 'start',
+                                                        fontSize: '15px',
+                                                    }}>{item.enterpriseName}</span>
+                                                    {!isExpanded &&
                                                         <div style={{
                                                             display: 'flex',
-                                                            flexDirection: 'column',
-                                                            gap: '4px',
-                                                            margin: '3%'
+                                                            justifyContent: 'start',
+                                                            gap: '20px'
                                                         }}>
                                                             <span style={{
-                                                                width: '100%',
-                                                                textAlign: 'start',
-                                                                fontSize: '20px',
-                                                                fontWeight: 'bold',
-                                                            }}>{item.programTitle}</span>
-                                                            <span style={{
-                                                                width: '100%',
-                                                                margin: '12px 0 0 0',
+                                                                whiteSpace: 'nowrap',
                                                                 textAlign: 'start',
                                                                 fontSize: '15px',
-                                                            }}>{item.enterpriseName}</span>
-                                                            {!isExpanded &&
-                                                                <div style={{
-                                                                    display: 'flex',
-                                                                    justifyContent: 'start',
-                                                                    gap: '20px'
-                                                                }}>
-                                                                    <span style={{
-                                                                        whiteSpace: 'nowrap',
-                                                                        textAlign: 'start',
-                                                                        fontSize: '15px',
-                                                                        transition: 'max-height 0.5s ease-in-out',
-                                                                    }}>{item.place}</span>
-                                                                </div>
-                                                            }
-                                                            {isExpanded &&
-                                                                <>
-                                                                    <span style={{
-                                                                        width: '100%',
-                                                                        textAlign: 'start',
-                                                                        fontSize: '15px',
-                                                                    }}>{item.place}</span>
-                                                                    <span style={{
-                                                                        width: '100%',
-                                                                        textAlign: 'start',
-                                                                        fontSize: '15px',
-                                                                    }}>{item.time}</span>
-                                                                </>
-                                                            }
-                                                            <div style={{
+                                                                transition: 'max-height 0.5s ease-in-out',
+                                                            }}>{item.place}</span>
+                                                        </div>
+                                                    }
+                                                    {isExpanded &&
+                                                        <>
+                                                            <span style={{
+                                                                width: '100%',
+                                                                textAlign: 'start',
+                                                                fontSize: '15px',
+                                                            }}>{item.place}</span>
+                                                            <span style={{
+                                                                width: '100%',
+                                                                textAlign: 'start',
+                                                                fontSize: '15px',
+                                                            }}>{item.time}</span>
+                                                        </>
+                                                    }
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        transition: 'all 0.5s ease-in-out',
+                                                        opacity: isExpanded ? 0 : 1,
+                                                        height: isExpanded ? 0 : 'auto',
+                                                        overflow: 'hidden',
+                                                        fontSize: '15px'
+                                                    }}>
+                                                        <div>
+                                                            <span style={{
+                                                                marginRight: '10px'
+                                                            }}>좋아요 수</span>
+                                                            <span style={{
+                                                                marginRight: '20px',
+                                                                color: '#FF6C6A'
+                                                            }}>{item.likes}</span>
+                                                            <span style={{
+                                                                marginRight: '10px'
+                                                            }}>리뷰 수</span>
+                                                            <span style={{
+                                                                marginRight: '10px'
+                                                            }}>{item.comments}</span>
+                                                        </div>
+                                                        <div
+                                                            onClick={() => handleApplyClick(item)}
+                                                            style={{
                                                                 display: 'flex',
-                                                                justifyContent: 'space-between',
-                                                                alignItems: 'center',
-                                                                transition: 'all 0.5s ease-in-out',
-                                                                opacity: isExpanded ? 0 : 1,
-                                                                height: isExpanded ? 0 : 'auto',
-                                                                overflow: 'hidden',
+                                                                whiteSpace: 'nowrap',
+                                                                borderRadius: '19px',
+                                                                color: 'white',
+                                                                background: '#2DDDC3',
+                                                                padding: '2% 5%',
                                                                 fontSize: '15px'
+                                                            }}>신청하기</div>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    ref={el => contentRefs.current[cardId] = el}
+                                                    style={{
+                                                        maxHeight: isExpanded ? '1000px' : '0',
+                                                        overflow: 'hidden',
+                                                        transition: 'max-height 0.3s ease-in-out',
+                                                        opacity: isExpanded ? 1 : 0,
+                                                        transform: isExpanded ? 'translateY(0)' : 'translateY(-20px)',
+                                                        margin: '20px 3% 0 3%'
+                                                    }}
+                                                >
+                                                    <div style={{
+                                                        width: '100%',
+                                                        height: '200px',
+                                                        background: 'gray',
+                                                        backgroundImage: `url(${item.image})`,
+                                                        backgroundSize: "cover",
+                                                        backgroundPosition: "center",
+                                                    }}>
+                                                    </div>
+                                                    <div style={{ padding: '20px 0' }}>
+                                                        <p style={{
+                                                            textAlign: 'start',
+                                                            fontSize: '14px',
+                                                            lineHeight: '1.5',
+                                                            marginBottom: '15px',
+                                                            whiteSpace: 'pre-wrap'
+                                                        }}>{item.description}</p>
+                                                    </div>
+                                                    <div style={{
+                                                        opacity: isExpanded ? 1 : 0,
+                                                        transform: isExpanded ? 'translateY(0)' : 'translateY(-20px)',
+                                                        transition: 'all 0.5s ease-in-out',
+                                                        height: isExpanded ? 'auto' : 0,
+                                                        overflow: 'hidden'
+                                                    }}>
+                                                        <div style={{
+                                                            opacity: isExpanded ? 1 : 0,
+                                                            transform: isExpanded ? 'translateY(0)' : 'translateY(-20px)',
+                                                            transition: 'all 0.5s ease-in-out',
+                                                            height: isExpanded ? 'auto' : 0,
+                                                            overflow: 'hidden'
+                                                        }}>
+                                                            <div style={{
+                                                                width: '100%',
+                                                                textAlign: 'start',
+                                                                fontSize: '15px',
                                                             }}>
                                                                 <div>
                                                                     <span style={{
@@ -1164,202 +1181,121 @@ const Program = () => {
                                                                         marginRight: '10px'
                                                                     }}>{item.comments}</span>
                                                                 </div>
-                                                                <div
-                                                                    onClick={() => handleApplyClick(item)}
-                                                                    style={{
-                                                                        display: 'flex',
-                                                                        whiteSpace: 'nowrap',
-                                                                        borderRadius: '19px',
-                                                                        color: 'white',
-                                                                        background: '#2DDDC3',
-                                                                        padding: '2% 5%',
-                                                                        fontSize: '15px'
-                                                                    }}>신청하기</div>
                                                             </div>
-                                                        </div>
-                                                        <div
-                                                            ref={el => contentRefs.current[cardId] = el}
-                                                            style={{
-                                                                maxHeight: isExpanded ? '1000px' : '0',
-                                                                overflow: 'hidden',
-                                                                transition: 'max-height 0.3s ease-in-out',
-                                                                opacity: isExpanded ? 1 : 0,
-                                                                transform: isExpanded ? 'translateY(0)' : 'translateY(-20px)',
-                                                                margin: '20px 3% 0 3%'
-                                                            }}
-                                                        >
-                                                            <div style={{
-                                                                width: '100%',
-                                                                height: '200px',
-                                                                background: 'gray',
-                                                                backgroundImage: `url(${item.image})`,
-                                                                backgroundSize: "cover",
-                                                                backgroundPosition: "center",
-                                                            }}>                                                                
-                                                            </div>
-                                                            <div style={{ padding: '20px 0' }}>
-                                                                <p style={{
-                                                                    textAlign: 'start',
-                                                                    fontSize: '14px',
-                                                                    lineHeight: '1.5',
-                                                                    marginBottom: '15px',
-                                                                    whiteSpace: 'pre-wrap'
-                                                                }}>{item.description}</p>
-                                                            </div>
-                                                            <div style={{
-                                                                opacity: isExpanded ? 1 : 0,
-                                                                transform: isExpanded ? 'translateY(0)' : 'translateY(-20px)',
-                                                                transition: 'all 0.5s ease-in-out',
-                                                                height: isExpanded ? 'auto' : 0,
-                                                                overflow: 'hidden'
-                                                            }}>
-                                                                <div style={{
-                                                                    opacity: isExpanded ? 1 : 0,
-                                                                    transform: isExpanded ? 'translateY(0)' : 'translateY(-20px)',
-                                                                    transition: 'all 0.5s ease-in-out',
-                                                                    height: isExpanded ? 'auto' : 0,
-                                                                    overflow: 'hidden'
-                                                                }}>
-                                                                    <div style={{
-                                                                        width: '100%',
-                                                                        textAlign: 'start',
-                                                                        fontSize: '15px',
-                                                                    }}>
-                                                                        <div>
-                                                                            <span style={{
-                                                                                marginRight: '10px'
-                                                                            }}>좋아요 수</span>
-                                                                            <span style={{
-                                                                                marginRight: '20px',
-                                                                                color: '#FF6C6A'
-                                                                            }}>{item.likes}</span>
-                                                                            <span style={{
-                                                                                marginRight: '10px'
-                                                                            }}>리뷰 수</span>
-                                                                            <span style={{
-                                                                                marginRight: '10px'
-                                                                            }}>{item.comments}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div
-                                                                        onClick={() => handleApplyClick(item)}
-                                                                        style={{
-                                                                            width: '100%',
-                                                                            color: 'white',
-                                                                            fontSize: '20px',
-                                                                            borderRadius: '27px',
-                                                                            background: '#2DDDC3',
-                                                                            margin: '10px 0 20px 0',
-                                                                            padding: '10px 0'
-                                                                        }}>
-                                                                        신청하기
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            onClick={() => toggleCard(pageIdx, itemIdx)}
-                                                            style={{
-                                                                width: '100%',
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                            }}
-                                                        >
-                                                            <img
-                                                                src={underArrow}
-                                                                alt='underArrow'
+                                                            <div
+                                                                onClick={() => handleApplyClick(item)}
                                                                 style={{
-                                                                    width: '14px',
-                                                                    transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                                                                    transition: 'transform 0.3s ease-in-out'
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    </>
-                                                }
-                                                {item.type === "job" &&
-                                                    <>
-                                                        <div style={{
-                                                            display: 'flex',
-                                                            flexDirection: 'column',
-                                                            gap: '4px',
-                                                            margin: '3%'
-                                                        }}>
-                                                            <div style={{
-                                                                display: 'flex',
-                                                                justifyContent: 'start',
-                                                                alignItems: 'baseline',
-                                                                gap: '20px'
-                                                            }}>
-                                                                <span style={{
-                                                                    textAlign: 'start',
+                                                                    width: '100%',
+                                                                    color: 'white',
                                                                     fontSize: '20px',
-                                                                    fontWeight: 'bold',
-                                                                }}>{item.jobName}</span>
-                                                            </div>
-                                                            <span style={{
-                                                                width: '100%',
-                                                                margin: '12px 0 0 0',
-                                                                textAlign: 'start',
-                                                                fontSize: '15px',
-                                                            }}>{item.enterpriseName}</span>
-                                                            <div style={{
-                                                                display: 'flex',
-                                                                justifyContent: 'start',
-                                                                gap: '20px'
-                                                            }}>
-                                                                <span style={{
-                                                                    whiteSpace: 'nowrap',
-                                                                    textAlign: 'start',
-                                                                    fontSize: '15px',
-                                                                    // transition: 'max-height 0.5s ease-in-out',
-                                                                }}>{item.place}</span>
-                                                            </div>
-
-                                                            <div style={{
-                                                                display: 'flex',
-                                                                justifyContent: 'space-between',
-                                                                alignItems: 'center',
-                                                                // transition: 'all 0.5s ease-in-out',
-                                                                // opacity: isExpanded ? 0 : 1,
-                                                                // height: isExpanded ? 0 : 'auto',
-                                                                overflow: 'hidden',
-                                                            }}>
-                                                                <div>
-                                                                    <span style={{
-                                                                        fontSize: '15px',
-                                                                        marginRight: '20px',
-                                                                        color: '#FF6C6A'
-                                                                    }}>{item.day}</span>
-                                                                </div>
-                                                                <div
-                                                                    onClick={() => handleJobApplyClick(item)}
-                                                                    style={{
-                                                                        display: 'flex',
-                                                                        whiteSpace: 'nowrap',
-                                                                        borderRadius: '19px',
-                                                                        color: 'white',
-                                                                        background: '#2DDDC3',
-                                                                        padding: '2% 5%',
-                                                                        fontSize: '15px'
-                                                                    }}>지원하기
-                                                                </div>
+                                                                    borderRadius: '27px',
+                                                                    background: '#2DDDC3',
+                                                                    margin: '10px 0 20px 0',
+                                                                    padding: '10px 0'
+                                                                }}>
+                                                                신청하기
                                                             </div>
                                                         </div>
-                                                    </>
-                                                }
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            ))}
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    onClick={() => toggleCard(itemIdx)}
+                                                    style={{
+                                                        width: '100%',
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={underArrow}
+                                                        alt='underArrow'
+                                                        style={{
+                                                            width: '14px',
+                                                            transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                                                            transition: 'transform 0.3s ease-in-out'
+                                                        }}
+                                                    />
+                                                </div>
+                                            </>
+                                        }
+                                        {item.type === "job" &&
+                                            <>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    gap: '4px',
+                                                    margin: '3%'
+                                                }}>
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'start',
+                                                        alignItems: 'baseline',
+                                                        gap: '20px'
+                                                    }}>
+                                                        <span style={{
+                                                            textAlign: 'start',
+                                                            fontSize: '20px',
+                                                            fontWeight: 'bold',
+                                                        }}>{item.jobName}</span>
+                                                    </div>
+                                                    <span style={{
+                                                        width: '100%',
+                                                        margin: '12px 0 0 0',
+                                                        textAlign: 'start',
+                                                        fontSize: '15px',
+                                                    }}>{item.enterpriseName}</span>
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'start',
+                                                        gap: '20px'
+                                                    }}>
+                                                        <span style={{
+                                                            whiteSpace: 'nowrap',
+                                                            textAlign: 'start',
+                                                            fontSize: '15px',
+                                                            // transition: 'max-height 0.5s ease-in-out',
+                                                        }}>{item.place}</span>
+                                                    </div>
+
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        overflow: 'hidden',
+                                                    }}>
+                                                        <div>
+                                                            <span style={{
+                                                                fontSize: '15px',
+                                                                marginRight: '20px',
+                                                                color: '#FF6C6A'
+                                                            }}>{item.day}</span>
+                                                        </div>
+                                                        <div
+                                                            onClick={() => handleJobApplyClick(item)}
+                                                            style={{
+                                                                display: 'flex',
+                                                                whiteSpace: 'nowrap',
+                                                                borderRadius: '19px',
+                                                                color: 'white',
+                                                                background: '#2DDDC3',
+                                                                padding: '2% 5%',
+                                                                fontSize: '15px'
+                                                            }}>지원하기
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        }
+                                    </div>
+                                );
+                            })}
                         </div>
-                    </div>
-                }
-                {showJobComponent && selectedCard &&
-                    <JobComponent card={selectedCard} />
-                }
+                    ) : (
+                        <JobComponent card={selectedCard} />
+                    )}
+                </div>
             </div>
+
             <Modal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
@@ -1370,3 +1306,5 @@ const Program = () => {
 };
 
 export default Program;
+
+

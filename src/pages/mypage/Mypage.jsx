@@ -22,6 +22,8 @@ import { calculateAge } from '../../utils/calculateAge';
 import logout from '../../assets/images/mypage/logout.svg';
 import profile20 from '../../assets/images/mypage/profile-20.svg';
 import profile30 from '../../assets/images/mypage/profile-30.svg';
+import AdminComponent from '../../components/mypage/admin/AdminComponent';
+import enterpriseCertificationMark from '../../assets/images/mypage/enterpriseCertificationMark.svg';
 
 function Mypage() {
     const navigate = useNavigate();
@@ -56,7 +58,12 @@ function Mypage() {
 
     const handleReviewClick = async () => {
         setIsModalOpen(true);
-        fetchEnterprises();
+        // 경기 전체 기업 목록 가져오기
+        await fetchEnterprises({
+            region: '경기',
+            cities: ['전체'],
+            isReviewMode: true
+        });
     };
 
     // 로딩 상태 처리
@@ -97,13 +104,17 @@ function Mypage() {
                             <span className={styles.userAge}>
                                 {calculateAge(profile.birth) >= 30 ? '삼공이' : '이공이'}
                             </span>
-                            <button className={styles.logoutBtn}>
+                            {/* <button className={styles.logoutBtn}>
                                 <img
                                     src={logout}
                                     alt='logout'
                                     className={styles.logoutIcon}
                                 />
+                            </button> */}
+                            <button style={{backgroundColor: '#F3F3F3', color: '#5C5C5C', fontSize: '14px', borderRadius: '18px', position: 'absolute', top: '0', right: '0'}}>
+                                기업 인증 받기
                             </button>
+                            <img src={enterpriseCertificationMark} alt='enterpriseCertifiactionMark' style={{position: 'absolute', top: '0', right: '0'}}/>
                         </div>
                         <div className={styles.userInfoRow2}>
                             <span className={styles.reviewLabel}>나의 리뷰</span>
@@ -141,11 +152,16 @@ function Mypage() {
                 </div>
             </div>
 
+            {/* todo: user 권한 받기 */}
+            <AdminComponent isAdmin={true} />            
             <EnterpriseReviewModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 enterprises={enterprises}
             />
+            <div style={{width: '90%', border: 'solid 1px #D9D9D9', borderRadius: '20px', margin: '40px 0 30px 0', padding: '8px 0', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#5C5C5C', fontSize: '14px', fontWeight: '500'}}>
+                로그아웃
+            </div>
         </div>
     );
 }

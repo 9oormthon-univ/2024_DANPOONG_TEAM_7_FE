@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import styles from './BusinessRegistrationOCR.module.css';
+import styles from '../../styles/mypage/BusinessRegistrationOCR.module.css';
 import * as pdfjs from 'pdfjs-dist';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;

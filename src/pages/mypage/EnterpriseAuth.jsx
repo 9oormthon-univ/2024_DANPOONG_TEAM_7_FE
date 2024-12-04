@@ -2,7 +2,7 @@ import React, { useEffect }from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/mypage/EnterpriseAuth.module.css';
 import Back from '../../components/layout/Back';
-import BusinessRegistrationOCR from '../../components/BusinessRegistrationOCR';
+import BusinessRegistrationOCR from '../../components/mypage/BusinessRegistrationOCR';
 
 //hooks
 import { useProfile } from '../../hooks/useProfile';

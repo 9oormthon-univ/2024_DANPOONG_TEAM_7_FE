@@ -14,6 +14,7 @@ import WhiteBuilding1 from '../../assets/images/login/building/white-building-1.
 import WhiteBuilding2 from '../../assets/images/login/building/white-building-2.svg';
 import mintBuilding1 from '../../assets/images/login/building/mint-building-1.svg';
 import mintBuilding2 from '../../assets/images/login/building/mint-building-2.svg';
+import redBuilding from '../../assets/images/login/building/red-building.svg';
 
 const KakaoLoginButton = () => {
     const [showContent, setShowContent] = useState(false);
@@ -27,7 +28,7 @@ const KakaoLoginButton = () => {
         // 마지막 건물 애니메이션이 끝난 후(1.8초) 로고와 버튼 애니메이션 시작
         const timer = setTimeout(() => {
             setShowLogoAndButton(true);
-        }, 1500); // 0.8초(마지막 딜레이) + 1초(애니메이션 시간) = 1.8초
+        }, 2400); // 0.8초(마지막 딜레이) + 1초(애니메이션 시간) = 1.8초
         
         return () => clearTimeout(timer);
     }, []);
@@ -82,7 +83,10 @@ const KakaoLoginButton = () => {
                     <img src={WhiteBuilding2} alt='white building 2' className={styles.WhiteBuilding2}/>
                     <img src={mintBuilding1} alt='mint building 1' className={styles.mintBuilding1}/>
                     <img src={mintBuilding2} alt='mint building 2' className={styles.mintBuilding2}/>
-                    <WaveOverlay/>
+                    <div className={styles.redBuildingGroup}>
+                        <img src={redBuilding} alt='red building' className={styles.redBuilding}/>
+                        <WaveOverlay/>
+                    </div>
                 </div>
                 <div 
                     className={`${styles.loginBtn} ${showLogoAndButton ? styles.showLoginBtn : ''}`}

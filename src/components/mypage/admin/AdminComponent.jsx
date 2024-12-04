@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import rightArrow from "../../../assets/images/mypage/rightArrow.svg"
 
-const AdminComponent = ({ isAdmin }) => {
+const AdminComponent = ({ enterpriseProfile }) => {
 
     const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const AdminComponent = ({ isAdmin }) => {
 
     return (
         <>
-            {isAdmin &&
+            {(enterpriseProfile.userRole == 'ENTERPRISE') &&
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -35,13 +35,13 @@ const AdminComponent = ({ isAdmin }) => {
                     <div style={{display: 'flex', width: '90%', justifyContent: 'space-between', alignItems: 'center', margin: '8% 8% 5% 0'}}>
                         <span style={{width: '30%', fontSize: '15px', fontWeight: '500', color: '#113C35'}}>기업 자산</span>
                         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '70%'}}>
-                            <span style={{color: '#113C35', fontWeight: '500', fontSize: '20px'}}>총 800</span>
+                            <span style={{color: '#113C35', fontWeight: '500', fontSize: '20px'}}>총 {enterpriseProfile.programCount + enterpriseProfile.jobCount}개</span>
                             <img src={rightArrow} alt="rightArrow" onClick={navigateAdminPage} />
                         </div>
                     </div>
                     <div style={{display: 'flex', width: '90%', justifyContent: 'space-between', alignItems: 'center', margin: '0 10% 5% 0'}}>
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '30%', gap: '5px' }}>
-                            <span style={{fontSize: '20px', color: '#5C5C5C', fontWeight: '500'}}>50</span>
+                            <span style={{fontSize: '20px', color: '#5C5C5C', fontWeight: '500'}}>{enterpriseProfile.reviewCount}</span>
                             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', position: 'relative', width: '18px', height: '67px', borderRadius: '8px 8px 0 0', backgroundColor: '#2DDDC320', overflow: 'hidden' }}>
                                 <div style={{ height: `${calculateGraphHeight(10)}%`, position: 'absolute', bottom: '0', left: '0', width: '100%', borderRadius: '8px 8px 0 0', backgroundColor: '#2DDDC3', transition: 'height 0.3s ease' }}
                                 />
@@ -51,18 +51,18 @@ const AdminComponent = ({ isAdmin }) => {
                         <div style={{width: '70%'}}>
                             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#5C5C5C', fontSize: '15px', fontWeight: '500', marginBottom: '10px'}}>
                                 <span>창출한 일자리</span>
-                                <span>200개</span>
+                                <span>{enterpriseProfile.jobCount}개</span>
                             </div>
                             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#5C5C5C', fontSize: '15px', fontWeight: '500'}}>
                                 <span>개설한 프로그램</span>
-                                <span>300개</span>
+                                <span>{enterpriseProfile.programCount}개</span>
                             </div>
                         </div>
                     </div>
                 </div >
             }
             {
-                !isAdmin &&
+                (enterpriseProfile.userRole != 'ENTERPRISE') &&
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',

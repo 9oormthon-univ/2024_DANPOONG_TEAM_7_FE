@@ -23,6 +23,7 @@ const AdminManagement = () => {
     const JobComponent = ({ job }) => {
         return (
             <div style={{paddingBottom: '50px'}}>
+                <TopBar />
                 <div style={{
                     width: '100%',
                     height: '250px',

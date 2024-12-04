@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import leftArrow from '../../../assets/images/mypage/leftArrow.svg'
 import TopBar from '../../../components/layout/TopBar';
+import axiosInstance from '../../../api/axiosInstance';
 
 const InputField = ({ label, value, onChange, placeholder }) => {
     return (
@@ -36,11 +37,11 @@ const InputField = ({ label, value, onChange, placeholder }) => {
 
 const JobRegisterForm = ({ onClose }) => {
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [showCompletionModal, setShowCompletionModal] = useState(false);
 
     const [formData, setFormData] = useState({
         // 기본 정보
-        title: '',              // 제목
-        enterpriseName: '',     // 기업이름
+        title: '',              // 제목        
         field: '',             // 분야
         duty: '',              // 직무
         region: '',            // 지역
@@ -71,10 +72,53 @@ const JobRegisterForm = ({ onClose }) => {
         website: ''           // 홈페이지
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // API 호출 로직
-        console.log(formData);
+
+        const formDataToSend = new FormData();
+        formDataToSend.append('title', formData.title);     
+        formDataToSend.append('field', formData.field);
+        formDataToSend.append('duty', formData.duty);
+        formDataToSend.append('region', formData.region);
+        formDataToSend.append('salary', formData.salary);
+        formDataToSend.append('workPeriod', formData.workPeriod);
+        formDataToSend.append('workDays', formData.workDays);
+        formDataToSend.append('workHours', formData.workHours);
+        formDataToSend.append('jobType', formData.jobType);
+        formDataToSend.append('employmentType', formData.employmentType);
+        formDataToSend.append('benefits', formData.benefits);
+        formDataToSend.append('deadline', formData.deadline);
+        formDataToSend.append('requiredPeriod', formData.requiredPeriod);
+        formDataToSend.append('education', formData.education);
+        formDataToSend.append('preference', formData.preference);
+        formDataToSend.append('detailAddress', formData.detailAddress);
+        formDataToSend.append('manager', formData.manager);
+        formDataToSend.append('phone', formData.phone);
+        formDataToSend.append('email', formData.email);
+        formDataToSend.append('website', formData.website);
+
+        if (formData.image) {
+            formDataToSend.append('image', formData.image);
+        }
+
+        try {
+            console.log(formDataToSend)
+            const response = await axiosInstance.post('/api/jobs/admin', formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log(response);
+
+            setShowCompletionModal(true);
+
+            setTimeout(() => {
+                setShowCompletionModal(false);
+                window.location.href = '/mypage/management';
+            }, 1500);
+        } catch (err) {
+            console.log('일자리 등록 실패:', err);
+        }
     };
 
     // 이미지 업로드 핸들러
@@ -139,30 +183,7 @@ const JobRegisterForm = ({ onClose }) => {
                             borderRadius: '13px',
                             fontSize: '16px'
                         }} />
-                </div>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    margin: '0 0 15px 10px'
-                }}>
-                    <span style={{
-                        width: '20%',
-                        fontSize: '15px',
-                        color: '#5C5C5C',
-                    }}>기업 이름</span>
-                    <input type="text"
-                        placeholder="기업"
-                        value={formData.enterpriseName}
-                        onChange={(e) => setFormData({ ...formData, enterpriseName: e.target.value })}
-                        style={{
-                            width: '60%',
-                            padding: '12px',
-                            border: '1px solid #BEBEBE',
-                            borderRadius: '13px',
-                            fontSize: '15px'
-                        }} />
-                </div>
+                </div>                
                 <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -479,7 +500,9 @@ const JobRegisterForm = ({ onClose }) => {
                         </div>
                     </div>
                 </div>
-                <div style={{
+                <div
+                    onClick={handleSubmit} 
+                    style={{
                     display: 'flex',
                     justifyContent: 'center',
                 }}>
@@ -499,6 +522,46 @@ const JobRegisterForm = ({ onClose }) => {
                     </div>
                 </div>
             </div>
+            {/* 완료 모달 추가 */}
+            {showCompletionModal &&
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 2000,
+                    }}
+                >
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '18px',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'white',
+                            padding: '40px 60px',
+                            borderRadius: '31px',
+                            textAlign: 'center',
+                        }}
+                    >
+                        <div
+                            style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            일자리가 등록되었어요!
+                        </div>
+                    </div>
+                </div>
+            }
         </>
     );
 };

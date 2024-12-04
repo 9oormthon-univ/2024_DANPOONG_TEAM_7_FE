@@ -1,27 +1,29 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styles from './BusinessRegistrationOCR.module.css';
 import * as pdfjs from 'pdfjs-dist';
 
-// PDF.js 워커 설정
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const BusinessRegistrationOCR = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [editedResult, setEditedResult] = useState(null);
   const [error, setError] = useState(null);
   const [preview, setPreview] = useState(null);
+  const fileInputRef = useRef(null);
 
   const GOOGLE_CLOUD_VISION_API_KEY = import.meta.env.VITE_GOOGLE_CLOUD_VISION_API_KEY;
   const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLE_CLOUD_VISION_API_KEY}`;
 
+  // PDF를 이미지로 변환하는 함수
   const convertPdfToImage = async (file) => {
     try {
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
-      const page = await pdf.getPage(1); // 첫 페이지만 처리
+      const page = await pdf.getPage(1);
       
-      const viewport = page.getViewport({ scale: 2.0 }); // 고품질을 위해 스케일 증가
+      const viewport = page.getViewport({ scale: 2.0 });
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       
@@ -39,6 +41,7 @@ const BusinessRegistrationOCR = () => {
     }
   };
 
+  // 파일을 Base64로 변환하는 함수
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -51,35 +54,8 @@ const BusinessRegistrationOCR = () => {
     });
   };
 
-  const handleFileChange = async (event) => {
-    const selectedFile = event.target.files[0];
-    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-    
-    if (selectedFile && allowedTypes.includes(selectedFile.type)) {
-      setFile(selectedFile);
-      setError(null);
-      
-      try {
-        // PDF 파일인 경우 미리보기 생성
-        if (selectedFile.type === 'application/pdf') {
-          const pdfPreview = await convertPdfToImage(selectedFile);
-          setPreview(pdfPreview);
-        } else {
-          // 이미지 파일인 경우 직접 미리보기 URL 생성
-          setPreview(URL.createObjectURL(selectedFile));
-        }
-      } catch (err) {
-        setError('파일 미리보기 생성 중 오류가 발생했습니다.');
-      }
-    } else {
-      setError('JPG, PNG 또는 PDF 파일만 업로드 가능합니다.');
-      setFile(null);
-      setPreview(null);
-    }
-  };
-
+  // 사업자등록증 정보를 추출하는 함수
   const extractBusinessInfo = (texts) => {
-    // 수정된 정규표현식
     const businessNumberRegex = /등록번호\s*(\d{3}-\d{2}-\d{5})/;
     const companyNameRegex = /상\s*호\s*:\s*([^\n②]+)/;
     const representativeRegex = /성\s*명\s*:\s*([^\n]+)/;
@@ -93,6 +69,39 @@ const BusinessRegistrationOCR = () => {
       companyName: companyName?.trim(),
       representative: representative?.trim(),
     };
+  };
+
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    if (!selectedFile) return;
+    
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    
+    if (allowedTypes.includes(selectedFile.type)) {
+      setFile(selectedFile);
+      setError(null);
+      
+      try {
+        if (selectedFile.type === 'application/pdf') {
+          const pdfPreview = await convertPdfToImage(selectedFile);
+          setPreview(pdfPreview);
+        } else {
+          setPreview(URL.createObjectURL(selectedFile));
+        }
+      } catch (err) {
+        setError('파일 미리보기 생성 중 오류가 발생했습니다.');
+        setFile(null);
+        setPreview(null);
+      }
+    } else {
+      setError('JPG, PNG 또는 PDF 파일만 업로드 가능합니다.');
+      setFile(null);
+      setPreview(null);
+    }
+  };
+
+  const handlePreviewClick = () => {
+    fileInputRef.current?.click();
   };
 
   const handleSubmit = async (event) => {
@@ -140,6 +149,7 @@ const BusinessRegistrationOCR = () => {
       const detectedText = data.responses[0].fullTextAnnotation.text;
       const extractedInfo = extractBusinessInfo(detectedText);
       setResult(extractedInfo);
+      setEditedResult(extractedInfo);  // OCR 결과를 editedResult에도 설정
 
     } catch (err) {
       setError('OCR 처리 중 오류가 발생했습니다: ' + err.message);
@@ -148,23 +158,41 @@ const BusinessRegistrationOCR = () => {
     }
   };
 
+  const handleResultChange = (field, value) => {
+    setEditedResult(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   return (
     <div className={styles.container}>
-      <h2>사업자등록증 OCR 인식</h2>
-      
       <form onSubmit={handleSubmit} className={styles.form}>
-        <input
-          type="file"
-          accept=".jpg,.jpeg,.png,.pdf"
-          onChange={handleFileChange}
-          className={styles.fileInput}
-        />
-        
-        {preview && (
-          <div className={styles.preview}>
-            <img src={preview} alt="미리보기" style={{ maxWidth: '100%', maxHeight: '300px' }} />
-          </div>
-        )}
+        <div className={styles.previewBox} onClick={handlePreviewClick}>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".jpg,.jpeg,.png,.pdf"
+            onChange={handleFileChange}
+            className={styles.hiddenFileInput}
+          />
+          {preview ? (
+            <img src={preview} alt="미리보기" className={styles.previewImage} />
+          ) : (
+            <div className={styles.uploadPrompt}>
+              <p>+</p>
+              <span>파일 선택</span>
+            </div>
+          )}
+        </div>
+
+        {file && (
+            <div className={styles.fileName}>
+              {file.name}
+            </div>
+          )}
+
+
         
         <button 
           type="submit" 
@@ -183,12 +211,33 @@ const BusinessRegistrationOCR = () => {
 
       {result && (
         <div className={styles.result}>
-          <h3>인식 결과</h3>
-          <p>사업자등록번호: {result.businessNumber}</p>
-          <p>상호: {result.companyName}</p>
-          <p>대표자: {result.representative}</p>
+          <p className={styles.resultLabel}>사업자등록번호</p>
+          <input
+            type="text"
+            className={styles.resultInput}
+            value={editedResult?.businessNumber || ''}
+            onChange={(e) => handleResultChange('businessNumber', e.target.value)}
+            placeholder="사업자등록번호"
+          />
+          <p className={styles.resultLabel}>상호</p>
+          <input
+            type="text"
+            className={styles.resultInput}
+            value={editedResult?.companyName || ''}
+            onChange={(e) => handleResultChange('companyName', e.target.value)}
+            placeholder="상호"
+          />
+          <p className={styles.resultLabel}>대표자</p>
+          <input
+            type="text"
+            className={styles.resultInput}
+            value={editedResult?.representative || ''}
+            onChange={(e) => handleResultChange('representative', e.target.value)}
+            placeholder="대표자"
+          />
         </div>
       )}
+      
     </div>
   );
 };

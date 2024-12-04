@@ -1,5 +1,8 @@
 // KakaoLoginButton.jsx
 import React, { useState, useEffect } from "react";
+import WaveOverlay from "../../components/login/WaveOverlay";
+
+//img
 import KakaoLogin from '../../assets/images/login/kakao-login.svg';
 import Icon from '../../assets/images/login/Icon.svg';
 import logoName from '../../assets/images/login/logo-name.svg';
@@ -68,6 +71,7 @@ const KakaoLoginButton = () => {
                         src={posterImg} 
                         alt="background" 
                     />
+                    <WaveOverlay/>
                 </div>
                 <div 
                     role="button"

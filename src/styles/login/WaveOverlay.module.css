@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 170px;
+    left: 290px;
+    width: 200px;
+    height: 70px;
+    overflow: hidden;
+  }
+
+  .content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 120px;
+    height: 70px;
+    overflow: hidden;
+  }
+  
+  .wave {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }

@@ -8,8 +8,10 @@ import plus from '../../assets/images/program/plus.svg';
 import check from '../../assets/images/program/check.svg';
 import leftArrow from '../../assets/images/program/leftArrow.svg';
 import LoadingSpinner from '../../components/layout/LoadingSpinner';
+import rightArrow from '../../assets/images/program/rightArrow.svg';
 
 import entNews1 from '../../assets/images/magazine/entNews1.png';
+import axiosInstance from '../../api/axiosInstance';
 
 const Program = () => {
     const contentRefs = useRef({});
@@ -32,38 +34,24 @@ const Program = () => {
         { title: "일자리 소개", searchPlaceholder: "일자리 유형이나 장소" }
     ];
 
-    const programImageMap = {
-        entNews1,
-        entNews1,
-        entNews1,
-        entNews1,
-    };
-
-    const jobImageMap = {
-        entNews1,
-        entNews1,
-        entNews1,
-        entNews1,
-        entNews1,
-    };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const programResponse = await fetch('/dummyData/program.json');
-                const programData = await programResponse.json();
+                const programResponse = await axiosInstance('/api/programs');
+                const programData = programResponse.result
 
-                const jobResponse = await fetch('/dummyData/job.json');
-                const jobData = await jobResponse.json();
+                const jobResponse = await axiosInstance('/api/jobs');
+                const jobData = jobResponse.result
 
                 const mappedProgramData = programData.map(item => ({
                     ...item,
-                    image: programImageMap[item.image]
+                    type: "program"
                 }));
 
+                // job 데이터에 type 추가
                 const mappedJobData = jobData.map(item => ({
                     ...item,
-                    image: jobImageMap[item.image]
+                    type: "job"
                 }));
 
                 setProgramItems(mappedProgramData);
@@ -93,15 +81,15 @@ const Program = () => {
         const filtered = currentItems.filter(item => {
             if (item.type === "program") {
                 return (
-                    item.programTitle.toLowerCase().includes(searchLower) ||
+                    item.title.toLowerCase().includes(searchLower) ||
                     item.enterpriseName.toLowerCase().includes(searchLower) ||
-                    item.place.toLowerCase().includes(searchLower)
+                    item.region.toLowerCase().includes(searchLower)
                 );
             } else if (item.type === "job") {
                 return (
-                    item.jobName.toLowerCase().includes(searchLower) ||
+                    item.title.toLowerCase().includes(searchLower) ||
                     item.enterpriseName.toLowerCase().includes(searchLower) ||
-                    item.place.toLowerCase().includes(searchLower)
+                    item.region.toLowerCase().includes(searchLower)
                 );
             }
             return false;
@@ -528,7 +516,7 @@ const Program = () => {
                                         fontWeight: 'bold',
                                         marginRight: '10px',
                                     }}>프로그램 이름</span>
-                                    <span>{card.programTitle}</span>
+                                    <span>{card.title}</span>
                                 </div>
                                 <div>
                                     <span style={{
@@ -546,7 +534,7 @@ const Program = () => {
                                     <span style={{
                                         marginRight: '10px',
                                     }}>장소</span>
-                                    <span>{card.place}</span>
+                                    <span>{card.region}</span>
                                 </div>
                                 <div>
                                     <span style={{
@@ -671,11 +659,11 @@ const Program = () => {
                                 fontSize: '24px',
                                 fontWeight: 'bold',
                                 paddingBottom: '9px',
-                            }}>{card.jobName}</span>
+                            }}>{card.title}</span>
                             <span>{card.field}</span>
-                            <span>{card.job}</span>
-                            <span>{card.time}</span>
-                            <span>{card.city}</span>
+                            <span>{card.duty}</span>
+                            {/* <span>{card.time}</span> */}
+                            <span>{card.region}</span>
                         </div>
                         <div style={{
                             display: 'flex',
@@ -707,7 +695,7 @@ const Program = () => {
                                 <span style={{
                                     width: '30%',
                                 }}>근무기간</span>
-                                <span>{card.workingPeriod}</span>
+                                <span>{card.requiredPeriod}</span>
                             </div>
                             <div style={{
                                 display: 'flex'
@@ -723,7 +711,7 @@ const Program = () => {
                                 <span style={{
                                     width: '30%',
                                 }}>근무시간</span>
-                                <span>{card.workingHours}</span>
+                                <span>{card.workHours}</span>
                             </div>
                             <div style={{
                                 display: 'flex'
@@ -731,7 +719,7 @@ const Program = () => {
                                 <span style={{
                                     width: '30%',
                                 }}>업직종</span>
-                                <span>{card.industryOccupation}</span>
+                                <span>{card.jobType}</span>
                             </div>
                             <div style={{
                                 display: 'flex'
@@ -751,7 +739,7 @@ const Program = () => {
                                 }}>복리후생</span>
                                 <span style={{
                                     width: '70%',
-                                }}>{card.welfareBenefits}</span>
+                                }}>{card.benefits}</span>
                             </div>
                         </div>
                         <div style={{
@@ -776,20 +764,20 @@ const Program = () => {
                                 <span style={{
                                     width: '30%',
                                 }}>모집마감</span>
-                                <span>{card.recruitmentClosing}</span>
-                                <span style={{
+                                <span>{card.deadline}</span>
+                                {/* <span style={{
                                     marginLeft: '10%',
                                     color: '#FF6C6A'
-                                }}>{card.day}</span>
+                                }}>{card.day}</span> */}
                             </div>
-                            <div style={{
+                            {/* <div style={{
                                 display: 'flex'
                             }}>
                                 <span style={{
                                     width: '30%',
                                 }}>모집인원</span>
                                 <span>{card.recruitmenPersonNumber}</span>
-                            </div>
+                            </div> */}
                             <div style={{
                                 display: 'flex'
                             }}>
@@ -805,7 +793,7 @@ const Program = () => {
                                     width: '30%',
                                     textAlign: 'start'
                                 }}>우대사항</span>
-                                <span>{card.preferentialTreatment}</span>
+                                <span>{card.preference}</span>
                             </div>
                         </div>
                         <div style={{
@@ -829,7 +817,7 @@ const Program = () => {
                             }}>
                                 <span style={{
                                     width: '70%',
-                                }}>{card.address}</span>
+                                }}>{card.detailAddress}</span>
                             </div>
                         </div>
                         <div style={{
@@ -854,7 +842,7 @@ const Program = () => {
                                 <span style={{
                                     width: '30%',
                                 }}>담당자</span>
-                                <span>{card.recruitmeRepresentative}</span>
+                                <span>{card.manager}</span>
                             </div>
                             <div style={{
                                 display: 'flex'
@@ -977,7 +965,7 @@ const Program = () => {
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            padding: '10px'
+                            padding: '10px 0'
                         }}>
                             <div style={{
                                 display: 'flex',
@@ -1045,7 +1033,7 @@ const Program = () => {
                                                         textAlign: 'start',
                                                         fontSize: '20px',
                                                         fontWeight: 'bold',
-                                                    }}>{item.programTitle}</span>
+                                                    }}>{item.title}</span>
                                                     <span style={{
                                                         width: '100%',
                                                         margin: '12px 0 0 0',
@@ -1055,15 +1043,51 @@ const Program = () => {
                                                     {!isExpanded &&
                                                         <div style={{
                                                             display: 'flex',
-                                                            justifyContent: 'start',
-                                                            gap: '20px'
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'end'
                                                         }}>
-                                                            <span style={{
-                                                                whiteSpace: 'nowrap',
-                                                                textAlign: 'start',
-                                                                fontSize: '15px',
-                                                                transition: 'max-height 0.5s ease-in-out',
-                                                            }}>{item.place}</span>
+                                                            <div>
+                                                                <div style={{
+                                                                    display: 'flex',
+                                                                    justifyContent: 'start',
+                                                                    gap: '20px'
+                                                                }}>
+                                                                    <span style={{
+                                                                        whiteSpace: 'nowrap',
+                                                                        textAlign: 'start',
+                                                                        fontSize: '15px',
+                                                                        transition: 'max-height 0.5s ease-in-out',
+                                                                    }}>{item.field}</span>
+                                                                </div>
+                                                                <div style={{
+                                                                    display: 'flex',
+                                                                    justifyContent: 'start',
+                                                                    gap: '20px'
+                                                                }}>
+                                                                    <span style={{
+                                                                        whiteSpace: 'nowrap',
+                                                                        textAlign: 'start',
+                                                                        fontSize: '15px',
+                                                                        transition: 'max-height 0.5s ease-in-out',
+                                                                    }}>{item.region}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                onClick={() => handleApplyClick(item)}
+                                                                style={{
+                                                                    display: 'flex',
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
+                                                                    transition: 'all 0.5s ease-in-out',
+                                                                    width: '65px',
+                                                                    height: '20px',
+                                                                    whiteSpace: 'nowrap',
+                                                                    borderRadius: '19px',
+                                                                    color: 'white',
+                                                                    background: '#2DDDC3',
+                                                                    padding: '2% 5%',
+                                                                    fontSize: '15px'
+                                                                }}>신청하기</div>
                                                         </div>
                                                     }
                                                     {isExpanded &&
@@ -1072,51 +1096,14 @@ const Program = () => {
                                                                 width: '100%',
                                                                 textAlign: 'start',
                                                                 fontSize: '15px',
-                                                            }}>{item.place}</span>
+                                                            }}>{item.field}</span>
                                                             <span style={{
                                                                 width: '100%',
                                                                 textAlign: 'start',
                                                                 fontSize: '15px',
-                                                            }}>{item.time}</span>
+                                                            }}>{item.region}</span>
                                                         </>
                                                     }
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'center',
-                                                        transition: 'all 0.5s ease-in-out',
-                                                        opacity: isExpanded ? 0 : 1,
-                                                        height: isExpanded ? 0 : 'auto',
-                                                        overflow: 'hidden',
-                                                        fontSize: '15px'
-                                                    }}>
-                                                        <div>
-                                                            <span style={{
-                                                                marginRight: '10px'
-                                                            }}>좋아요 수</span>
-                                                            <span style={{
-                                                                marginRight: '20px',
-                                                                color: '#FF6C6A'
-                                                            }}>{item.likes}</span>
-                                                            <span style={{
-                                                                marginRight: '10px'
-                                                            }}>리뷰 수</span>
-                                                            <span style={{
-                                                                marginRight: '10px'
-                                                            }}>{item.comments}</span>
-                                                        </div>
-                                                        <div
-                                                            onClick={() => handleApplyClick(item)}
-                                                            style={{
-                                                                display: 'flex',
-                                                                whiteSpace: 'nowrap',
-                                                                borderRadius: '19px',
-                                                                color: 'white',
-                                                                background: '#2DDDC3',
-                                                                padding: '2% 5%',
-                                                                fontSize: '15px'
-                                                            }}>신청하기</div>
-                                                    </div>
                                                 </div>
                                                 <div
                                                     ref={el => contentRefs.current[cardId] = el}
@@ -1145,7 +1132,7 @@ const Program = () => {
                                                             lineHeight: '1.5',
                                                             marginBottom: '15px',
                                                             whiteSpace: 'pre-wrap'
-                                                        }}>{item.description}</p>
+                                                        }}>{item.content}</p>
                                                     </div>
                                                     <div style={{
                                                         opacity: isExpanded ? 1 : 0,
@@ -1161,27 +1148,6 @@ const Program = () => {
                                                             height: isExpanded ? 'auto' : 0,
                                                             overflow: 'hidden'
                                                         }}>
-                                                            <div style={{
-                                                                width: '100%',
-                                                                textAlign: 'start',
-                                                                fontSize: '15px',
-                                                            }}>
-                                                                <div>
-                                                                    <span style={{
-                                                                        marginRight: '10px'
-                                                                    }}>좋아요 수</span>
-                                                                    <span style={{
-                                                                        marginRight: '20px',
-                                                                        color: '#FF6C6A'
-                                                                    }}>{item.likes}</span>
-                                                                    <span style={{
-                                                                        marginRight: '10px'
-                                                                    }}>리뷰 수</span>
-                                                                    <span style={{
-                                                                        marginRight: '10px'
-                                                                    }}>{item.comments}</span>
-                                                                </div>
-                                                            </div>
                                                             <div
                                                                 onClick={() => handleApplyClick(item)}
                                                                 style={{
@@ -1190,7 +1156,7 @@ const Program = () => {
                                                                     fontSize: '20px',
                                                                     borderRadius: '27px',
                                                                     background: '#2DDDC3',
-                                                                    margin: '10px 0 20px 0',
+                                                                    margin: '0 0 20px 0',
                                                                     padding: '10px 0'
                                                                 }}>
                                                                 신청하기
@@ -1227,8 +1193,9 @@ const Program = () => {
                                                     margin: '3%'
                                                 }}>
                                                     <div style={{
+                                                        width: '100%',
                                                         display: 'flex',
-                                                        justifyContent: 'start',
+                                                        justifyContent: 'space-between',
                                                         alignItems: 'baseline',
                                                         gap: '20px'
                                                     }}>
@@ -1236,7 +1203,8 @@ const Program = () => {
                                                             textAlign: 'start',
                                                             fontSize: '20px',
                                                             fontWeight: 'bold',
-                                                        }}>{item.jobName}</span>
+                                                        }}>{item.title}</span>
+                                                        <img src={rightArrow} alt='rightArrow' />
                                                     </div>
                                                     <span style={{
                                                         width: '100%',
@@ -1246,29 +1214,23 @@ const Program = () => {
                                                     }}>{item.enterpriseName}</span>
                                                     <div style={{
                                                         display: 'flex',
-                                                        justifyContent: 'start',
-                                                        gap: '20px'
-                                                    }}>
-                                                        <span style={{
-                                                            whiteSpace: 'nowrap',
-                                                            textAlign: 'start',
-                                                            fontSize: '15px',
-                                                            // transition: 'max-height 0.5s ease-in-out',
-                                                        }}>{item.place}</span>
-                                                    </div>
-
-                                                    <div style={{
-                                                        display: 'flex',
                                                         justifyContent: 'space-between',
-                                                        alignItems: 'center',
-                                                        overflow: 'hidden',
+                                                        alignItems: 'end'
                                                     }}>
-                                                        <div>
+                                                        <div style={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                        }}>
                                                             <span style={{
+                                                                whiteSpace: 'nowrap',
+                                                                textAlign: 'start',
                                                                 fontSize: '15px',
-                                                                marginRight: '20px',
-                                                                color: '#FF6C6A'
-                                                            }}>{item.day}</span>
+                                                            }}>{item.field}</span>
+                                                            <span style={{
+                                                                whiteSpace: 'nowrap',
+                                                                textAlign: 'start',
+                                                                fontSize: '15px',
+                                                            }}>{item.region}</span>
                                                         </div>
                                                         <div
                                                             onClick={() => handleJobApplyClick(item)}
@@ -1276,6 +1238,10 @@ const Program = () => {
                                                                 display: 'flex',
                                                                 whiteSpace: 'nowrap',
                                                                 borderRadius: '19px',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                                width: '65px',
+                                                                height: '20px',
                                                                 color: 'white',
                                                                 background: '#2DDDC3',
                                                                 padding: '2% 5%',

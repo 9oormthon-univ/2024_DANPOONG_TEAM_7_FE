@@ -18,6 +18,8 @@ import KakaoCallback from "./pages/login/KakaoCallback";
 import SelectAge from './pages/login/SelectAge';
 import ConfirmAge from './pages/login/ConfirmAge';
 import SelectRegion from './pages/login/SelectRegion';
+import Age20 from './pages/login/Age20';
+import Age30 from './pages/login/Age30';
 
 //Page
 import EnterpriseSearch from './pages/enterprise/EnterpriseSearch';
@@ -71,6 +73,8 @@ function App() {
                         <Route path='/mypage/review/editwrite' element={<EditWrite/>}/>  
                       </Route>
                       
+                      <Route path='/age/20' element={<Age20/>}/>
+                      <Route path='/age/30' element={<Age30/>}/>
                       <Route path="/mypage/auth" element={<EnterpriseAuth />}/>
                       <Route path="/mypage/rewards" element={<Rewards />}/>
                       <Route path="/mypage/review" element={<Review />}/>

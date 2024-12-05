@@ -1,20 +1,34 @@
-// KakaoLoginButton.jsx
 import React, { useState, useEffect } from "react";
+import WaveOverlay from "../../components/login/WaveOverlay";
+
+//img
 import KakaoLogin from '../../assets/images/login/kakao-login.svg';
 import Icon from '../../assets/images/login/Icon.svg';
 import logoName from '../../assets/images/login/logo-name.svg';
-import posterImg from '../../assets/images/login/post-img.svg';
 import styles from '../../styles/login/KakaoLoginButton.module.css';
+
+//building img
+import load1 from '../../assets/images/login/building/load-1.svg';
+import load2 from '../../assets/images/login/building/load-2.svg';
+import WhiteBuilding1 from '../../assets/images/login/building/white-building-1.svg';
+import WhiteBuilding2 from '../../assets/images/login/building/white-building-2.svg';
+import mintBuilding1 from '../../assets/images/login/building/mint-building-1.svg';
+import mintBuilding2 from '../../assets/images/login/building/mint-building-2.svg';
+import redBuilding from '../../assets/images/login/building/red-building.svg';
 
 const KakaoLoginButton = () => {
     const [showContent, setShowContent] = useState(false);
+    const [showLogoAndButton, setShowLogoAndButton] = useState(false);
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     useEffect(() => {
-        // 로고 애니메이션 후 컨텐츠 표시
+        // 컨텐츠 먼저 표시
+        setShowContent(true);
+        
+        // 마지막 건물 애니메이션이 끝난 후(1.8초) 로고와 버튼 애니메이션 시작
         const timer = setTimeout(() => {
-            setShowContent(true);
-        }, 1000);
+            setShowLogoAndButton(true);
+        }, 2400); // 0.8초(마지막 딜레이) + 1초(애니메이션 시간) = 1.8초
         
         return () => clearTimeout(timer);
     }, []);
@@ -56,23 +70,28 @@ const KakaoLoginButton = () => {
 
     return (
         <div className={styles.container}>
-            <div className={`${styles.logoGroup} ${showContent ? styles.logoAnimateEnd : styles.logoAnimateStart}`}>
+            <div className={`${styles.logoGroup} ${showLogoAndButton ? styles.logoAnimateEnd : styles.logoAnimateStart}`}>
                 <img className={styles.logo} src={Icon} alt="icon" />
                 <img className={styles.logoName} src={logoName} alt="logo name" />
             </div>
             
             <div className={`${styles.contentWrapper} ${showContent ? styles.showContent : ''}`}>
                 <div className={styles.content}>
-                    <img
-                        className={styles.posterImg}
-                        src={posterImg} 
-                        alt="background" 
-                    />
+                    <img src={load1} alt='load 1' className={styles.load1}/>
+                    <img src={load2} alt='load 2' className={styles.load2}/>
+                    <img src={WhiteBuilding1} alt='white building 1' className={styles.WhiteBuilding1}/>
+                    <img src={WhiteBuilding2} alt='white building 2' className={styles.WhiteBuilding2}/>
+                    <img src={mintBuilding1} alt='mint building 1' className={styles.mintBuilding1}/>
+                    <img src={mintBuilding2} alt='mint building 2' className={styles.mintBuilding2}/>
+                    <div className={styles.redBuildingGroup}>
+                        <img src={redBuilding} alt='red building' className={styles.redBuilding}/>
+                        <WaveOverlay/>
+                    </div>
                 </div>
                 <div 
+                    className={`${styles.loginBtn} ${showLogoAndButton ? styles.showLoginBtn : ''}`}
                     role="button"
                     tabIndex={0}
-                    className={styles.loginBtn}
                     onClick={handleLogin}
                     onTouchStart={handleLogin}
                     style={{

@@ -1,36 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/login/SelectAge.module.css';
-import SwipeableCards from '../../components/login/SwipeableCards';
 import TopBar from '../../components/layout/TopBar';
+import Back from '../../components/layout/Back';
 import axiosInstance from '../../api/axiosInstance';
+
+//hooks
+import { useProfile } from '../../hooks/useProfile';
+
+//utils
+import { calculateAge } from '../../utils/calculateAge';
+
+//img
+import questionFox from '../../assets/images/fox/question-fox.svg';
 
 function SelectAge() {
     const navigate = useNavigate();
+    const { profile } = useProfile();
+
     const [birthDate, setBirthDate] = useState({
         year: '',
         month: '',
         day: ''
     });
+    const [isValidFields, setIsValidFields] = useState({
+        year: false,
+        month: false,
+        day: false
+    });
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
         const { year, month, day } = birthDate;
-        if (year && month && day) {
-            const yearNum = parseInt(year);
-            const monthNum = parseInt(month);
-            const dayNum = parseInt(day);
-            
-            const isYearValid = yearNum >= 1900 && yearNum <= new Date().getFullYear();
-            const isMonthValid = monthNum >= 1 && monthNum <= 12;
-            
-            const lastDay = new Date(yearNum, monthNum, 0).getDate();
-            const isDayValid = dayNum >= 1 && dayNum <= lastDay;
-
-            setIsValid(isYearValid && isMonthValid && isDayValid);
-        } else {
-            setIsValid(false);
-        }
+        
+        // 년도 검증 (1900년 이상, 현재 연도 이하)
+        const yearNum = parseInt(year);
+        const isYearValid = yearNum >= 1900 && yearNum <= new Date().getFullYear() && year.length === 4;
+        
+        // 월 검증 (1-12)
+        const monthNum = parseInt(month);
+        const isMonthValid = monthNum >= 1 && monthNum <= 12 && month.length > 0;
+        
+        // 일 검증 (1-31, 월별 일수 고려)
+        const dayNum = parseInt(day);
+        const lastDay = new Date(yearNum, monthNum, 0).getDate();
+        const isDayValid = dayNum >= 1 && dayNum <= lastDay && day.length > 0;
+    
+        setIsValidFields({
+            year: isYearValid,
+            month: isMonthValid,
+            day: isDayValid
+        });
+    
+        setIsValid(isYearValid && isMonthValid && isDayValid);
     }, [birthDate]);
 
     const handleInputChange = (e, field) => {
@@ -65,10 +87,16 @@ function SelectAge() {
             });
 
             if (response.isSuccess) {
-                // 성공적으로 처리된 경우
-                navigate('/region');
+                // 나이 계산
+                const age = calculateAge(formattedDate);
+                
+                // 나이에 따라 다른 페이지로 라우팅
+                if (age >= 30) {
+                    navigate('/age/30');
+                } else {
+                    navigate('/age/20');
+                }
             } else {
-                // 서버에서 실패 응답을 받은 경우
                 throw new Error(response.message || '생년월일 등록에 실패했습니다.');
             }
         } catch (error) {
@@ -80,13 +108,16 @@ function SelectAge() {
     return (
         <div className={styles.container}>
             <TopBar/>
+            <div className={styles.header}>
+                <Back/>
+                <p>나이 입력</p>
+            </div>
             <div className={styles.comment}>
-                <p>나이를 입력해 주세요</p>
-                <p>앞으로 선택한 나이에 해당하는</p>
-                <p>캐릭터가 함께할 거에요!</p>
+                <p>앞으로 {profile?.name}님의 가치 있는</p>
+                <p>소비와 참여에 캐릭터가 함께할 거에요!</p>
             </div>
             <div className={styles.content}>
-                <SwipeableCards/>
+                <img src={questionFox} alt='question fox' className={styles.questionFox}/>
             </div>
             <div className={styles.ageSection}>
                 <div className={styles.dateInputs}>
@@ -97,6 +128,7 @@ function SelectAge() {
                             value={birthDate.year}
                             onChange={(e) => handleInputChange(e, 'year')}
                             maxLength="4"
+                            className={isValidFields.year ? styles.validInput : ''}
                         />
                         <span>년</span>
                     </div>
@@ -107,6 +139,7 @@ function SelectAge() {
                             value={birthDate.month}
                             onChange={(e) => handleInputChange(e, 'month')}
                             maxLength="2"
+                            className={isValidFields.month ? styles.validInput : ''}
                         />
                         <span>월</span>
                     </div>
@@ -117,6 +150,7 @@ function SelectAge() {
                             value={birthDate.day}
                             onChange={(e) => handleInputChange(e, 'day')}
                             maxLength="2"
+                            className={isValidFields.day ? styles.validInput : ''}
                         />
                         <span>일</span>
                     </div>

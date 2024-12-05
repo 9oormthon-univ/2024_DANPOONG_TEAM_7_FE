@@ -70,7 +70,7 @@ const handleCitySelect = (city) => {
             region: selectedRegion,
             cities: selectedCitiesArray
         });
-        navigate('/home');
+        navigate('/enterprise');
     }
 };
    return (
@@ -139,7 +139,7 @@ const handleCitySelect = (city) => {
                onClick={handleStartClick}
                disabled={!isStartButtonEnabled()}
            >
-               다음으로
+               시작하기
            </button>
        </div>
    );

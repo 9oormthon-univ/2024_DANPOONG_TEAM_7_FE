@@ -1,0 +1,212 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    text-align: center;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    scroll-behavior: smooth; /* 부드러운 스크롤 */
+    position: relative;
+    background-color: #FFFFFF;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+@supports (-webkit-touch-callout: none) {
+    .container {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+.topBar{
+    width: 100%;
+    height: 62px;
+    flex-shrink: 0;
+    margin: 0 0 -1px 0;
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 62px;
+    flex-shrink: 0;
+}
+
+.header p{
+    color: #5C5C5C;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 19.5px */
+}
+
+.comment{
+    gap: 14px;
+    margin: 50px 0 0 0;
+}
+
+.comment p{
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 26px */
+}
+
+.comment span{
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 26px */
+}
+
+.comment p:last-child{
+    margin: 35px 0 0 0;
+    color: #5C5C5C;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 19.5px */
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.confirmBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 302px;
+    height: 59px;
+    flex-shrink: 0;
+    margin: 50px 0 70px 0;
+    border-radius: 27px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 31.2px */
+    background: #2DDDC3;
+    color: #FFF;
+}
+
+.confirmBtn:active, .confirmBtn:focus{
+    outline: none;
+    border: none;
+}
+
+.confirmBtn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #cccccc;
+}
+
+/*완료 모달*/
+.completeModalContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 4;
+}
+
+.completeModalContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background-color: #FFFFFF;
+    width: 328px;
+    height: 177px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.enterpriseName{
+    margin: 0 0 0 0;
+    color: #113C35;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 26px */
+}
+
+.resultMessage{
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 110% */
+}
+
+/* 에러 모달 */
+.errorModalContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 4;
+}
+
+.errorModalContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background-color: #FFFFFF;
+    width: 328px;
+    height: 177px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.errorTitle {
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 110% */
+}
+
+.errorMessage {
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 110% */
+}

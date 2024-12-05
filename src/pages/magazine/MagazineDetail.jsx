@@ -14,8 +14,6 @@ import card5 from '../../assets/images/magazine/card5.jpeg';
 
 import shop from '../../assets/images/magazine/shop.svg';
 import rightArrow from '../../assets/images/magazine/rightArrow.svg';
-import profile from '../../assets/images/magazine/profile.svg';
-import heart from '../../assets/images/magazine/heart.svg';
 
 const imageMap = {
     card1,
@@ -36,7 +34,11 @@ const imageMap2 = {
 function MagazineDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [cardDetail, setCardDetail] = useState(null);
+    const [cardDetail, setCardDetail] = useState(null);    
+
+    function handleNavigateEnterprise(enterpriseId) {
+        navigate(`/enterprise/info/${enterpriseId}`);
+    }
 
     useEffect(() => {
         fetch('/dummyData/magazineCardData.json')
@@ -160,54 +162,12 @@ function MagazineDetail() {
                     <span>{cardDetail.enterpriseName}</span>
                 </div>
                 <img
+                    onClick={() => handleNavigateEnterprise(cardDetail.enterpriseId)}
                     src={rightArrow} alt='rightArrow'
                     style={{
                         paddingRight: '40px'
                     }} />
-            </div>
-            {/* <div style={{
-                width: '100%'
-            }}>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '20px 40px 20px 20px'
-                }}>
-                    <span style={{ fontSize: '15px', fontWeight: 'bold' }}>댓글</span>
-                    <span style={{ fontSize: '15px', fontWeight: 'bold' }}>{cardDetail.comments ? cardDetail.comments.length : 0}개</span>
-                </div>
-                <div>
-                    {cardDetail.comments && cardDetail.comments.length > 0 ? (
-                        cardDetail.comments.map((comment) => (
-                            <div
-                                key={comment.id}
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: '20px 30px 20px 20px',
-                                    gap: '20px'
-                                }}>
-                                <img src={profile} alt='profile' />
-                                <span style={{ margin: '5px 0', fontSize: '13px', textAlign: 'left' }}>{comment.content}</span>
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        gap: '5px',
-                                        width: '30px'
-                                    }}>
-                                    <img src={heart} alt='heart' style={{
-                                        width: '15px'
-                                    }} />
-                                    <span>{comment.like}</span>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p>댓글이 없습니다.</p>
-                    )}
-                </div>
-            </div> */}
+            </div>            
         </div>
     );
 }

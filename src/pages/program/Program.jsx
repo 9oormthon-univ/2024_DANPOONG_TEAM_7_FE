@@ -12,6 +12,7 @@ import rightArrow from '../../assets/images/program/rightArrow.svg';
 
 import entNews1 from '../../assets/images/magazine/entNews1.png';
 import axiosInstance from '../../api/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Program = () => {
     const contentRefs = useRef({});
@@ -616,6 +617,12 @@ const Program = () => {
     };
 
     const JobComponent = ({ card }) => {
+        const navigate = useNavigate();
+
+        function handleClickEnterpriseInfo(enterpriseId) {
+            navigate(`/enterprise/info/${enterpriseId}`)
+        }
+
         return (
             <div>
                 <div style={{
@@ -877,7 +884,9 @@ const Program = () => {
                         gap: '20px',
                         margin: '5% 0'
                     }}>
-                        <div style={{
+                        <div
+                            onClick={() => handleClickEnterpriseInfo(card.enterpriseId)} 
+                            style={{
                             textAlign: 'center',
                             background: '#D5F8F3',
                             borderRadius: '27px',
@@ -888,7 +897,7 @@ const Program = () => {
                         }}>
                             기업 정보 보기
                         </div>
-                        <div style={{
+                        {/* <div style={{
                             textAlign: 'center',
                             background: '#D9D9D9',
                             borderRadius: '27px',
@@ -897,7 +906,7 @@ const Program = () => {
                             fontSize: '20px',
                         }}>
                             <span style={{ color: '#FFFFFF' }}>서비스 준비중입니다</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

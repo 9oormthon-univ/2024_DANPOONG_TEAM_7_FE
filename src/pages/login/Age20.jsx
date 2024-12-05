@@ -31,7 +31,7 @@ function Age20() {
                 className={styles.startBtn}
                 onClick={handleStartClick}
             >
-                <p>시작하기</p>
+                <p>다음으로</p>
             </button>
         </div>
     );

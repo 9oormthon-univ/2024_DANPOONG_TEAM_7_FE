@@ -16,9 +16,7 @@ import questionFox from '../../assets/images/fox/question-fox.svg';
 
 function SelectAge() {
     const navigate = useNavigate();
-    const { 
-        profile
-    } = useProfile();
+    const { profile } = useProfile();
 
     const [birthDate, setBirthDate] = useState({
         year: '',
@@ -115,7 +113,7 @@ function SelectAge() {
                 <p>나이 입력</p>
             </div>
             <div className={styles.comment}>
-                <p>앞으로 {profile.name}님의 가치 있는</p>
+                <p>앞으로 {profile?.name}님의 가치 있는</p>
                 <p>소비와 참여에 캐릭터가 함께할 거에요!</p>
             </div>
             <div className={styles.content}>

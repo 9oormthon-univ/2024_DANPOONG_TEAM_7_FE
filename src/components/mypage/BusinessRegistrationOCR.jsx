@@ -10,7 +10,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const BusinessRegistrationOCR = ({ onResultChange }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
   const [editedResult, setEditedResult] = useState({
     businessNumber: '',
     companyName: '',
@@ -67,14 +66,14 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
     const companyNameRegex = /상\s*호\s*:\s*([^\n②]+)/;
     const representativeRegex = /성\s*명\s*:\s*([^\n]+)/;
   
-    const businessNumber = texts.match(businessNumberRegex)?.[1];
-    const companyName = texts.match(companyNameRegex)?.[1];
-    const representative = texts.match(representativeRegex)?.[1];
+    const businessNumber = texts.match(businessNumberRegex)?.[1] || '';
+    const companyName = texts.match(companyNameRegex)?.[1] || '';
+    const representative = texts.match(representativeRegex)?.[1] || '';
   
     return {
-      businessNumber: businessNumber?.trim(),
-      companyName: companyName?.trim(),
-      representative: representative?.trim(),
+      businessNumber: businessNumber.trim(),
+      companyName: companyName.trim(),
+      representative: representative.trim(),
     };
   };
 
@@ -155,8 +154,8 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
 
       const detectedText = data.responses[0].fullTextAnnotation.text;
       const extractedInfo = extractBusinessInfo(detectedText);
-      setResult(extractedInfo);
-      setEditedResult(extractedInfo);  // OCR 결과를 editedResult에도 설정
+      setEditedResult(extractedInfo);
+      onResultChange(extractedInfo);
 
     } catch (err) {
       setError('OCR 처리 중 오류가 발생했습니다: ' + err.message);
@@ -165,25 +164,6 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
     }
   };
 
-  const handleResultChange = (field, value) => {
-    const newResult = {
-      ...editedResult,
-      [field]: value
-    };
-    setEditedResult(newResult);
-    onResultChange?.(newResult);
-  };
-
-  const handleManualInput = (field, value) => {
-    const newResult = {
-      ...editedResult,
-      [field]: value
-    };
-    setEditedResult(newResult);
-    onResultChange?.(newResult);
-  };
-
-  // input이 직접 입력될 때
   const handleInputChange = (field, value) => {
     const newResult = {
       ...editedResult,
@@ -193,32 +173,26 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
     onResultChange(newResult);
   };
 
-  useEffect(() => {
-    if (result) {
-      onResultChange?.(result);
-    }
-  }, [result, onResultChange]);
-
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.content}>
           <div className={styles.previewBox} onClick={handlePreviewClick}>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".jpg,.jpeg,.png,.pdf"
-            onChange={handleFileChange}
-            className={styles.hiddenFileInput}
-          />
-          {preview ? (
-            <img src={preview} alt="미리보기" className={styles.previewImage} />
-          ) : (
-            <div className={styles.uploadPrompt}>
-              <img src={plus} alt='plus' className={styles.plus}/>
-              <span>파일 선택</span>
-            </div>
-          )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".jpg,.jpeg,.png,.pdf"
+              onChange={handleFileChange}
+              className={styles.hiddenFileInput}
+            />
+            {preview ? (
+              <img src={preview} alt="미리보기" className={styles.previewImage} />
+            ) : (
+              <div className={styles.uploadPrompt}>
+                <img src={plus} alt='plus' className={styles.plus}/>
+                <span>파일 선택</span>
+              </div>
+            )}
           </div>
 
           <button 
@@ -230,12 +204,11 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
           </button>
         </div>
         
-        
         {file && (
-            <div className={styles.fileName}>
-              {file.name}
-            </div>
-          )}
+          <div className={styles.fileName}>
+            {file.name}
+          </div>
+        )}
       </form>
 
       {error && (
@@ -247,14 +220,14 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
       <div className={styles.result}>
         <img 
           src={enterpriseCertificationMark}
-          alt='enterenterprise-certification-mark'
+          alt='enterprise-certification-mark'
           className={styles.enterpriseCertificationMark}
         />
         <p className={styles.resultLabel}>사업자등록번호</p>
         <input
           type="text"
           className={styles.resultInput}
-          value={editedResult.businessNumber}
+          value={editedResult.businessNumber || ''}
           onChange={(e) => handleInputChange('businessNumber', e.target.value)}
           placeholder="사업자등록번호"
         />
@@ -262,7 +235,7 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
         <input
           type="text"
           className={styles.resultInput}
-          value={editedResult.companyName}
+          value={editedResult.companyName || ''}
           onChange={(e) => handleInputChange('companyName', e.target.value)}
           placeholder="법인명"
         />
@@ -270,7 +243,7 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
         <input
           type="text"
           className={styles.resultInput}
-          value={editedResult.representative}
+          value={editedResult.representative || ''}
           onChange={(e) => handleInputChange('representative', e.target.value)}
           placeholder="대표자"
         />
@@ -280,8 +253,7 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
 };
 
 BusinessRegistrationOCR.defaultProps = {
-  onResultChange: () => {} // 기본 props 설정
+  onResultChange: () => {}
 };
-
 
 export default BusinessRegistrationOCR;

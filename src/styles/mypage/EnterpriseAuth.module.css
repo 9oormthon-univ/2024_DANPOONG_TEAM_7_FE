@@ -108,8 +108,105 @@
     color: #FFF;
 }
 
+.confirmBtn:active, .confirmBtn:focus{
+    outline: none;
+    border: none;
+}
+
 .confirmBtn.disabled {
     opacity: 0.5;
     cursor: not-allowed;
     background: #cccccc;
+}
+
+/*완료 모달*/
+.completeModalContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 4;
+}
+
+.completeModalContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background-color: #FFFFFF;
+    width: 328px;
+    height: 177px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.enterpriseName{
+    margin: 0 0 0 0;
+    color: #113C35;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 26px */
+}
+
+.resultMessage{
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 110% */
+}
+
+/* 에러 모달 */
+.errorModalContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 4;
+}
+
+.errorModalContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background-color: #FFFFFF;
+    width: 328px;
+    height: 177px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.errorTitle {
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 110% */
+}
+
+.errorMessage {
+    margin: 0 0 0 0;
+    color: #5C5C5C;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 110% */
 }

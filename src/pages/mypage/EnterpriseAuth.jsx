@@ -1,48 +1,59 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/mypage/EnterpriseAuth.module.css';
 import Back from '../../components/layout/Back';
 import BusinessRegistrationOCR from '../../components/mypage/BusinessRegistrationOCR';
+import axiosInstance from '../../api/axiosInstance';
 
 //hooks
 import { useProfile } from '../../hooks/useProfile';
 import { useMyReviews } from '../../hooks/useMyReviews';
 
+import enterpriseCertificationMark from '../../assets/images/mypage/enterpriseCertificationMark.svg';
+import errorIcon from '../../assets/images/mypage/error-icon.svg';
+
 function EnterpriseAuth() {
-
-    const [businessInfo, setBusinessInfo] = useState(null);
     const navigate = useNavigate();
-
+    const [businessInfo, setBusinessInfo] = useState(null);
+    const [showCompletionModal, setShowCompletionModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    
     const handleResultChange = (result) => {
         setBusinessInfo(result);
     };
 
     const handleSubmit = async () => {
         if (!businessInfo) return;
-
+    
         try {
-            const response = await fetch('/api/enterprise/auth', {  // 실제 API 엔드포인트로 수정 필요
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    businessNumber: businessInfo.businessNumber,
-                    companyName: businessInfo.companyName,
-                    representative: businessInfo.representative,
-                }),
+            const response = await axiosInstance.post('/api/enterprises/verify', {
+                businessRegistrationNumber: businessInfo.businessNumber,
+                representativeName: businessInfo.representative,
+                name: businessInfo.companyName
             });
-
-            if (!response.ok) {
-                throw new Error('인증에 실패했습니다.');
+    
+            // 성공 케이스: code가 'COMMON200'인 경우
+            if (response.isSuccess) {
+                setShowCompletionModal(true);
+                setTimeout(() => {
+                    setShowCompletionModal(false);
+                    navigate('/mypage');
+                }, 1500);
+            } else {
+                // 실패 케이스: 다른 모든 경우
+                setShowErrorModal(true);
+                setTimeout(() => {
+                    setShowErrorModal(false);
+                }, 1500);
             }
-
-            const data = await response.json();
-            alert('기업 인증이 완료되었습니다.');
-            navigate('/mypage'); // 인증 완료 후 이동할 페이지
             
         } catch (error) {
-            alert('인증 처리 중 오류가 발생했습니다: ' + error.message);
+            // 네트워크 에러 등 예외 처리
+            setShowErrorModal(true);
+            setTimeout(() => {
+                setShowErrorModal(false);
+            }, 1500);
         }
     };
 
@@ -77,6 +88,32 @@ function EnterpriseAuth() {
             >
                 <p>인증하기</p>
             </button>
+            {showCompletionModal &&
+                <div className={styles.completeModalContainer}>
+                    <div className={styles.completeModalContent}>
+                        <img 
+                        src={enterpriseCertificationMark}
+                        alt='enterenterprise-certification-mark'
+                        className={styles.enterpriseCertificationMark}
+                        />
+                        <p className={styles.enterpriseName}>{businessInfo?.companyName}</p>
+                        <p className={styles.resultMessage}>성공적으로 인증되었어요!</p>
+                    </div>
+                </div>
+            }
+            {showErrorModal &&
+                <div className={styles.errorModalContainer}>
+                    <div className={styles.errorModalContent}>
+                        <img 
+                        src={errorIcon}
+                        alt='error-icon'
+                        className={styles.errorIcon}
+                        />
+                        <p className={styles.errorTitle}>인증되지 않았습니다</p>
+                        <p className={styles.errorMessage}>다시 시도해 주세요!</p>
+                    </div>
+                </div>
+            }
         </div>
     );
 }

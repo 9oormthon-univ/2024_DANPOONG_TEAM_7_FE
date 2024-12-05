@@ -9,7 +9,7 @@ function Age20() {
     const navigate = useNavigate();
 
     const handleStartClick = () => {
-        navigate('/home');
+        navigate('/region');
     };
 
     return (

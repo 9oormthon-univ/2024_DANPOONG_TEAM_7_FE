@@ -188,13 +188,13 @@ function Magazine() {
                     }}
                 />
             )}
-            <div className={styles.container} style={{ display: 'flex', alignItems:'center', width: '100%',overflowX: 'hidden' }}>
+            <div className={styles.container} style={{ display: 'flex', alignItems: 'center', width: '100%', overflowX: 'hidden' }}>
                 {/* TopBar 대체 */}
                 <div style={{
                     width: '100%',
                     height: '62px',
                 }}></div>
-                <div style = {{width: '100%'}}>
+                <div style={{ width: '100%' }}>
                     <p style={{
                         fontSize: '20px',
                         color: '#5C5C5C',
@@ -221,7 +221,7 @@ function Magazine() {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     flex: '0 0 80%',
-                                    opacity: index === currentIndex ? 1 : 0.5,                                    
+                                    opacity: index === currentIndex ? 1 : 0.5,
                                     transition: 'transform 0.3s ease-out, opacity 0.3s ease-out',
                                     transform: index === currentIndex ? 'scale(1)' : 'scale(0.9)',
                                 }}
@@ -233,66 +233,86 @@ function Magazine() {
                                     height: '405px',
                                     justifyContent: 'end',
                                     backgroundImage: card.image ? `url(${card.image})` : 'none',
-                                    backgroundSize: 'cover', // 이미지 비율 유지하면서 영역에 꽉 채움
-                                    backgroundPosition: 'center', // 이미지 중앙 정렬
-                                    backgroundRepeat: 'no-repeat', // 이미지 반복 방지                                                                        
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat',
                                     borderRadius: '25px',
                                     boxSizing: 'border-box',
+                                    position: 'relative',
                                     padding: '5%',
-                                    marginBottom: '15px'
+                                    marginBottom: '15px',
+                                    filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))'
                                 }}>
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            top: '20px',
-                                            right: '20px'
-                                        }}
-                                    >
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '20px',
+                                        right: '20px'
+                                    }}>
                                         <div style={{
                                             padding: '0 15px',
-                                            border: 'solid 1px',
-                                            backgroundColor: '5C5C5C',
-                                            opacity: '0.5',
+                                            backgroundColor: '#89857F',
+                                            color: 'white',
                                             borderRadius: '23px',
+                                            opacity: '0.8'
                                         }}>
                                             {currentIndex + 1} | {cards.length}
                                         </div>
                                     </div>
-                                    <div>
+
+                                    {/* 그라데이션 오버레이 - 흰색으로 변경 */}
+                                    <div style={{
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: '30%',
+                                        background: 'linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 20%, rgba(255,255,255,0.4) 35%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 60%)',
+                                        borderBottomLeftRadius: '25px',
+                                        borderBottomRightRadius: '25px',
+                                        zIndex: 1
+                                    }} />
+
+                                    {/* 컨텐츠 */}
+                                    <div style={{
+                                        position: 'relative',
+                                        zIndex: 2,
+                                        color: 'white'
+                                    }}>
                                         <div style={{
                                             display: 'flex',
                                             flexDirection: 'column',
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             textAlign: 'center',
-                                            color: 'white'
                                         }}>
                                             <span style={{
                                                 fontWeight: 'bold',
                                                 fontSize: '20px'
                                             }}>{card.title}</span>
                                             <span style={{
+                                                fontWeight: '500',
                                                 fontSize: '15px'
                                             }}>{card.description}</span>
+                                            <div
+                                                onClick={() => handleCardClick(card.id)}
+                                                style={{
+                                                    display: 'inline-flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    width: '70px',
+                                                    height: '30px',
+                                                    padding: '0 5%',
+                                                    margin: '5% 0 2% 0',
+                                                    borderRadius: '23px',
+                                                    color: '#ffffff',
+                                                    backgroundColor: '#89857F',
+                                                    fontSize: '12px',
+                                                    fontWeight: '500',                                                    
+                                                }}>
+                                                보러가기
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div
-                                    onClick={() => handleCardClick(card.id)}
-                                    style={{
-                                        display: 'inline-flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        width: '77px',
-                                        height: '30px',
-                                        padding: '0 5%',
-                                        border: 'solid 1px white',
-                                        borderRadius: '23px',
-                                        color: '#FFFFFF',
-                                        backgroundColor: '#2DDDC3',
-                                        fontSize: '12px'
-                                    }}>
-                                    보러가기
                                 </div>
                             </div>
                         ))}
@@ -423,7 +443,7 @@ function Magazine() {
                         {enterpirseNews.map((singleEnterpirseNews, index) => (
                             <div
                                 key={singleEnterpirseNews.id}
-                                // onClick={() => window.location.href = `/enterprise/${company.enterpriseId}`}
+                            // onClick={() => window.location.href = `/enterprise/${company.enterpriseId}`}
                             >
                                 <div
                                     style={{

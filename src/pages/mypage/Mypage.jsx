@@ -34,7 +34,7 @@ function Mypage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [enterpriseProfile, setEnterpriseProfile] = useState(null);
     const [enterpriseLoading, setEnterpriseLoading] = useState(false);
-
+    const [dataLoaded, setDataLoaded] = useState(false);
     // Context 사용
     const {
         filteredEnterprises: enterprises,
@@ -79,6 +79,13 @@ function Mypage() {
     const handleRewardsClick = (e) => {
         navigate('/mypage/rewards');
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            fetchBookmarkLocations();
+        }
+    }, [fetchBookmarkLocations]);
 
     useEffect(() => {
         const fetchEnterpriseData = async () => {

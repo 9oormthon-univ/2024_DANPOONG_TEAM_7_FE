@@ -972,7 +972,7 @@ const Program = () => {
                                     style={{
                                         width: '100%',
                                         border: 'none',
-                                        margin: '1% 0 1% 3%',
+                                        margin: '1% 0 1% 5%',
                                     }}
                                     onFocus={(e) => {
                                         e.target.style.outline = 'none';

@@ -357,7 +357,8 @@ const AdminManagement = () => {
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',  
-                            padding: '10px 0 0 0'                          
+                            padding: '10px 0 0 0',    
+                            margin: '10px 0 10px 0'
                         }}>
                             <div style={{
                                 display: 'flex',
@@ -389,7 +390,7 @@ const AdminManagement = () => {
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
-                                width: '90%',
+                                width: '87%',
                                 height: '43px',
                                 borderRadius: '21.5px',
                                 border: '1px solid #d1d5db',
@@ -402,7 +403,7 @@ const AdminManagement = () => {
                                     style={{
                                         width: '90%',
                                         border: 'none',
-                                        margin: '1% 0 1% 3%',
+                                        margin: '1% 0 1% 6%',
                                     }}
                                     onFocus={(e) => {
                                         e.target.style.outline = 'none';
@@ -418,7 +419,7 @@ const AdminManagement = () => {
                         </div>
 
                         {/* 컨텐츠 영역 */}
-                        <div style={{ padding: '24px' }}>
+                        <div style={{ padding: '20px 24px 24px 24px' }}>
                             {loading ? (
                                 <div style={{ textAlign: 'center' }}>로딩중...</div>
                             ) : (

@@ -269,7 +269,7 @@ function Mypage() {
                 onClose={() => setIsModalOpen(false)}
                 enterprises={enterprises}
             />
-            <div style={{ width: '90%', border: 'solid 1px #D9D9D9', borderRadius: '20px', margin: '40px 0 30px 0', padding: '8px 0', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#5C5C5C', fontSize: '14px', fontWeight: '500' }}>
+            <div style={{ width: '90%', height: '43px', border: 'solid 1px #D9D9D9', borderRadius: '20px', margin: '30px 0 30px 0', padding: '0', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#5C5C5C', fontSize: '14px', fontWeight: '500' }}>
                 로그아웃
             </div>
         </div>

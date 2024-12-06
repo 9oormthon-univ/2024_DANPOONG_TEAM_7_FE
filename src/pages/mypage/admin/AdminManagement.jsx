@@ -5,24 +5,106 @@ import ProgramCard from '../../../components/mypage/admin/ProgramCard';
 import ProgramRegisterForm from './ProgramRegisterForm';
 import JobRegisterForm from './JobRegisterForm';
 import axiosInstance from '../../../api/axiosInstance';
-
-import leftArrow from '../../../assets/images/program/leftArrow.svg'
+import search from '../../../assets/images/program/search.svg';
+import leftArrow from '../../../assets/images/program/leftArrow.svg';
 
 const AdminManagement = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [programs, setPrograms] = useState([]);
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredItems, setFilteredItems] = useState([]);
 
     const [showJobRegisterForm, setShowJobRegisterForm] = useState(false);
     const [showProgramRegisterForm, setShowProgramRegisterForm] = useState(false);
-
     const [showJobComponent, setShowJobComponent] = useState(false);
     const [selectedJob, setSelectedJob] = useState(null);
 
+    const tabs = [
+        { title: "프로그램 관리", searchPlaceholder: "장소 또는 프로그램 유형" },
+        { title: "일자리 관리", searchPlaceholder: "일자리 유형이나 장소" }
+    ];
+
+    const handleSearch = (searchTerm) => {
+        const currentItems = currentIndex === 0 ? programs : jobs;
+
+        if (!searchTerm.trim()) {
+            setFilteredItems(currentItems);
+            return;
+        }
+
+        const searchLower = searchTerm.toLowerCase();
+        const filtered = currentItems.filter(item => {
+            if (currentIndex === 0) { // 프로그램 검색
+                return (
+                    item.title?.toLowerCase().includes(searchLower) ||
+                    item.enterpriseName?.toLowerCase().includes(searchLower) ||
+                    item.field?.toLowerCase().includes(searchLower) ||
+                    item.region?.toLowerCase().includes(searchLower)
+                );
+            } else { // 일자리 검색
+                return (
+                    item.title?.toLowerCase().includes(searchLower) ||
+                    item.enterpriseName?.toLowerCase().includes(searchLower) ||
+                    item.field?.toLowerCase().includes(searchLower) ||
+                    item.region?.toLowerCase().includes(searchLower)
+                );
+            }
+        });
+
+        setFilteredItems(filtered);
+    };
+
+    useEffect(() => {
+        setSearchTerm('');
+        const newItems = currentIndex === 0 ? programs : jobs;
+        setFilteredItems(newItems);
+    }, [currentIndex, programs, jobs]);
+
+    useEffect(() => {
+        handleSearch(searchTerm);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        const fetchPrograms = async () => {
+            try {
+                const response = await axiosInstance.get('/api/programs/admin')
+                setPrograms(response.result.programs);
+            } catch (error) {
+                console.error('프로그램 데이터 로딩 실패:', error);
+            }
+        };
+
+        const fetchJobs = async () => {
+            try {
+                const response = await axiosInstance.get('/api/jobs/admin');
+                setJobs(response.result.jobs);
+            } catch (error) {
+                console.error('일자리 데이터 로딩 실패:', error);
+            }
+        };
+
+        Promise.all([fetchPrograms(), fetchJobs()])
+            .finally(() => setLoading(false));
+    }, []);
+
+    const handleRegisterClick = (type) => {
+        switch (type) {
+            case 'program':
+                setShowProgramRegisterForm(true);
+                break;
+            case 'job':
+                setShowJobRegisterForm(true);
+                break;
+            default:
+                break;
+        }
+    };
+
     const JobComponent = ({ job }) => {
         return (
-            <div style={{paddingBottom: '50px'}}>
+            <div style={{ paddingBottom: '50px' }}>
                 <TopBar />
                 <div style={{
                     width: '100%',
@@ -218,67 +300,19 @@ const AdminManagement = () => {
                         flexDirection: 'column',
                         gap: '20px',
                         margin: '5% 0'
-                    }}>                        
+                    }}>
                     </div>
                 </div>
             </div>
         );
     };
 
-    // 버튼 핸들러 수정
-    const handleRegisterClick = (type) => {
-        switch (type) {
-            case 'program':
-                setShowProgramRegisterForm(true);
-                break;
-            case 'job':
-                setShowJobRegisterForm(true);
-                break;
-            default:
-                break;
-        }
-    };
-
-    const pages = [
-        { title: '프로그램 관리', type: 'program' },
-        { title: '일자리 관리', type: 'job' }
-    ];
-
-    useEffect(() => {
-        const fetchPrograms = async () => {
-            try {
-                const response = await axiosInstance.get('/api/programs/admin')                
-                setPrograms(response.result.programs);
-            } catch (error) {
-                console.error('프로그램 데이터 로딩 실패:', error);
-            }
-        };
-
-        const fetchJobs = async () => {
-            try {
-                const response = await axiosInstance.get('/api/jobs/admin');
-                console.log(response.result.jobs);
-                setJobs(response.result.jobs);
-            } catch (error) {
-                console.error('일자리 데이터 로딩 실패:', error);
-            }
-        };
-
-        Promise.all([fetchPrograms(), fetchJobs()])
-            .finally(() => setLoading(false));
-    }, []);
-
     return (
         <>
             {!showJobRegisterForm && !showProgramRegisterForm && !showJobComponent &&
-                <div style={{
-                    height: '100vh',
-                }}>
+                <div style={{ height: '100vh' }}>
                     <TopBar />
-                    <div style={{
-                        width: '100%',
-                        backgroundColor: 'white'
-                    }}>
+                    <div style={{ width: '100%', backgroundColor: 'white' }}>
                         {/* 탭 메뉴 */}
                         <div style={{ position: 'relative' }}>
                             <div style={{
@@ -290,13 +324,13 @@ const AdminManagement = () => {
                                     position: 'absolute',
                                     height: '3px',
                                     backgroundColor: '#113C35',
-                                    width: `${100 / pages.length}%`,
+                                    width: `${100 / 2}%`,
                                     transform: `translateX(${currentIndex * 100}%)`,
                                     transition: 'transform 0.3s ease-out'
                                 }} />
                             </div>
                             <div style={{ display: 'flex' }}>
-                                {pages.map((page, idx) => (
+                                {tabs.map((tab, idx) => (
                                     <div
                                         key={idx}
                                         style={{
@@ -311,10 +345,75 @@ const AdminManagement = () => {
                                             fontSize: '15px',
                                             fontWeight: currentIndex === idx ? 600 : 400
                                         }}>
-                                            {page.title}
+                                            {tab.title}
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+
+                        {/* 전체 개수 표시 */}
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',  
+                            padding: '10px 0 0 0'                          
+                        }}>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '90%',                                
+                            }}>
+                                <span style={{
+                                    fontSize: '20px',
+                                    fontWeight: '500',
+                                    color: '#113C35',
+                                    marginLeft: '20px'
+                                }}>전체</span>
+                                <span style={{
+                                    fontSize: '20px',
+                                    fontWeight: '500',
+                                    color: '#113C35',
+                                    marginRight: '20px'
+                                }}>{currentIndex === 0 ? programs.length : jobs.length}개</span>
+                            </div>
+                        </div>
+
+                        {/* 검색창 추가 */}
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            padding: '10px 0 0 0'
+                        }}>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '90%',
+                                height: '43px',
+                                borderRadius: '21.5px',
+                                border: '1px solid #d1d5db',
+                            }}>
+                                <input
+                                    type="text"
+                                    placeholder={tabs[currentIndex].searchPlaceholder}
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    style={{
+                                        width: '90%',
+                                        border: 'none',
+                                        margin: '1% 0 1% 3%',
+                                    }}
+                                    onFocus={(e) => {
+                                        e.target.style.outline = 'none';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.outline = 'none';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
+                                />
+                                <img src={search} alt='search' style={{ width: '24px', marginRight: '3%' }} />
                             </div>
                         </div>
 
@@ -326,18 +425,20 @@ const AdminManagement = () => {
                                 <div>
                                     {currentIndex === 0 && (
                                         <div style={{ marginBottom: '80px' }}>
-                                            {programs.map((program, index) => (
+                                            {filteredItems.map((program, index) => (
                                                 <ProgramCard
+                                                    key={index}
                                                     enterpriseName={program.enterpriseName}
                                                     title={program.title}
                                                     field={program.field}
                                                     date={program.time}
                                                     img={program.image}
-                                                    detail={program.content} />
+                                                    detail={program.content}
+                                                    region={program.region} />
                                             ))}
                                             <div
                                                 onClick={() => handleRegisterClick('program')}
-                                                style={{                                                    
+                                                style={{
                                                     width: '90%',
                                                     textAlign: 'center',
                                                     backgroundColor: '#2DDDC3',
@@ -347,7 +448,7 @@ const AdminManagement = () => {
                                                     padding: '8px 16px',
                                                     border: 'none',
                                                     cursor: 'pointer',
-                                                    borderRadius: '27px'                                                    
+                                                    borderRadius: '27px'
                                                 }}
                                             >
                                                 프로그램 등록
@@ -356,7 +457,7 @@ const AdminManagement = () => {
                                     )}
                                     {currentIndex === 1 && (
                                         <div style={{ marginBottom: '80px' }}>
-                                            {jobs.map((job, index) => (
+                                            {filteredItems.map((job, index) => (
                                                 <JobCard
                                                     key={index}
                                                     job={job}
@@ -368,7 +469,7 @@ const AdminManagement = () => {
                                             ))}
                                             <div
                                                 onClick={() => handleRegisterClick('job')}
-                                                style={{                                                    
+                                                style={{
                                                     width: '90%',
                                                     textAlign: 'center',
                                                     backgroundColor: '#2DDDC3',
@@ -378,7 +479,7 @@ const AdminManagement = () => {
                                                     padding: '8px 16px',
                                                     border: 'none',
                                                     cursor: 'pointer',
-                                                    borderRadius: '27px'                                                    
+                                                    borderRadius: '27px'
                                                 }}
                                             >
                                                 일자리 등록
@@ -410,7 +511,6 @@ const AdminManagement = () => {
                     onClose={() => setShowJobComponent(false)}
                 />
             )}
-
         </>
     );
 };

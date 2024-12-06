@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import underArrow from "../../../assets/images/program/underArrow.svg"
 
-const ProgramCard = ({ enterpriseName, title, field, date, img, detail }) => {
+const ProgramCard = ({ enterpriseName, title, field, date, img, detail, region }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
-        <div style={{            
+        <div style={{
             borderRadius: '29px',
             padding: '5%',
             marginBottom: '5%',
@@ -33,18 +33,32 @@ const ProgramCard = ({ enterpriseName, title, field, date, img, detail }) => {
                     fontSize: '15px',
                 }}>{enterpriseName}</span>
                 {!isExpanded &&
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'start',
-                        gap: '20px'
-                    }}>
-                        <span style={{
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                            fontSize: '15px',
-                            transition: 'max-height 0.5s ease-in-out',
-                        }}>{date}</span>
-                    </div>
+                    <>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'start',
+                            gap: '20px'
+                        }}>
+                            <span style={{
+                                whiteSpace: 'nowrap',
+                                textAlign: 'start',
+                                fontSize: '15px',
+                                transition: 'max-height 0.5s ease-in-out',
+                            }}>{field}</span>
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'start',
+                            gap: '20px'
+                        }}>
+                            <span style={{
+                                whiteSpace: 'nowrap',
+                                textAlign: 'start',
+                                fontSize: '15px',
+                                transition: 'max-height 0.5s ease-in-out',
+                            }}>{region}</span>
+                        </div>
+                    </>
                 }
                 {isExpanded &&
                     <>
@@ -57,7 +71,12 @@ const ProgramCard = ({ enterpriseName, title, field, date, img, detail }) => {
                             width: '100%',
                             textAlign: 'start',
                             fontSize: '15px',
-                        }}>{date}</span>                        
+                        }}>{region}</span>
+                        <span style={{
+                            width: '100%',
+                            textAlign: 'start',
+                            fontSize: '15px',
+                        }}>{date}</span>
                     </>
                 }
                 <div style={{
@@ -69,7 +88,7 @@ const ProgramCard = ({ enterpriseName, title, field, date, img, detail }) => {
                     height: isExpanded ? 0 : 'auto',
                     overflow: 'hidden',
                     fontSize: '15px'
-                }}>                                    
+                }}>
                 </div>
             </div>
             <div
@@ -84,7 +103,7 @@ const ProgramCard = ({ enterpriseName, title, field, date, img, detail }) => {
             >
                 <div style={{
                     width: '100%',
-                    height: '200px',                    
+                    height: '200px',
                     backgroundImage: `url(${img})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -102,8 +121,8 @@ const ProgramCard = ({ enterpriseName, title, field, date, img, detail }) => {
                     width: '100%',
                     textAlign: 'start',
                     fontSize: '15px',
-                }}>                    
-                </div>                
+                }}>
+                </div>
             </div>
             <div
                 onClick={() => setIsExpanded(!isExpanded)}

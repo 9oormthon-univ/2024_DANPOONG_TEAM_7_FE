@@ -45,6 +45,13 @@ function EnterpriseSearch() {
     } = useVisitBookmark();
 
     useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            fetchBookmarkLocations();
+        }
+    }, [fetchBookmarkLocations]);
+    
+    useEffect(() => {
         if (lastAction?.type === 'search' && 
             (!lastAction || Date.now() - lastAction.timestamp <= lastAction.timestamp)) {
             setInputValue(searchQuery);

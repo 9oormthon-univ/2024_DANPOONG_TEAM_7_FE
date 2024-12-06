@@ -415,20 +415,15 @@ function KakaoMap(props) {
                     enterprise.latitude,
                     enterprise.longitude
                 );
-
+    
                 displayMarker(map, position, enterprise, 'enterprises');
             }
         });
-
+    
         if (enterprises[0]) {
-            moveMapToLocation(
-                map,
-                enterprises[0].latitude,
-                enterprises[0].longitude,
-                ENTERPRISE_ZOOM_LEVEL
-            );
+            fitBoundsToMarkers(map, enterprises);
         }
-    }, [clearMarkers, displayMarker, moveMapToLocation]);
+    }, [clearMarkers, displayMarker, fitBoundsToMarkers]);
 
     useEffect(() => {
         if (!isMapInitialized || !userPosition || !mapRef.current) return;

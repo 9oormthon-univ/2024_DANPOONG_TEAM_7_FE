@@ -118,6 +118,9 @@
     overflow-y: auto; 
     scroll-behavior: smooth; 
     overflow-x: hidden; 
+    -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */
+    scrollbar-width: none; /* Firefox 스크롤바 숨기기 */
+    -ms-overflow-style: none; /* IE 스크롤바 숨기기 */
 }
   
   .enterpriseItem {

@@ -62,6 +62,26 @@ const EnterpriseReviewModal = ({ isOpen, onClose }) => {
     );
 
     if (!isOpen && !isAnimating) return null;
+    
+    if (isLoading) {
+        return (
+            <div className={`${styles.modalOverlay} ${isOpen ? styles.overlayVisible : styles.overlayHidden}`}>
+                <div className={`${styles.modalContent} ${isOpen ? styles.modalVisible : styles.modalHidden}`}>
+                    <p className={styles.loadingText}>로딩 중...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={`${styles.modalOverlay} ${isOpen ? styles.overlayVisible : styles.overlayHidden}`}>
+                <div className={`${styles.modalContent} ${isOpen ? styles.modalVisible : styles.modalHidden}`}>
+                    <p className={styles.errorText}>데이터를 불러오는데 실패했습니다.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div 
@@ -93,7 +113,7 @@ const EnterpriseReviewModal = ({ isOpen, onClose }) => {
                     </button> 
                 </form>
                 <div className={styles.enterpriseList}>
-                    {reviewEnterprises?.map((enterprise) => {
+                    {searchedEnterprises?.map((enterprise) => {
                         const { front, back } = formatCompanyName(enterprise.name);
                         const isOverflow = isCompanyNameOverflow(enterprise.name);
 

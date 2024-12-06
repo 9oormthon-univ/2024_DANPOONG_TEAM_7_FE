@@ -8,7 +8,7 @@ const JobCard = ({ job, onClick }) => {
                 border: 'solid 1px #D9D9D9',
                 borderRadius: '27px',
                 padding: '5%',
-                marginBottom: '7%'
+                marginBottom: '5%'
             }}>
                 <div style={{
                     display: 'flex',

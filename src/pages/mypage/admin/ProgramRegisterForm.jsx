@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import leftArrow from '../../../assets/images/mypage/leftArrow.svg'
 import TopBar from '../../../components/layout/TopBar';
 import axiosInstance from '../../../api/axiosInstance';
+import programModal from '../../../assets/images/program/programModal.svg'
 
 const ProgramRegisterForm = ({ onClose }) => {
     const [previewUrl, setPreviewUrl] = useState(null);
@@ -314,24 +315,17 @@ const ProgramRegisterForm = ({ onClose }) => {
                             // boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
                         }}
                     >
-                        {/* <img src={modalHeart} alt='modalHeart' style={{ width: '26px' }} /> */}
-                        <div
-                            style={{
-                                fontSize: '20px',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            프로그램이 등록되었어요!
-                        </div>
-                        {/* <div
-                            style={{
-                                fontSize: '15px',
-                                color: '#5C5C5C',
-                                whiteSpace: 'pre-line'
-                            }}
-                        >
-                            {"서현님의 소중한 리뷰는 이웃들의 결정에\n많은 도움이 될 거에요!"}
-                        </div> */}
+                        <img src={programModal} alt='programModal' style={{width: '23px', height: '23px'}}/>
+                        <span style={{
+                            fontSize: '20px',
+                            fontWeight: '500',
+                            color: '#5C5C5C'
+                        }}>프로그램 정보가 등록되었어요.</span>
+                        <span style={{
+                            fontSize: '15px',
+                            fontWeight: '500',
+                            color: '#5C5C5C',                            
+                        }}>많은 주민들에게 유익한 기회가 될 거예요!</span>
                     </div>
                 </div>
             }

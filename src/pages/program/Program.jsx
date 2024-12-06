@@ -771,20 +771,8 @@ const Program = () => {
                                 <span style={{
                                     width: '30%',
                                 }}>모집마감</span>
-                                <span>{card.deadline}</span>
-                                {/* <span style={{
-                                    marginLeft: '10%',
-                                    color: '#FF6C6A'
-                                }}>{card.day}</span> */}
-                            </div>
-                            {/* <div style={{
-                                display: 'flex'
-                            }}>
-                                <span style={{
-                                    width: '30%',
-                                }}>모집인원</span>
-                                <span>{card.recruitmenPersonNumber}</span>
-                            </div> */}
+                                <span>{card.deadline}</span>                                
+                            </div>                            
                             <div style={{
                                 display: 'flex'
                             }}>
@@ -888,25 +876,16 @@ const Program = () => {
                             onClick={() => handleClickEnterpriseInfo(card.enterpriseId)} 
                             style={{
                             textAlign: 'center',
-                            background: '#D5F8F3',
+                            background: '#2DDDC3',
                             borderRadius: '27px',
                             height: '59px',
                             lineHeight: '59px',
-                            fontSize: '20px',
-                            color: '#747474'
+                            fontSize: '24px',
+                            color: 'white',
+                            fontWeight: '500'
                         }}>
                             기업 정보 보기
-                        </div>
-                        {/* <div style={{
-                            textAlign: 'center',
-                            background: '#D9D9D9',
-                            borderRadius: '27px',
-                            height: '59px',
-                            lineHeight: '59px',
-                            fontSize: '20px',
-                        }}>
-                            <span style={{ color: '#FFFFFF' }}>서비스 준비중입니다</span>
-                        </div> */}
+                        </div>                        
                     </div>
                 </div>
             </div>

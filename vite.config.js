@@ -1,4 +1,3 @@
-// vite.config.js
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -47,21 +46,24 @@ export default defineConfig({
       }
     })
   ],
+  server: {
+    port: 5173
+  },
+  preview: {
+    port: 5173
+  },
+  resolve: {
+    alias: {
+      'react': 'react',
+      'react-dom': 'react-dom'
+    }
+  },
   build: {
-    rollupOptions: {
-      external: ['lottie-web'],
-      output: {
-        globals: {
-          'lottie-web': 'lottie'
-        }
-      }
-    },
     commonjsOptions: {
-      include: [/pdfjs-dist/]
+      esmExternals: true 
     }
   },
   optimizeDeps: {
-    include: ['pdfjs-dist'],
-    exclude: ['lottie-web']
+    include: ['react', 'react-dom']
   }
 })

@@ -17,7 +17,6 @@
     "axios": "^1.7.7",
     "eslint": "^8.57.1",
     "lottie-react": "^2.4.0",
-    "lottie-web": "^5.12.2",
     "pdfjs-dist": "^3.11.174",
     "pretendard": "^1.3.9",
     "react": "^18.3.1",

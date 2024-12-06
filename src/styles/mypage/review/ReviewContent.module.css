@@ -32,7 +32,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap:242px;
+    gap:200px;
     width: 100%;
     height: 80px;
 }
@@ -74,23 +74,62 @@
     line-height: 130%; /* 26px */
 }
 
-.reviewArray{
-    width: 44px;
+.reviewArray {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    width: 80px; /* 너비 약간 증가 */
     height: 21px;
     flex-shrink: 0;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    line-height: 22px;
+    cursor: pointer; /* 커서 포인터 추가 */
+    transition: all 0.2s ease; /* 부드러운 전환 효과 */
+}
+
+.reviewArray:hover {
+    color: #113C35;
+}
+
+.reviewArray:hover .alignIcon {
+    opacity: 1;
+}
+
+.alignIcon {
+    width: 16px;
+    height: 16px;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.rotate180 {
+    transform: rotate(180deg);
+}
+
+.reviewArray p {
+    margin: 0;
+    white-space: nowrap;
     color: #5C5C5C;
     text-align: justify;
     font-feature-settings: 'liga' off, 'clig' off;
     font-size: 15px;
     font-style: normal;
     font-weight: 500;
-    outline: none;
-    border: none;
-    box-shadow: none;
-    background-color: transparent;
-    line-height: 22px; /* 146.667% */
+}
+
+.reviewArray.active {
+    color: #113C35;
+}
+
+.reviewArray.active .alignIcon {
+    opacity: 1;
 }
 
 .reviewHistoryContent{

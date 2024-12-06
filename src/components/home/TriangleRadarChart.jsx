@@ -4,7 +4,7 @@ import styles from '../../styles/home/TriangleRaderChart.module.css';
 const TriangleRadarChart = ({ reviews = 0, program = 0, total = 0 }) => {
     const centerX = 252;
     const centerY = 280;
-    const radius = 200;
+    const radius = 150;
     const angles = [0, 120, 240]; // 삼각형의 각 꼭지점 각도
 
     // 최대값 설정 (스케일링을 위해)

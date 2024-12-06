@@ -104,7 +104,7 @@ const MyEnterpriseList = ({ items }) => {
     return (
         <div className={styles.myEnterpriseListContainer}>
             <div className={styles.myEnterpriseList}>
-                {sortedEnterprises.slice(0, showAll ? sortedEnterprises.length : 3).map((enterprise, index) => {
+                {sortedEnterprises.slice(0, showAll ? sortedEnterprises.length : 4).map((enterprise, index) => {
                     const currentIndex = enterprises.indexOf(enterprise);
                     const isPinned = pinnedIndex === currentIndex;
                     const { front, back } = formatCompanyName(enterprise.enterpriseName);

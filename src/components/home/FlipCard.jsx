@@ -31,7 +31,7 @@ const FlipCard = ({ profile, reviews = []}) => {
     const navigate = useNavigate();
     const [isFlipped, setIsFlipped] = useState(false);
     const age = calculateAge(profile?.birth);
-    const program = 2;
+    const program = 9;
 
     const getFoxCharacter = () => {
         if (age < 30) {

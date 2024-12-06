@@ -13,6 +13,7 @@ import { useReview } from '../../../contexts/ReviewContext';
 import { formatCompanyName } from '../../../utils/companyNameUtils';
 
 //img
+import BackBtn from '../../../assets/images/layout/back-button.svg';
 import employIcon from '../../../assets/images/enterprise-icons/employment-icon.svg';
 import communityIcon from '../../../assets/images/enterprise-icons/local-community-icon.svg';
 import mixedIcon from '../../../assets/images/enterprise-icons/mixed-type-icon.svg';
@@ -32,7 +33,8 @@ function ReviewWrite() {
         setReviewText,
         selectedKeywords,
         prepareSubmissionData,
-        validateReviewData
+        validateReviewData,
+        clearReviewData
     } = useReview();
 
     const { enterpriseId, enterpriseName, socialPurpose } = location.state || {};
@@ -85,6 +87,7 @@ function ReviewWrite() {
                     tagNumbers: submissionData.tagNumbers,
                 });
 
+                clearReviewData();
                 setShowCompletionModal(true);
 
                 setTimeout(() => {
@@ -95,6 +98,11 @@ function ReviewWrite() {
                 console.error('리뷰 등록 실패:', err);
             }
         }
+    };
+
+    const handleCancel = () => {
+        clearReviewData();  // 취소 시 상태 초기화
+        navigate(-1);
     };
 
     return (

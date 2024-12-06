@@ -226,7 +226,7 @@
     border-radius: 27px;
     background: #FFF;
     border: 1px solid #D9D9D9;
-    margin: 40px 0 20px 0; /* transform 대신 margin 사용 */
+    margin: 20px 0 20px 0; /* transform 대신 margin 사용 */
     transition: min-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* transition 최적화 */
     will-change: min-height; /* 변화 예고 */
     transform: translateZ(0); /* 하드웨어 가속 */

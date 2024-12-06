@@ -29,7 +29,7 @@ const AdminComponent = ({ enterpriseProfile, profile }) => {
                     flexShrink: '0',
                     borderRadius: '27px',
                     background: '#FFF',
-                    border: 'solid 1px #BEBEBE',
+                    border: 'solid 1px #D9D9D9',
                     overflow: 'hidden',                                  
                 }}>
                     <div style={{display: 'flex', width: '90%', justifyContent: 'space-between', alignItems: 'center', margin: '8% 8% 5% 0'}}>

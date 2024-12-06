@@ -17,6 +17,7 @@ import pencil from '../../../assets/images/mypage/pencil.svg';
 
 function Review() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalLoading, setModalLoading] = useState(false);
 
     // EnterpriseContext 사용
     const { 
@@ -34,10 +35,20 @@ function Review() {
     } = useMyReviews();
 
     // 리뷰 작성 버튼 클릭 핸들러
-    const handleWriteClick = () => {
-        setIsModalOpen(true);
-        // 비동기로 기업 데이터 로드
-        fetchEnterprises();
+    const handleWriteClick = async () => {
+        setModalLoading(true);
+        try {
+            await fetchEnterprises({
+                region: '경기',
+                cities: ['전체'],
+                isReviewMode: true
+            });
+            setIsModalOpen(true);
+        } catch (error) {
+            console.error('기업 데이터 로딩 실패:', error);
+        } finally {
+            setModalLoading(false);
+        }
     };
 
     // 로딩 상태 처리
@@ -84,6 +95,11 @@ function Review() {
             >
                 <img src={pencil} alt='pencil' className={styles.pencil}/>
             </button>
+            {modalLoading && (
+                <div className={styles.loading}>
+                    <LoadingSpinner />
+                </div>
+            )}
             <EnterpriseReviewModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

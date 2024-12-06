@@ -72,6 +72,10 @@ function Mypage() {
         });
     };
 
+    const handleAuthClick = (e) => {
+        navigate('/mypage/auth');
+    };
+
     const handleRewardsClick = (e) => {
         navigate('/mypage/rewards');
     };
@@ -133,7 +137,10 @@ function Mypage() {
                                 {calculateAge(profile.birth) >= 30 ? '삼공이' : '이공이'}
                             </span>
                             {(profile.userRole != 'ENTERPRISE') &&
-                                <button style={{ backgroundColor: '#F3F3F3', color: '#5C5C5C', fontSize: '14px', borderRadius: '18px', position: 'absolute', top: '0', right: '0' }}>
+                                <button
+                                    onClick={handleAuthClick} 
+                                    style={{ backgroundColor: '#F3F3F3', color: '#5C5C5C', fontSize: '14px', borderRadius: '18px', position: 'absolute', top: '0', right: '0' }}
+                                >
                                     기업 인증 받기
                                 </button>
                             }

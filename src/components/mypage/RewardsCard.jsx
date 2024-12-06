@@ -112,7 +112,7 @@ const RewardsCard = ({ profile, reviews = []}) => {
                         <div className={styles.cardFrontContainer}>
                             <div className={styles.cardFrontHeader}>
                                 <p>리뷰를 작성하실 때마다</p>
-                                <span style={{fontWeight:'800', color:'#000000'}}>뱃지</span>
+                                <span style={{fontWeight:'800', color:'#02DDC3'}}>뱃지</span>
                                 <span>가 제공됩니다!</span>
                             </div>
                             <div className={styles.badgeBtn}>

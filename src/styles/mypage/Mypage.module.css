@@ -159,6 +159,7 @@
 .reviewHeader{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     width: 87%;
     align-items: center;
@@ -196,7 +197,6 @@
     align-items: center;
     width: 85px;
     height: 31px;
-    margin: 0 0 0 140px;
     flex-shrink: 0;
     padding: 0;
     border-radius: 27px;

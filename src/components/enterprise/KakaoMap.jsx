@@ -144,6 +144,8 @@ function KakaoMap(props) {
                         border: 1px solid #6E4AFF;
                         font-size: 12px;
                         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        cursor: pointer;
+                        " onclick="window.location.href='/mypage/review'"
                     ">
                         <div style="font-weight: 500">
                             <p style="margin:0;">${formatCompanyName(data.enterpriseName).front}</p>
@@ -169,6 +171,8 @@ function KakaoMap(props) {
                         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                         font-size: 12px;
                         white-space: nowrap;
+                        cursor: pointer;
+                        " onclick="window.location.href='/mypage'"
                     ">
                         <div style="font-weight: 500">
                             <p style="margin:0;">${formatCompanyName(data.enterpriseName).front}</p>

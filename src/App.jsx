@@ -4,10 +4,10 @@ import { ReviewProvider } from './contexts/ReviewContext';
 import { EditProvider } from './contexts/EditContext';
 import { EnterpriseProvider } from './contexts/EnterpriseContext';
 import { VisitBookmarkProvider } from './contexts/VisitBookmarkContext';
+import ScrollToTop from './components/layout/ScrollToTop';
 
 //Layout
 import AnimatedLayout from './components/layout/AnimatedLayout';
-import LoadingSpinner from './components/layout/LoadingSpinner';
 import BackLayout from './components/layout/BackLayout';
 import Layout from './components/layout/Layout';
 
@@ -46,6 +46,7 @@ function App() {
           <EnterpriseProvider> 
             <VisitBookmarkProvider>
               <AnimatedLayout>
+                <ScrollToTop />
                 <Routes>
                     {/* Public Routes */}
                     <Route path="/" element={<KakaoLoginButton />} />                

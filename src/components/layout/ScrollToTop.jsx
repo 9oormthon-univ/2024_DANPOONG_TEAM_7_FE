@@ -1,45 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import styles from '../styles/ScrollToTop.module.css';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
-const ScrollToTop = () => {
-  const [isVisible, setIsVisible] = useState(false);
+function ScrollToTop() {
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
-    window.addEventListener('scroll', toggleVisibility);
-
-    return () => {
-      window.removeEventListener('scroll', toggleVisibility);
-    };
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
-  return (
-    <>
-      {isVisible && (
-        <button
-          onClick={scrollToTop}
-          className={styles.scroll-to-top-button}
-          aria-label="맨 위로 이동"
-        >
-          <span className={styles.arrow-up} aria-hidden="true">↑</span>
-        </button>
-      )}
-    </>
-  );
-};
+  return null;
+}
 
 export default ScrollToTop;

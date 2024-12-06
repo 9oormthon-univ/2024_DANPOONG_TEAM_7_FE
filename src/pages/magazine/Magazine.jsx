@@ -10,7 +10,6 @@ import card3 from '../../assets/images/magazine/card3.png';
 import card3Back from '../../assets/images/magazine/card3Back.png';
 import card4 from '../../assets/images/magazine/card4.png';
 import card5 from '../../assets/images/magazine/card5.jpeg';
-// import heart from '../../assets/images/magazine/heart.svg';
 import crown from '../../assets/images/magazine/crown.svg';
 import Subtract from '../../assets/images/magazine/Subtract.svg';
 
@@ -341,7 +340,7 @@ function Magazine() {
                         {companies.map((company, index) => (
                             <div
                                 key={company.id}
-                            //onClick={() => window.location.href = `/enterprise/${company.enterpriseId}`} 
+                                onClick={() => window.location.href = `/enterprise/info/${company.enterpriseId}`} 
                             >
                                 <div
                                     style={{
@@ -350,8 +349,7 @@ function Magazine() {
                                         backgroundImage: company.image ? `url(${company.image})` : 'none',
                                         backgroundSize: 'cover', // 이미지 비율 유지하면서 영역에 꽉 채움
                                         backgroundPosition: 'center', // 이미지 중앙 정렬
-                                        backgroundRepeat: 'no-repeat', // 이미지 반복 방지               
-                                        // borderRadius: '15px',
+                                        backgroundRepeat: 'no-repeat', // 이미지 반복 방지                                                       
                                         padding: '20px',
                                         position: 'relative',
                                         textAlign: 'center',
@@ -443,7 +441,7 @@ function Magazine() {
                         {enterpirseNews.map((singleEnterpirseNews, index) => (
                             <div
                                 key={singleEnterpirseNews.id}
-                            // onClick={() => window.location.href = `/enterprise/${company.enterpriseId}`}
+                                onClick={() => window.location.href = `/enterprise/info/${singleEnterpirseNews.enterpriseId}`}
                             >
                                 <div
                                     style={{

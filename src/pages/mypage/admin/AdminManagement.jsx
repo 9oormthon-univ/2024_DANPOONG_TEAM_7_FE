@@ -335,20 +335,23 @@ const AdminManagement = () => {
                                                     img={program.image}
                                                     detail={program.content} />
                                             ))}
-                                            <button
+                                            <div
                                                 onClick={() => handleRegisterClick('program')}
-                                                style={{
-                                                    width: '100%',
+                                                style={{                                                    
+                                                    width: '90%',
+                                                    textAlign: 'center',
                                                     backgroundColor: '#2DDDC3',
                                                     color: 'white',
-                                                    padding: '16px',
-                                                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
+                                                    fontWeight: '500',
+                                                    fontSize: '20px',
+                                                    padding: '8px 16px',
                                                     border: 'none',
-                                                    cursor: 'pointer'
+                                                    cursor: 'pointer',
+                                                    borderRadius: '27px'                                                    
                                                 }}
                                             >
                                                 프로그램 등록
-                                            </button>
+                                            </div>
                                         </div>
                                     )}
                                     {currentIndex === 1 && (
@@ -363,20 +366,23 @@ const AdminManagement = () => {
                                                     }}
                                                 />
                                             ))}
-                                            <button
+                                            <div
                                                 onClick={() => handleRegisterClick('job')}
-                                                style={{
-                                                    width: '100%',
+                                                style={{                                                    
+                                                    width: '90%',
+                                                    textAlign: 'center',
                                                     backgroundColor: '#2DDDC3',
                                                     color: 'white',
-                                                    padding: '16px',
-                                                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
+                                                    fontWeight: '500',
+                                                    fontSize: '20px',
+                                                    padding: '8px 16px',
                                                     border: 'none',
-                                                    cursor: 'pointer'
+                                                    cursor: 'pointer',
+                                                    borderRadius: '27px'                                                    
                                                 }}
                                             >
                                                 일자리 등록
-                                            </button>
+                                            </div>
                                         </div>
                                     )}
                                 </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import leftArrow from '../../../assets/images/mypage/leftArrow.svg'
 import TopBar from '../../../components/layout/TopBar';
 import axiosInstance from '../../../api/axiosInstance';
+import programModal from '../../../assets/images/program/programModal.svg'
 
 const InputField = ({ label, value, onChange, placeholder }) => {
     return (
@@ -76,7 +77,7 @@ const JobRegisterForm = ({ onClose }) => {
         e.preventDefault();
 
         const formDataToSend = new FormData();
-        formDataToSend.append('title', formData.title);     
+        formDataToSend.append('title', formData.title);
         formDataToSend.append('field', formData.field);
         formDataToSend.append('duty', formData.duty);
         formDataToSend.append('region', formData.region);
@@ -183,7 +184,7 @@ const JobRegisterForm = ({ onClose }) => {
                             borderRadius: '13px',
                             fontSize: '16px'
                         }} />
-                </div>                
+                </div>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -501,11 +502,11 @@ const JobRegisterForm = ({ onClose }) => {
                     </div>
                 </div>
                 <div
-                    onClick={handleSubmit} 
+                    onClick={handleSubmit}
                     style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}>
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}>
                     <div style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -551,14 +552,17 @@ const JobRegisterForm = ({ onClose }) => {
                             textAlign: 'center',
                         }}
                     >
-                        <div
-                            style={{
-                                fontSize: '20px',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            일자리가 등록되었어요!
-                        </div>
+                        <img src={programModal} alt='programModal' style={{width: '23px', height: '23px'}}/>
+                        <span style={{
+                            fontSize: '20px',
+                            fontWeight: '500',
+                            color: '#5C5C5C'
+                        }}>일자리 정보가 등록되었어요.</span>
+                        <span style={{
+                            fontSize: '15px',
+                            fontWeight: '500',
+                            color: '#5C5C5C',                            
+                        }}>많은 주민들에게 유익한 기회가 될 거예요!</span>
                     </div>
                 </div>
             }

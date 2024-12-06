@@ -1,6 +1,7 @@
 [
     {
         "id": 1,
+        "enterpriseId": 135,
         "name": "주식회사 컴원",
         "likes": 120,
         "location": "경기도 화성시",
@@ -8,6 +9,7 @@
     },
     {
         "id": 2,
+        "enterpriseId": 381,
         "name": "주식회사 담심포",
         "likes": 98,
         "location": "경기도 양주시",
@@ -15,6 +17,7 @@
     },
     {
         "id": 3,
+        "enterpriseId": 667,
         "name": "더메이크사회적협동조합",
         "likes": 150,
         "location": "경기도 안양시",
@@ -22,6 +25,7 @@
     },
     {
         "id": 4,
+        "enterpriseId": 322,
         "name": "사랑이야기",
         "likes": 75,
         "location": "경기도 부천시",
@@ -29,6 +33,7 @@
     },
     {
         "id": 5,
+        "enterpriseId": 287,
         "name": "(주)테크인",
         "likes": 200,
         "location": "경기도 안산시",
@@ -36,6 +41,7 @@
     },
     {
         "id": 6,
+        "enterpriseId": 277,
         "name": "(주)샵포스쿨",
         "likes": 180,
         "location": "경기도 의정부시",
@@ -43,6 +49,7 @@
     },
     {
         "id": 7,
+        "enterpriseId": 253,
         "name": "다올사회적협동조합",
         "likes": 65,
         "location": "경기도 수원시",
@@ -50,6 +57,7 @@
     },
     {
         "id": 8,
+        "enterpriseId": 363,
         "name": "우리들행복나눔",
         "likes": 220,
         "location": "경기도 포천시",
@@ -57,6 +65,7 @@
     },
     {
         "id": 9,
+        "enterpriseId": 214,
         "name": "청보",
         "likes": 140,
         "location": "경기도 광주시",
@@ -64,6 +73,7 @@
     },
     {
         "id": 10,
+        "enterpriseId": 175,
         "name": "(주)다래월드",
         "likes": 95,
         "location": "경기도 이천시",

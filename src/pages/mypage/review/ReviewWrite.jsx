@@ -234,7 +234,7 @@ function ReviewWrite() {
                                 whiteSpace: 'pre-line'
                             }}
                         >
-                            {"서현님의 소중한 리뷰는 이웃들의 결정에\n많은 도움이 될 거에요!"}
+                            {`${profile.name}님의 소중한 리뷰는 이웃들의 결정에\n많은 도움이 될 거에요!`}
                         </div>
                     </div>
                 </div>

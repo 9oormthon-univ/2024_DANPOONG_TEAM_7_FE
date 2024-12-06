@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { saveToLocalStorage, getFromLocalStorage, STORAGE_KEYS } from '../../utils/enterpriseStorage';
 import { useEnterprise } from '../../contexts/EnterpriseContext';
 import styles from '../../styles/enterprise/RegionModal.module.css';
+import LoadingSpinner from '../layout/LoadingSpinner';
 import activeBtn from '../../assets/images/login/region-active.svg';
 import back from '../../assets/images/layout/back-button.svg';
 
@@ -27,107 +28,125 @@ function RegionModal({ isOpen, onClose, onRegionChange }) {
     const { updateRegion } = useEnterprise(); 
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [isExiting, setIsExiting] = useState(false);
 
-   const getCitiesForRegion = (region) => {
-       const regionData = CITY.find(item => item[region]);
-       return regionData ? regionData[region] : [];
-   };
+    const handleClose = () => {
+        setIsExiting(true);
+        setTimeout(() => {
+            setIsExiting(false);
+            onClose();
+        }, 300);
+    };
+
+    const getCitiesForRegion = (region) => {
+        const regionData = CITY.find(item => item[region]);
+        return regionData ? regionData[region] : [];
+    };
    
-   const handleRegionSelect = (region) => {
-       setSelectedRegion(region);
-       setSelectedCity(''); // 도시 선택 초기화
-   };
+    const handleRegionSelect = (region) => {
+        setSelectedRegion(region);
+        setSelectedCity('');
+    };
 
-   const handleCitySelect = (city) => {
-       setSelectedCity(city);
-   };
+    const handleCitySelect = (city) => {
+        setSelectedCity(city);
+    };
 
-   const handleConfirm = async () => {
-    if (!selectedRegion || !selectedCity) return;
-    
-    await updateRegion({
-        region: selectedRegion,
-        cities: [selectedCity]
-    });
-    onClose();
-};
+    const handleConfirm = async () => {
+        if (!selectedRegion || !selectedCity) return;
+        
+        setIsLoading(true);
+        try {
+            await updateRegion({
+                region: selectedRegion,
+                cities: [selectedCity]
+            });
+            await new Promise(resolve => setTimeout(resolve, 500));
+        } finally {
+            setIsLoading(false);
+            handleClose();
+        }
+    };
 
-useEffect(() => {
-    if (isOpen) {
-        const savedRegion = getFromLocalStorage(STORAGE_KEYS.REGION, '');
-        const savedCities = getFromLocalStorage(STORAGE_KEYS.CITIES, []);
-        setSelectedRegion(typeof savedRegion === 'object' ? savedRegion.region : savedRegion);
-        setSelectedCity(savedCities.length > 0 ? savedCities[0] : '');
-    }
-}, [isOpen]);
-   const isRegionUpdating = (region) => {
-       const cities = getCitiesForRegion(region);
-       return cities.length === 1 && cities[0] === '업데이트 예정';
-   };
+    useEffect(() => {
+        if (isOpen) {
+            const savedRegion = getFromLocalStorage(STORAGE_KEYS.REGION, '');
+            const savedCities = getFromLocalStorage(STORAGE_KEYS.CITIES, []);
+            setSelectedRegion(typeof savedRegion === 'object' ? savedRegion.region : savedRegion);
+            setSelectedCity(savedCities.length > 0 ? savedCities[0] : '');
+        }
+    }, [isOpen]);
 
-   if (!isOpen) return null;
+    const isRegionUpdating = (region) => {
+        const cities = getCitiesForRegion(region);
+        return cities.length === 1 && cities[0] === '업데이트 예정';
+    };
 
-   return (
-       <div className={styles.regionModalContainer}>
-           <div className={styles.regionModalHeader}>
-               <button className={styles.backBtn} onClick={onClose}>
-                   <img
-                       src={back}
-                       alt='close modal'
-                       className={styles.back}
-                   />
-               </button>
-               <p className={styles.modalName}>지역 설정</p>
-           </div>
-           <div className={styles.regionModalContent}>
-               <div className={styles.regionGrid}>
-                   {REGIONS.map(region => (
-                       <button
-                           key={region}
-                           style={{
-                               backgroundImage: selectedRegion === region ? `url(${activeBtn})` : 'none'
-                           }}
-                           className={`${styles.regionButton} ${selectedRegion === region ? styles.selectedRegion : ''}`}
-                           onClick={() => handleRegionSelect(region)}
-                       >
-                           {region}
-                       </button>
-                   ))}
-               </div>
+    if (!isOpen) return null;
 
-               {selectedRegion && (
-                   <div className={styles.cityGrid}>
-                       {isRegionUpdating(selectedRegion) ? (
-                           <button
-                               className={styles.cityButton}
-                               style={{ backgroundColor: 'transparent', color: '#D9D9D9' }}
-                               disabled
-                           >
-                               업데이트 예정
-                           </button>
-                       ) : (
-                           getCitiesForRegion(selectedRegion).map(city => (
-                               <button
-                                   key={city}
-                                   className={`${styles.cityButton} ${selectedCity === city ? styles.selected : ''}`}
-                                   onClick={() => handleCitySelect(city)}
-                               >
-                                   {city}
-                               </button>
-                           ))
-                       )}
-                   </div>
-               )}
-           </div>
-           <button 
-               className={styles.confirmButton} 
-               onClick={handleConfirm}
-               disabled={!selectedRegion || !selectedCity}
-           >
-               적용하기
-           </button>
-       </div>
-   );
+    return (
+        <div className={`${styles.regionModalContainer} ${isExiting ? styles.slideOutLeft : ''}`}>
+            {isLoading && (
+                <div className={styles.loading}>
+                    <LoadingSpinner />
+                </div>
+            )}
+            <div className={styles.regionModalHeader}>
+                <button className={styles.backBtn} onClick={handleClose}>
+                    <img src={back} alt='close modal' className={styles.back} />
+                </button>
+                <p className={styles.modalName}>지역 설정</p>
+            </div>
+            <div className={styles.regionModalContent}>
+                <div className={styles.regionGrid}>
+                    {REGIONS.map(region => (
+                        <button
+                            key={region}
+                            style={{
+                                backgroundImage: selectedRegion === region ? `url(${activeBtn})` : 'none'
+                            }}
+                            className={`${styles.regionButton} ${selectedRegion === region ? styles.selectedRegion : ''}`}
+                            onClick={() => handleRegionSelect(region)}
+                        >
+                            {region}
+                        </button>
+                    ))}
+                </div>
+
+                {selectedRegion && (
+                    <div className={styles.cityGrid}>
+                        {isRegionUpdating(selectedRegion) ? (
+                            <button
+                                className={styles.cityButton}
+                                style={{ backgroundColor: 'transparent', color: '#D9D9D9' }}
+                                disabled
+                            >
+                                업데이트 예정
+                            </button>
+                        ) : (
+                            getCitiesForRegion(selectedRegion).map(city => (
+                                <button
+                                    key={city}
+                                    className={`${styles.cityButton} ${selectedCity === city ? styles.selected : ''}`}
+                                    onClick={() => handleCitySelect(city)}
+                                >
+                                    {city}
+                                </button>
+                            ))
+                        )}
+                    </div>
+                )}
+            </div>
+            <button 
+                className={styles.confirmButton} 
+                onClick={handleConfirm}
+                disabled={!selectedRegion || !selectedCity || isLoading}
+            >
+                적용하기
+            </button>
+        </div>
+    );
 }
 
 export default RegionModal;

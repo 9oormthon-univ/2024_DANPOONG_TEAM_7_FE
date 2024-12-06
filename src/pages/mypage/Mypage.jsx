@@ -35,6 +35,8 @@ function Mypage() {
     const [enterpriseProfile, setEnterpriseProfile] = useState(null);
     const [enterpriseLoading, setEnterpriseLoading] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [modalLoading, setModalLoading] = useState(false);
+
     // Context 사용
     const {
         filteredEnterprises: enterprises,
@@ -63,13 +65,17 @@ function Mypage() {
     } = useMyReviews();
 
     const handleReviewClick = async () => {
-        setIsModalOpen(true);
-        // 경기 전체 기업 목록 가져오기
-        await fetchEnterprises({
-            region: '경기',
-            cities: ['전체'],
-            isReviewMode: true
-        });
+        setModalLoading(true);
+        try {
+            await fetchEnterprises({
+                region: '경기',
+                cities: ['전체'],
+                isReviewMode: true
+            });
+        } finally {
+            setModalLoading(false);
+            setIsModalOpen(true);
+        }
     };
 
     const handleAuthClick = (e) => {
@@ -107,7 +113,7 @@ function Mypage() {
     }, [profile]); 
 
     // 로딩 상태 처리
-    if (profileLoading || bookmarkLoading || reviewLoading || enterprisesLoading || 
+    if (profileLoading || bookmarkLoading || reviewLoading ||
         (profile?.userRole === 'ENTERPRISE' && enterpriseLoading)) {
         return (
             <div className={styles.container}>
@@ -253,6 +259,11 @@ function Mypage() {
             </div>
             
             <AdminComponent enterpriseProfile={enterpriseProfile} profile={profile} />
+            {modalLoading && (
+                <div className={styles.loading}>
+                    <LoadingSpinner />
+                </div>
+            )}
             <EnterpriseReviewModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

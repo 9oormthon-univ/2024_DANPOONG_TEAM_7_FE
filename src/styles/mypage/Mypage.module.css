@@ -35,6 +35,7 @@
     margin: 0 0 -1px 0;
 }
 
+/*프로필*/
 .header{
     display: flex;
     flex-direction: column;
@@ -140,6 +141,7 @@
     font-weight: 400;
 }
 
+/*리뷰*/
 .reviewContainer{
     display: flex;
     flex-direction: column;
@@ -163,16 +165,16 @@
     margin: 23px 0 26px 0;
 }
 
-.myReview{
+.containerLabel{
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     min-height: 100%;
     flex-shrink: 0;
 }
 
-.myReview span{
+.containerLabel span{
     color: #113C35;
     font-size: 15px;
     font-style: normal;
@@ -180,7 +182,7 @@
     line-height: 130%; /* 19.5px */
 }
 
-.myReview span:last-child{
+.containerLabel span:last-child{
     color: #113C35;
     font-size: 20px;
     font-style: normal;
@@ -215,6 +217,117 @@
     height: 130px;
 }
 
+/*리워드*/
+.rewardsContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    height: 185px;
+    margin: 20px 0 0 0;
+    border-radius: 27px;
+    border: 1px solid #D9D9D9;
+    background: #FFF;
+}
+
+.rewardsHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 87%;
+    margin: 23px 0 30px 0;
+}
+
+.rewardsBtn{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 0 0 0;
+    width: 20px;
+    height: 30px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+.rewardsBtn:active, .rewardsBtn:focus{
+    outline: none;
+    border: none;
+}
+
+.bigComment{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 0 15px 0;
+}
+
+.bigComment p{
+    margin: 0 0 0 0;
+    color: #000;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 19.5px */
+}
+
+.smallComment{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+    width: 90%;
+}
+
+.rewardsCommentIcon{
+    position: absolute;
+    top: -25px;
+    left: 5px;
+}
+
+.smallComment p{
+    position: absolute;
+    top: -15px;
+    left: 15px;
+    margin: 0 0 0 0;
+    color: #747474;
+    font-family: Pretendard;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 14.3px */
+}
+
+.rewardsContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 0 20px 0;
+}
+
+.rewardsGraph{
+    width: 85%;
+    height: 10px;
+    flex-shrink: 0;
+    border-radius: 27px;
+    background: #D5F8F3;
+    overflow: hidden;
+}
+
+.rewardsGraphDegree{
+    background-color:  #2DDDC3;
+    height: 100%; /* 높이를 100%로 고정 */
+    border-radius: 27px;
+    transition: width 0.3s ease; /* 너비 변화에 애니메이션 효과 추가 */
+}
+
+/*북마크*/
 .bookmarkContainer{
     display: flex;
     flex-direction: column;

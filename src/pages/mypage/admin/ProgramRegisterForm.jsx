@@ -85,16 +85,25 @@ const ProgramRegisterForm = ({ onClose }) => {
                         alt="뒤로가기"
                         onClick={onClose}
                         style={{
+                            position: 'absolute',
+                            left: '20px',
                             width: '24px',
                             height: '24px',
                             cursor: 'pointer'
                         }}
                     />
-                    <span style={{
-                        marginLeft: '16px',
-                        fontSize: '16px',
-                        fontWeight: '500'
-                    }}>프로그램 개설</span>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '100%'
+                    }}>
+                        <span style={{
+                            marginLeft: '16px',
+                            fontSize: '16px',
+                            fontWeight: '500'
+                        }}>프로그램 개설</span>
+                    </div>
                 </div>
 
                 <div style={{
@@ -259,7 +268,8 @@ const ProgramRegisterForm = ({ onClose }) => {
                             fontSize: '16px',
                             resize: 'none',
                             wordBreak: 'break-all',
-                            whiteSpace: 'pre-wrap'
+                            whiteSpace: 'pre-wrap',
+                            fontFamily: 'Pretendard Variable'
                         }}
                     />
                 </div>

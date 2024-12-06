@@ -156,16 +156,25 @@ const JobRegisterForm = ({ onClose }) => {
                         alt="뒤로가기"
                         onClick={onClose}
                         style={{
+                            position: 'absolute',
+                            left: '20px',
                             width: '24px',
                             height: '24px',
                             cursor: 'pointer'
                         }}
                     />
-                    <span style={{
-                        marginLeft: '16px',
-                        fontSize: '16px',
-                        fontWeight: '500'
-                    }}>일자리 창출</span>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '100%'
+                    }}>
+                        <span style={{
+                            marginLeft: '16px',
+                            fontSize: '16px',
+                            fontWeight: '500'
+                        }}>일자리 창출</span>
+                    </div>
                 </div>
 
                 <div style={{
@@ -552,7 +561,7 @@ const JobRegisterForm = ({ onClose }) => {
                             textAlign: 'center',
                         }}
                     >
-                        <img src={programModal} alt='programModal' style={{width: '23px', height: '23px'}}/>
+                        <img src={programModal} alt='programModal' style={{ width: '23px', height: '23px' }} />
                         <span style={{
                             fontSize: '20px',
                             fontWeight: '500',
@@ -561,7 +570,7 @@ const JobRegisterForm = ({ onClose }) => {
                         <span style={{
                             fontSize: '15px',
                             fontWeight: '500',
-                            color: '#5C5C5C',                            
+                            color: '#5C5C5C',
                         }}>많은 주민들에게 유익한 기회가 될 거예요!</span>
                     </div>
                 </div>

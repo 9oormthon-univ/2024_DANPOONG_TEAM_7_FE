@@ -1192,7 +1192,7 @@ const Program = () => {
                                                             fontSize: '20px',
                                                             fontWeight: 'bold',
                                                         }}>{item.title}</span>
-                                                        <img src={rightArrow} alt='rightArrow' />
+                                                        <img src={rightArrow} alt='rightArrow' onClick={() => handleJobApplyClick(item)}/>
                                                     </div>
                                                     <span style={{
                                                         width: '100%',

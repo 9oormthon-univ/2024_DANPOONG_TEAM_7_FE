@@ -7,7 +7,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   margin-top: 20px;
   align-items: center;
 }
@@ -115,7 +115,7 @@
   width: 332px;
   height: 298px;
   flex-shrink: 0;
-  margin: 20px 0 0 0;
+  margin: 35px 0 0 0;
   padding: 10px 0 30px 0;
   border-radius: 27px;
   border: 1px solid #D9D9D9;

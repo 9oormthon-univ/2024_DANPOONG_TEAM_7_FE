@@ -16,6 +16,7 @@ import useSwipeableModal from '../../hooks/useSwipeableModal';
 
 //image
 import alignmentIcon from '../../assets/images/enterprise/alignment-icon.svg';
+import activeAlignmentIcon from '../../assets/images/enterprise/active-alignment-icon.svg';
 import listAddressOpenIcon from '../../assets/images/enterprise/list-addressopen.svg';
 import listAddressCloseIcon from '../../assets/images/enterprise/list-addressclose.svg';
 import closeBtn from '../../assets/images/enterprise/detailed-addressclose.svg';
@@ -26,10 +27,8 @@ const FilterButton = ({ label, selectedValues, onClick }) => {
     const formatSelectedText = (values) => {
       if (!values || values.length === 0) return label;
       
-      // 선택값들을 쉼표로 연결
       const combinedText = values.join(', ');
       
-      // 전체 텍스트가 4글자 초과시 자르기 (쉼표와 공백 포함)
       if (combinedText.length > 6) {
         return `${combinedText.slice(0, 5)}..`;
       }
@@ -37,8 +36,8 @@ const FilterButton = ({ label, selectedValues, onClick }) => {
       return combinedText;
     };
   
-    const displayText = formatSelectedText(selectedValues);
     const hasSelection = selectedValues && selectedValues.length > 0;
+    const displayText = formatSelectedText(selectedValues);
   
     return (
       <button 
@@ -48,7 +47,10 @@ const FilterButton = ({ label, selectedValues, onClick }) => {
         <p style={{ color: hasSelection ? '#2DDDC3' : 'inherit' }}>
           {displayText}
         </p>
-        <img src={alignmentIcon} alt="alignment-icon" />
+        <img 
+          src={hasSelection ? activeAlignmentIcon : alignmentIcon} 
+          alt="alignment-icon" 
+        />
       </button>
     );
   };

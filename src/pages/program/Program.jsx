@@ -936,10 +936,11 @@ const Program = () => {
                                 onClick={() => { handleTabClick(idx); setShowJobComponent(false); }}
                             >
                                 <div style={{
-                                    padding: '16px 0',
+                                    padding: '14px 0',
                                     textAlign: 'center',
-                                    fontSize: '20px',
-                                    fontWeight: currentIndex === idx ? 600 : 400,
+                                    fontSize: '15px',
+                                    fontWeight: '500',
+                                    color: currentIndex === idx ? '#113C35' : '#BEBEBE',
                                 }}>
                                     {tab.title}
                                 </div>

@@ -132,3 +132,16 @@
     font-weight: 500;
     line-height: 130%; /* 31.2px */
 }
+
+
+.backBtn, .backBtn:hover, .backBtn:active, .backBtn:focus
+.confirmButton, .confirmButton:hover, .confirmButton:active, .confirmButton:focus,
+.regionButton, .regionButton:hover, .regionButton:active, .regionButton:focus,
+.cityButton, .cityButton:hover, .cityButton:active, .cityButton:focus,
+.disabled, .disabled:hover, .disabled:active, .disabled:focus {     
+  outline: none;     
+  border: none;     
+  box-shadow: none; 
+  -webkit-tap-highlight-color: transparent;
+  transform: scale(1);
+}

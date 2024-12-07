@@ -91,3 +91,11 @@
     font-weight: 500;
     line-height: 130%; /* 31.2px */
 }
+
+button, button:hover, button:active, button:focus{
+    outline: none;     
+    border: none;     
+    box-shadow: none; 
+    -webkit-tap-highlight-color: transparent;
+    transform: scale(1);
+}

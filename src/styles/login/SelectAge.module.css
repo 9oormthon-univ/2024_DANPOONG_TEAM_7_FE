@@ -219,3 +219,11 @@
     background: #5C5C5C;
     cursor: not-allowed;
 }
+
+button, button:hover, button:active, button:focus{
+    outline: none;     
+    border: none;     
+    box-shadow: none; 
+    -webkit-tap-highlight-color: transparent;
+    transform: scale(1);
+}

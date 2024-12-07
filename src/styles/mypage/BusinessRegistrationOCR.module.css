@@ -4,6 +4,13 @@
   padding: 20px;
 }
 
+.error {
+  margin: 10px 0 0 0;
+  color: #FF6C6A;
+  font-size: 12px;
+  text-align: center;
+}
+
 .form {
   display: flex;
   flex-direction: column;

@@ -44,7 +44,7 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
       
       return canvas.toDataURL('image/jpeg', 0.95);
     } catch (error) {
-      throw new Error('PDF 변환 중 오류가 발생했습니다: ' + error.message);
+      throw new Error('PDF 변환 중 오류가 발생했습니다: ');
     }
   };
 
@@ -96,12 +96,12 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
           setPreview(URL.createObjectURL(selectedFile));
         }
       } catch (err) {
-        setError('파일 미리보기 생성 중 오류가 발생했습니다.');
+        setError('파일 미리보기 생성 중 오류가 발생했습니다');
         setFile(null);
         setPreview(null);
       }
     } else {
-      setError('JPG, PNG 또는 PDF 파일만 업로드 가능합니다.');
+      setError('JPG, PNG 또는 PDF 파일만 업로드 가능합니다');
       setFile(null);
       setPreview(null);
     }
@@ -159,7 +159,7 @@ const BusinessRegistrationOCR = ({ onResultChange }) => {
       setEditedResult(extractedInfo);  // OCR 결과를 editedResult에도 설정
 
     } catch (err) {
-      setError('OCR 처리 중 오류가 발생했습니다: ' + err.message);
+      setError('OCR 처리 중 오류가 발생했습니다');
     } finally {
       setLoading(false);
     }

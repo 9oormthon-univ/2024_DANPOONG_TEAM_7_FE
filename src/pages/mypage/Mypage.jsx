@@ -210,7 +210,7 @@ function Mypage() {
                     <p>
                         {(() => {
                             const remaining = 10 - (reviews.length % 10);
-                            if (reviews.length % 10 === 0) {
+                            if (reviews.length % 10 === 0 && reviews.length > 0) {
                                 return '축하합니다! 리워드가 지급되었습니다!';
                             }
                             return `리뷰 ${remaining}개 더 쓰면 리워드 지급!`;

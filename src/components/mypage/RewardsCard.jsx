@@ -181,7 +181,11 @@ const RewardsCard = ({ profile, reviews = []}) => {
                                 <img src={badgeFlag} alt='badge flag' className={styles.badgeFlag}/>
                             </div>
                             <div className={styles.cardBackHeader}>
-                                <p>지금까지 모은 배지 {reviews.length}개</p>
+                                {reviews.length === 0 ? (
+                                    <p>기업 리뷰를 작성하고 뱃지를<br/>획득하세요!</p>
+                                ) : (
+                                    <p>지금까지 모은 배지 {reviews.length}개</p>
+                                )}
                             </div>
                             <div 
                                 className={styles.cardFBackContent}

@@ -362,3 +362,12 @@
     min-height: 100%;
     margin: 20px 0 0 0;
 }
+
+
+/*버튼 효과*/
+.reviewBtn, .reviewBtn:hover, .reviewBtn:active, .reviewBtn:focus{
+    outline: none;
+    border: 0.8px solid #5C5C5C;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+}

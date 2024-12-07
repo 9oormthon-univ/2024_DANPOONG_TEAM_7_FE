@@ -91,15 +91,6 @@
     font-weight: 500;
 }
 
-.socialPurpose:active, .socialPurpose:focus{
-    outline: none;
-    border-bottom: 1px solid #D3D3D3;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    box-shadow: none;
-}
-
 .selectedSocialPurpose{
     color: #FF6C6A;
 }
@@ -121,3 +112,17 @@
     color: #000000;
 }
 
+.socialPurpose, .socialPurpose:hover, .socialPurpose:active, .socialPurpose:focus{
+    outline: none;
+    border: none;     
+    border-bottom: 1px solid #D3D3D3;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.okay,.okay:active, .okay:focus{
+    outline: none;
+    border: none;     
+    box-shadow: none; 
+    -webkit-tap-highlight-color: transparent;
+}

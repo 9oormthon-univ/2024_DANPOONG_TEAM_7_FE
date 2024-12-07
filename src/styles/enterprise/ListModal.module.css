@@ -182,19 +182,23 @@
     font-weight: 500;
 }
 
-
-.sortingRecommendationBtn:active, .sortingRecommendationBtn:focus,
-.sortingReviewBtn:active, .sortingReviewBtn:focus{
+.sortingRecommendationBtn, .sortingRecommendationBtn:hover, .sortingRecommendationBtn:active, .sortingRecommendationBtn:focus,
+.sortingReviewBtn, .sortingReviewBtn:hover, .sortingReviewBtn:active, .sortingReviewBtn:focus{
     outline: none;
     border: 1px solid #BEBEBE;
     box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-
-.selectedSorting{
-    background-color: #BEBEBE;
+.selectedSorting, .selectedSorting:hover, .selectedSorting:active, .selectedSorting:focus{
+    outline: none;
+    border: none;
     color: #FFFFFF;
+    background-color: #BEBEBE;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
 }
+
 
 .companyList{
     display: flex;

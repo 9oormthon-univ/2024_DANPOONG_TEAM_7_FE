@@ -222,6 +222,16 @@
     color: #000000;
 }
 
+.typeButton, .education, .health, .environment, .childcare, 
+.manufacturing, .distribution, .others, .all, .socialWelfare, .cultureArt, 
+.tourismSports, .housekeepingCare, .regionalDevelopment, .informationTechnology,
+.forestConservationManagement, .culturalHeritageConservationUtilization, 
+.employmentServices, .facilityManagementCleaning, .socialServiceProvision, .greenEnergy,
+:is(.typeButton, .education, .health, .environment, .childcare, 
+.manufacturing, .distribution, .others, .all, .socialWelfare, .cultureArt, 
+.tourismSports, .housekeepingCare, .regionalDevelopment, .informationTechnology,
+.forestConservationManagement, .culturalHeritageConservationUtilization, 
+.employmentServices, .facilityManagementCleaning, .socialServiceProvision, .greenEnergy):hover,
 :is(.typeButton, .education, .health, .environment, .childcare, 
 .manufacturing, .distribution, .others, .all, .socialWelfare, .cultureArt, 
 .tourismSports, .housekeepingCare, .regionalDevelopment, .informationTechnology,
@@ -235,4 +245,12 @@
     outline: none;
     border: 1px solid #D3D3D3;
     box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.okay,.okay:active, .okay:focus{
+    outline: none;
+    border: none;     
+    box-shadow: none; 
+    -webkit-tap-highlight-color: transparent;
 }

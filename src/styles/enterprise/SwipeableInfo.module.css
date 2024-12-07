@@ -31,6 +31,13 @@
     font-weight: 500;
 }
 
+.activeTab, .activeTab:hover, .activeTab:active, .activeTab:focus{
+    border: none;
+    outline: none;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
 .contentContainer {
     overflow: hidden;
     touch-action: pan-y;
@@ -298,10 +305,12 @@
     line-height: normal;
 }
 
-.alignment:active, .alignment:focus{
+.alignment, .alignment:hover, .alignment:active, .alignment:focus{
     border: 1px solid #BEBEBE;
     outline: none;
     background-color: #FFFFFF;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .reviewCardList{

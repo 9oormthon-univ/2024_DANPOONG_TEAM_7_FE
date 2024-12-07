@@ -145,5 +145,8 @@
 }
 
 button{
+    outline: none;     
+    border: none;     
+    box-shadow: none; 
     -webkit-tap-highlight-color: transparent;
 }

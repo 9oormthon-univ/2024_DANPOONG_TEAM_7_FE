@@ -91,15 +91,6 @@
     font-weight: 500;
 }
 
-.onoffStore:active, .onoffStore:focus{
-    outline: none;
-    border-bottom: 1px solid #D3D3D3;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    box-shadow: none;
-}
-
 .selectedOnoffStore{
     color: #FF6C6A;
 }
@@ -119,4 +110,20 @@
     font-weight: 500;
     background-color: transparent;
     color: #000000;
+}
+
+.onoffStore, .onoffStore:hover, .onoffStore:active, .onoffStore:focus{
+    outline: none;
+    border: none;     
+    box-shadow: none; 
+    border-bottom: 1px solid #D3D3D3;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+.okay,.okay:active, .okay:focus{
+    outline: none;     
+    border: none;     
+    box-shadow: none; 
+    -webkit-tap-highlight-color: transparent;
 }

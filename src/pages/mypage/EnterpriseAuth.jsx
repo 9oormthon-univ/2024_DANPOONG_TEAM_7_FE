@@ -18,6 +18,7 @@ function EnterpriseAuth() {
     const [showCompletionModal, setShowCompletionModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const { fetchProfile } = useProfile(); 
     
     const handleResultChange = (result) => {
         setBusinessInfo(result);
@@ -33,15 +34,16 @@ function EnterpriseAuth() {
                 name: businessInfo.companyName
             });
     
-            // 성공 케이스: code가 'COMMON200'인 경우
             if (response.isSuccess) {
                 setShowCompletionModal(true);
+                // 인증 성공 시 프로필 정보 갱신
+                await fetchProfile();
+                
                 setTimeout(() => {
                     setShowCompletionModal(false);
                     navigate('/mypage');
                 }, 1500);
             } else {
-                // 실패 케이스: 다른 모든 경우
                 setShowErrorModal(true);
                 setTimeout(() => {
                     setShowErrorModal(false);
@@ -49,7 +51,6 @@ function EnterpriseAuth() {
             }
             
         } catch (error) {
-            // 네트워크 에러 등 예외 처리
             setShowErrorModal(true);
             setTimeout(() => {
                 setShowErrorModal(false);

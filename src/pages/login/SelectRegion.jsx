@@ -4,6 +4,7 @@ import styles from '../../styles/login/SelectRegion.module.css';
 import { saveToLocalStorage, STORAGE_KEYS } from '../../utils/enterpriseStorage';
 import { useEnterprise } from '../../contexts/EnterpriseContext';
 import TopBar from '../../components/layout/TopBar';
+import LoadingSpinner from '../../components/layout/LoadingSpinner';
 
 //img
 import activeBtn from '../../assets/images/login/region-active.svg';
@@ -30,6 +31,7 @@ function SelectRegion() {
    const navigate = useNavigate();
    const [selectedRegion, setSelectedRegion] = useState('경기');
    const [selectedCities, setSelectedCities] = useState(new Set());
+   const [isLoading, setIsLoading] = useState(false);
    const { updateRegion, fetchEnterprises } = useEnterprise();
 
    const handleRegionSelect = (region) => {
@@ -64,15 +66,21 @@ const handleCitySelect = (city) => {
 
    const handleStartClick = async () => {
     if (isStartButtonEnabled()) {
-        const selectedCitiesArray = Array.from(selectedCities);
-        
-        await updateRegion({
-            region: selectedRegion,
-            cities: selectedCitiesArray
-        });
-        navigate('/enterprise');
+        setIsLoading(true);
+        try {
+            const selectedCitiesArray = Array.from(selectedCities);
+            await updateRegion({
+                region: selectedRegion,
+                cities: selectedCitiesArray
+            });
+            await new Promise(resolve => setTimeout(resolve, 500));
+            navigate('/enterprise');
+        } finally {
+            setIsLoading(false);
+        }
     }
 };
+
    return (
        <div className={styles.container}>
            <TopBar/>
@@ -80,6 +88,11 @@ const handleCitySelect = (city) => {
                <p>지역설정</p>
            </div>
            <div className={styles.content}>
+                {isLoading && (
+                    <div className={styles.loading}>
+                        <LoadingSpinner />
+                    </div>
+                )}
                <div className={styles.regionContainer}>
                {REGIONS.map(region => (
                    <button

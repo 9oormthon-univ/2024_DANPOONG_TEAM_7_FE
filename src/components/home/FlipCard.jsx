@@ -7,7 +7,6 @@ import TriangleRadarChart from './TriangleRadarChart';
 import { calculateAge } from '../../utils/calculateAge';
 
 //fox img
-import questionFox from '../../assets/images/home/card/question-fox.svg';
 import basicFox20s from '../../assets/images/home/card/basic-20sfox.svg';
 import excitedFox20s from '../../assets/images/home/card/excited-20sfox.svg';
 import basicFox30s from '../../assets/images/home/card/basic-30sfox.svg';
@@ -27,11 +26,12 @@ import triangle from '../../assets/images/home/card/home-graph-frame.svg';
 import rewardsIcon from '../../assets/images/home/card/rewards-circle-icon.svg';
 import goRewards from '../../assets/images/layout/white-next-icon.svg';
 
+
 const FlipCard = ({ profile, reviews = []}) => {
     const navigate = useNavigate();
     const [isFlipped, setIsFlipped] = useState(false);
     const age = calculateAge(profile?.birth);
-    const program = 9;
+    const program = 0;
 
     const getFoxCharacter = () => {
         if (age < 30) {
@@ -52,44 +52,47 @@ const FlipCard = ({ profile, reviews = []}) => {
 
     const getFrontText = () => {
         if (!profile?.name) return { line1: '', line2: '' };
-    
-        if (reviews.length > 0) {
-            if (program < reviews.length) {
-                if (reviews.length >= 20) {
-                    return {
-                        line1: '어디서 뭐할까? 주변 사회적 기업 투어!',
-                        line2: `${profile.name}님은 지역 기업 탐방 중!`
-                    };
-                }
+        
+        const hasReviews = reviews.length > 0;
+        const hasHighReviews = reviews.length >= 20;
+        
+        if (!hasReviews) {
+            return {
+                line1: `${profile.name}님은 어떤 사람인가요?`,
+                line2: '참여를 통해 알아보아요!'
+            };
+        }
+
+        if (program < reviews.length) {
+            if (hasHighReviews) {
                 return {
-                    line1: '심심한데...주변에 할 거 없나 ?',
-                    line2: `${profile.name}님은 외향적인 사람!`
-                };
-            } else {
-                if (reviews.length >= 20) {
-                    return {
-                        line1: '이왕이면 착하게 소비할래~!',
-                        line2: `${profile.name}님은 프로 착한 소비러!`
-                    };
-                }
-                return {
-                    line1: '이왕 살 거 착하게 사볼까 ?',
-                    line2: `${profile.name}님은 착한 소비 뉴비 !`
+                    line1: '어디서 뭐할까? 주변 사회적 기업 투어!',
+                    line2: `${profile.name}님은 지역 기업 탐방 중!`
                 };
             }
+            return {
+                line1: '심심한데...주변에 할 거 없나 ?',
+                line2: `${profile.name}님은 외향적인 사람!`
+            };
         }
-        return {
-            line1: `${profile.name}님은 어떤 사람인가요?`,
-            line2: '참여를 통해 알아보아요!'
+
+        return hasHighReviews ? {
+            line1: '이왕이면 착하게 소비할래~!',
+            line2: `${profile.name}님은 프로 착한 소비러!`
+        } : {
+            line1: '이왕 살 거 착하게 사볼까 ?',
+            line2: `${profile.name}님은 착한 소비 뉴비 !`
         };
     };
 
     const handleRewardsClick = (e) => {
-        e.stopPropagation(); // 카드 뒤집힘 방지
+        e.stopPropagation();
         navigate('/mypage/rewards');
     };
     
     if (!profile) return null;
+
+    const frontText = getFrontText();
 
     return (
         <div className={styles.container}>
@@ -100,42 +103,26 @@ const FlipCard = ({ profile, reviews = []}) => {
                 >
                     <div className={styles.card}>
                         <div className={styles.cardFrontContent}>
-                        <div className={styles.foxStamp}>
-                            <img src={stamp} alt='stamp' className={styles.stamp}/>
-                        </div>
-                        {reviews.length > 0 ? (
-                            <>
-                                <div className={styles.cardFrontText}>
-                                    <p>{getFrontText().line1}</p>
-                                    <p>{getFrontText().line2}</p>
-                                </div>
-                                <div className={styles.character}>
-                                    <img 
-                                        src={getCardBackground()} 
-                                        alt="card background" 
-                                        className={styles.cardBackground} 
-                                    />
-                                    <img 
-                                        src={getFoxCharacter()} 
-                                        alt="fox character" 
-                                        className={styles.foxCharacter}
-                                    />
-                                </div>
-                            </>
-                        ) : (
-                            <>
+                            <div className={styles.foxStamp}>
+                                <img src={stamp} alt='stamp' className={styles.stamp}/>
+                            </div>
+                            <div className={styles.cardFrontText}>
+                                <p>{frontText.line1}</p>
+                                <p>{frontText.line2}</p>
+                            </div>
+                            <div className={styles.character}>
                                 <img 
-                                    src={questionFox}
-                                    alt="question fox" 
+                                    src={getCardBackground()} 
+                                    alt="card background" 
+                                    className={styles.cardBackground} 
+                                />
+                                <img 
+                                    src={getFoxCharacter()} 
+                                    alt="fox character" 
                                     className={styles.foxCharacter}
                                 />
-                                <div className={styles.cardFrontText}>
-                                    <p>{getFrontText().line1}</p>
-                                    <p>{getFrontText().line2}</p>
-                                </div>
-                            </>
-                        )}
-                        <p className={styles.text}>카드를 뒤집어 보세요!</p>
+                            </div>
+                            <p className={styles.text}>카드를 뒤집어 보세요!</p>
                         </div>
                     </div>
     

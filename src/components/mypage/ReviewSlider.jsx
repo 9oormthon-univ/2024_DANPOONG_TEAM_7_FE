@@ -29,6 +29,19 @@ const ReviewSlider = ({ items, onItemClick = () => {} }) => {
         }
     }, [items]);
 
+    // 리뷰가 없을 경우 보여줄 빈 상태
+    if (!items || items.length === 0) {
+        return (
+            <div className={styles.sliderContainer}>
+                <div className={styles.emptyStateContainer}>
+                    <p className={styles.emptyStateMessage}>아직 작성된 리뷰가 없어요!</p>
+                    <p className={styles.emptyStateSubMessage}>
+                        사회적 기업의 리뷰를 작성해보세요
+                    </p>
+                </div>
+            </div>
+        );
+    }
 
     const extendedItems = items.length === 1 ? sortedItems : [...sortedItems, ...sortedItems, ...sortedItems];
 
@@ -70,7 +83,7 @@ const ReviewSlider = ({ items, onItemClick = () => {} }) => {
     };
 
     const handleDragEnd = () => {
-            if (!isDragging || items.length === 1) return;
+        if (!isDragging || items.length === 1) return;
 
         const endTime = Date.now();
         const clickDuration = endTime - startTime;

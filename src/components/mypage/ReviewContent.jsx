@@ -28,6 +28,20 @@ const ReviewContent = ({ reviews }) => {
     const [clickedDeleteId, setClickedDeleteId] = useState(null);
     const [sortOrder, setSortOrder] = useState('latest');
 
+    // 리뷰가 없을 경우 빈 상태 표시
+    if (!reviews || reviews.length === 0) {
+        return (
+            <div className={styles.container}>
+                <div className={styles.emptyStateContainer}>
+                    <p className={styles.emptyStateMessage}>아직 작성된 리뷰가 없어요!</p>
+                    <p className={styles.emptyStateSubMessage}>
+                        사회적 기업을 방문하고 해당 기업의 리뷰를 작성해보세요
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     const groupReviewsByMonth = (reviews) => {
         if (!Array.isArray(reviews)) return {};
 
@@ -217,4 +231,5 @@ const ReviewContent = ({ reviews }) => {
         </div>
     );
 };
+
 export default ReviewContent;

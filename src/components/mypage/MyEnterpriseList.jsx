@@ -1,4 +1,3 @@
-//MyEnterpriseList.jsx
 import React, { useState, useEffect } from 'react';
 import { useVisitBookmark } from '../../contexts/VisitBookmarkContext';
 import styles from '../../styles/mypage/MyEnterpriseList.module.css';
@@ -101,6 +100,23 @@ const MyEnterpriseList = ({ items }) => {
         }
     };
 
+    // 즐겨찾기가 없을 경우 보여줄 메시지
+    if (enterprises.length === 0) {
+        return (
+            <div className={styles.myEnterpriseListContainer}>
+                <div className={styles.emptyStateContainer}>
+                    <p className={styles.emptyStateMessage}>아직 찜한 기업이 없어요!</p>
+                    <p className={styles.emptyStateSubMessage}>
+                        기업찾기에서 마음에 드는 기업을 발견하면
+                    </p>
+                    <p className={styles.emptyStateSubMessage}>
+                        북마크를 눌러보세요
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.myEnterpriseListContainer}>
             <div className={styles.myEnterpriseList}>
@@ -112,7 +128,6 @@ const MyEnterpriseList = ({ items }) => {
 
                     return (
                         <div key={enterprise.originalIndex} className={styles.myEnterpriseItem}>
-
                             <img 
                                 src={getTypeIcon(enterprise.socialPurpose)}
                                 alt={enterprise.socialPurpose}
@@ -138,7 +153,7 @@ const MyEnterpriseList = ({ items }) => {
                             </button>
                             {selectedManageIndex === currentIndex && (
                                 <div className={styles.manageModal}>
-                                    <button //즐겨찾기 삭제
+                                    <button
                                         className={`${styles.deleteBtn} ${clickedDeleteIndex === currentIndex ? styles.deleteActive : ''}`}
                                         onClick={() => handleDeleteClick(enterprise.enterpriseId)} 
                                         onMouseDown={() => handleDeleteMouseDown(currentIndex)}

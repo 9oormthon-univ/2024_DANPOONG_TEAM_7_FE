@@ -1091,6 +1091,11 @@ const Program = () => {
                                                                 textAlign: 'start',
                                                                 fontSize: '15px',
                                                             }}>{item.region}</span>
+                                                            <span style={{
+                                                                width: '100%',
+                                                                textAlign: 'start',
+                                                                fontSize: '15px',
+                                                            }}>{item.time}</span>
                                                         </>
                                                     }
                                                 </div>

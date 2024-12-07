@@ -36,12 +36,19 @@ function EnterpriseAuth() {
     
             if (response.isSuccess) {
                 setShowCompletionModal(true);
-                // 인증 성공 시 프로필 정보 갱신
-                await fetchProfile();
                 
-                setTimeout(() => {
-                    setShowCompletionModal(false);
-                    navigate('/mypage');
+                // 모달을 보여주고 프로필을 업데이트한 후 페이지 이동
+                setTimeout(async () => {
+                    try {
+                        await fetchProfile(); // 프로필 정보 업데이트 대기
+                        setShowCompletionModal(false);
+                        navigate('/mypage');
+                    } catch (error) {
+                        console.error('프로필 업데이트 실패:', error);
+                        // 프로필 업데이트가 실패하더라도 페이지는 이동
+                        setShowCompletionModal(false);
+                        navigate('/mypage');
+                    }
                 }, 1500);
             } else {
                 setShowErrorModal(true);
@@ -57,7 +64,7 @@ function EnterpriseAuth() {
             }, 1500);
         }
     };
-
+    
     // businessInfo가 있고 모든 필수 필드가 채워져 있는지 확인
     const isValid = businessInfo && 
         businessInfo.businessNumber && 

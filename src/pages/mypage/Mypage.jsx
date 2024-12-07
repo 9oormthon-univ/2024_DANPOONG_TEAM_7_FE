@@ -93,6 +93,8 @@ function Mypage() {
         }
     }, [fetchBookmarkLocations]);
 
+    
+
     useEffect(() => {
         const fetchEnterpriseData = async () => {
             if (profile && profile.userRole === 'ENTERPRISE') {

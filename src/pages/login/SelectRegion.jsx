@@ -94,20 +94,18 @@ const handleCitySelect = (city) => {
                     </div>
                 )}
                <div className={styles.regionContainer}>
-               {REGIONS.map(region => (
-                   <button
-                       key={region}
-                       style={{
-                           backgroundImage: selectedRegion === region ? `url(${activeBtn})` : 'none',
-                           color: selectedRegion === region ? '#000000' : 'inherit',
-                           paddingLeft: '20px'
-                       }}
-                       className={styles.regionButton}
-                       onClick={() => handleRegionSelect(region)}
-                   >
-                       {region}
-                   </button>
-               ))}
+                    {REGIONS.map(region => (
+                        <button
+                            key={region}
+                            className={`${styles.regionButton} ${
+                                selectedRegion === region ? styles.activeRegionButton : ''
+                            }`}
+                            style={{ paddingLeft: '20px' }}
+                            onClick={() => handleRegionSelect(region)}
+                        >
+                            {region}
+                        </button>
+                    ))}
                </div>
 
                {selectedRegion && (

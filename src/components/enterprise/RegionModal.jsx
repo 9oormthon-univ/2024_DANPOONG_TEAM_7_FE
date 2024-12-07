@@ -103,10 +103,9 @@ function RegionModal({ isOpen, onClose, onRegionChange }) {
                     {REGIONS.map(region => (
                         <button
                             key={region}
-                            style={{
-                                backgroundImage: selectedRegion === region ? `url(${activeBtn})` : 'none'
-                            }}
-                            className={`${styles.regionButton} ${selectedRegion === region ? styles.selectedRegion : ''}`}
+                            className={`${styles.regionButton} ${
+                                selectedRegion === region ? styles.activeRegionButton : ''
+                            }`}
                             onClick={() => handleRegionSelect(region)}
                         >
                             {region}

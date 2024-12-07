@@ -63,11 +63,20 @@
     padding-left: 20px; /* 텍스트 왼쪽 여백 추가 */
     transform: 0;
     text-align: left;
+    color: #000000;
     background-color: #FFFFFF;
     -webkit-tap-highlight-color: transparent;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 186px 40.3px; /* 버튼 크기와 정확히 일치하도록 설정 */
+}
+
+.activeRegionButton {
+    background-image: url('../../assets/images/login/region-active.svg');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #000000;
 }
 
 .cityContainer{
@@ -103,6 +112,7 @@
     height: 39px;
     flex-shrink: 0;
     text-align: left;
+    color: #000000;
     -webkit-tap-highlight-color: transparent;
 }
 

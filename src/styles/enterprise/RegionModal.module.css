@@ -99,6 +99,14 @@
     background-size: 100% 100%; /* 배경 이미지 크기 조정 */
 }
 
+.activeRegionButton {
+  background-image: url('../../assets/images/login/region-active.svg');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #000000;
+}
+
   .cityGrid{
     display: flex;
     flex-direction: column;
